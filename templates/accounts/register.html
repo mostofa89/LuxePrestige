@@ -1,0 +1,138 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+<section class="relative min-h-screen flex items-center justify-center py-16 bg-gradient-to-br from-brand-900 via-brand-800 to-brand-900 theme-light:from-cream-50 theme-light:via-cream-100 theme-light:to-cream-50 overflow-hidden">
+	<div class="absolute inset-0 opacity-60 bg-[radial-gradient(circle_at_10%_20%,rgba(183,110,121,0.25),transparent_35%),radial-gradient(circle_at_90%_0%,rgba(17,100,102,0.35),transparent_30%),radial-gradient(circle_at_50%_90%,rgba(183,110,121,0.25),transparent_35%)]"></div>
+	<div class="absolute inset-0 backdrop-blur-2xl"></div>
+
+	<div class="relative w-full max-w-5xl mx-auto px-6">
+		<div class="grid lg:grid-cols-2 gap-10 items-center">
+
+			<!-- Brand story -->
+			<div class="hidden lg:block text-cream-50 space-y-6 on-dark">
+				<div class="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-accent-400/30 bg-brand-800/40 text-accent-200 text-sm">
+					<i class="fas fa-gem"></i>
+					Join the Luxe Circle
+				</div>
+				<h1 class="font-display text-4xl font-bold leading-tight text-gold">Create your Luxe Boutique account</h1>
+				<p class="text-cream-200 leading-relaxed text-base">Save favorites, track orders, earn rewards, and receive tailored recommendations crafted for your style.</p>
+				<div class="flex flex-wrap gap-3 text-sm text-cream-200">
+					<div class="flex items-center gap-2"><i class="fas fa-star text-accent-300"></i>Member rewards</div>
+					<div class="flex items-center gap-2"><i class="fas fa-truck-fast text-accent-300"></i>Express checkout</div>
+					<div class="flex items-center gap-2"><i class="fas fa-bell text-accent-300"></i>Early access drops</div>
+				</div>
+			</div>
+
+			<!-- Form card -->
+			<div class="glass-dark rounded-2xl border border-accent-400/30 theme-light:bg-white theme-light:border-brand-200 shadow-2xl shadow-brand-900/40 theme-light:shadow-brand-500/20">
+				<div class="p-8 md:p-10 space-y-8">
+					<div class="space-y-2 text-center">
+						<div class="flex justify-center mb-3">
+							<div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-accent-400 to-accent-600 text-white flex items-center justify-center text-2xl font-display font-bold shadow-lg shadow-accent-700/30 theme-light:shadow-accent-500/30">L</div>
+						</div>
+						<h2 class="font-display text-2xl font-bold text-white theme-light:text-brand-900">Create account</h2>
+						<p class="text-white theme-light:text-brand-700 text-sm">Welcome to Luxe Boutique</p>
+					</div>
+
+					{% if messages %}
+						<div class="space-y-2">
+							{% for message in messages %}
+								<div class="px-4 py-3 rounded-lg bg-red-500/15 border border-red-500/30 text-red-100 theme-light:text-red-900 theme-light:bg-red-50">
+									{{ message }}
+								</div>
+							{% endfor %}
+						</div>
+					{% endif %}
+
+					<form method="post" enctype="multipart/form-data" class="space-y-6">
+						{% csrf_token %}
+
+						<div class="grid md:grid-cols-2 gap-4">
+							<div class="space-y-2">
+								<label for="id_first_name" class="text-sm font-semibold text-white theme-light:text-brand-900">First name</label>
+								<input id="id_first_name" name="first_name" type="text" required
+									class="w-full px-4 py-3 rounded-xl bg-brand-800/50 dark:bg-brand-800/40 border border-accent-400/30 text-white theme-light:text-brand-900 theme-light:bg-cream-50 theme-light:border-brand-300 placeholder-cream-500 theme-light:placeholder-brand-400 focus:outline-none focus:border-accent-400 focus:ring-2 focus:ring-accent-400/50 transition-all"
+									placeholder="Alex" />
+							</div>
+							<div class="space-y-2">
+								<label for="id_last_name" class="text-sm font-semibold text-white theme-light:text-brand-900">Last name</label>
+								<input id="id_last_name" name="last_name" type="text" required
+									class="w-full px-4 py-3 rounded-xl bg-brand-800/50 dark:bg-brand-800/40 border border-accent-400/30 text-white theme-light:text-brand-900 theme-light:bg-cream-50 theme-light:border-brand-300 placeholder-cream-500 theme-light:placeholder-brand-400 focus:outline-none focus:border-accent-400 focus:ring-2 focus:ring-accent-400/50 transition-all"
+									placeholder="Morgan" />
+							</div>
+						</div>
+
+						<div class="grid md:grid-cols-2 gap-4">
+							<div class="space-y-2">
+								<label for="id_username" class="text-sm font-semibold text-white theme-light:text-brand-900">Username</label>
+								<input id="id_username" name="username" type="text" required autocomplete="username"
+									class="w-full px-4 py-3 rounded-xl bg-brand-800/50 dark:bg-brand-800/40 border border-accent-400/30 text-white theme-light:text-brand-900 theme-light:bg-cream-50 theme-light:border-brand-300 placeholder-cream-500 theme-light:placeholder-brand-400 focus:outline-none focus:border-accent-400 focus:ring-2 focus:ring-accent-400/50 transition-all"
+									placeholder="luxelover" />
+							</div>
+							<div class="space-y-2">
+								<label for="id_email" class="text-sm font-semibold text-white theme-light:text-brand-900">Email</label>
+								<input id="id_email" name="email" type="email" required autocomplete="email"
+									class="w-full px-4 py-3 rounded-xl bg-brand-800/50 dark:bg-brand-800/40 border border-accent-400/30 text-white theme-light:text-brand-900 theme-light:bg-cream-50 theme-light:border-brand-300 placeholder-cream-500 theme-light:placeholder-brand-400 focus:outline-none focus:border-accent-400 focus:ring-2 focus:ring-accent-400/50 transition-all"
+									placeholder="you@example.com" />
+							</div>
+						</div>
+
+						<div class="grid md:grid-cols-2 gap-4">
+							<div class="space-y-2">
+								<label for="id_password1" class="text-sm font-semibold text-white theme-light:text-brand-900">Password</label>
+								<input id="id_password1" name="password1" type="password" required autocomplete="new-password"
+									class="w-full px-4 py-3 rounded-xl bg-brand-800/50 dark:bg-brand-800/40 border border-accent-400/30 text-white theme-light:text-brand-900 theme-light:bg-cream-50 theme-light:border-brand-300 placeholder-cream-500 theme-light:placeholder-brand-400 focus:outline-none focus:border-accent-400 focus:ring-2 focus:ring-accent-400/50 transition-all"
+									placeholder="Create a password" />
+							</div>
+							<div class="space-y-2">
+								<label for="id_password2" class="text-sm font-semibold text-white theme-light:text-brand-900">Confirm password</label>
+								<input id="id_password2" name="password2" type="password" required autocomplete="new-password"
+									class="w-full px-4 py-3 rounded-xl bg-brand-800/50 dark:bg-brand-800/40 border border-accent-400/30 text-white theme-light:text-brand-900 theme-light:bg-cream-50 theme-light:border-brand-300 placeholder-cream-500 theme-light:placeholder-brand-400 focus:outline-none focus:border-accent-400 focus:ring-2 focus:ring-accent-400/50 transition-all"
+									placeholder="Repeat password" />
+							</div>
+						</div>
+
+						<div class="space-y-2">
+							<label for="id_profile_pic" class="text-sm font-semibold text-white theme-light:text-brand-900">Profile picture (optional)</label>
+							<div class="flex items-center gap-3">
+								<input id="id_profile_pic" name="profile_pic" type="file" accept="image/*"
+									class="block w-full text-sm text-white theme-light:text-brand-800 file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:bg-accent-500 file:text-brand-900 file:font-semibold hover:file:bg-accent-600 transition-all" />
+							</div>
+							<p class="text-xs text-white theme-light:text-brand-600">Recommended: square image, max 2MB.</p>
+						</div>
+
+						<button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-accent-500 to-accent-600 text-white font-semibold text-base shadow-lg shadow-accent-700/30 hover:-translate-y-0.5 transition-all duration-300">
+							Create account
+						</button>
+
+						<!-- Social signup -->
+						<div class="relative">
+							<div class="absolute inset-0 flex items-center" aria-hidden="true">
+								<div class="w-full border-t border-accent-400/20 theme-light:border-brand-300"></div>
+							</div>
+							<div class="relative flex justify-center text-xs uppercase">
+								<span class="px-3 bg-brand-900/80 theme-light:bg-white text-white theme-light:text-brand-700">or continue with</span>
+							</div>
+						</div>
+
+						<div class="grid grid-cols-3 gap-3">
+							<button type="button" class="w-full py-3 rounded-xl border border-accent-500/40 theme-light:border-brand-300 bg-brand-800/40 text-white theme-light:text-brand-900 theme-light:bg-white hover:border-accent-500/60 theme-light:hover:border-brand-400 hover:bg-brand-700/40 theme-light:hover:bg-cream-50 transition-all">
+								<i class="fab fa-google mr-2 text-accent-300 theme-light:text-accent-600"></i> Google
+							</button>
+							<button type="button" class="w-full py-3 rounded-xl border border-accent-500/40 theme-light:border-brand-300 bg-brand-800/40 text-white theme-light:text-brand-900 theme-light:bg-white hover:border-accent-500/60 theme-light:hover:border-brand-400 hover:bg-brand-700/40 theme-light:hover:bg-cream-50 transition-all">
+								<i class="fab fa-facebook-f mr-2 text-accent-300 theme-light:text-accent-600"></i> Facebook
+							</button>
+							<button type="button" class="w-full py-3 rounded-xl border border-accent-500/40 theme-light:border-brand-300 bg-brand-800/40 text-white theme-light:text-brand-900 theme-light:bg-white hover:border-accent-500/60 theme-light:hover:border-brand-400 hover:bg-brand-700/40 theme-light:hover:bg-cream-50 transition-all">
+								<i class="fab fa-apple mr-2 text-accent-300 theme-light:text-accent-600"></i> Apple
+							</button>
+						</div>
+
+						<p class="text-sm text-white theme-light:text-brand-700 text-center">Already a member? <a href="{% url 'login' %}" class="text-accent-300 theme-light:text-accent-600 font-semibold hover:underline">Sign in</a></p>
+					</form>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</section>
+{% endblock %}
