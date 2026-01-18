@@ -1,0 +1,305 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+<section class="min-h-screen bg-gradient-to-br from-brand-900 via-brand-800 to-brand-900 theme-light:from-cream-50 theme-light:via-cream-100 theme-light:to-cream-50 py-12 px-4">
+	<!-- Background gradient effect -->
+	<div class="absolute inset-0 opacity-60 bg-[radial-gradient(circle_at_10%_20%,rgba(183,110,121,0.25),transparent_35%),radial-gradient(circle_at_90%_0%,rgba(17,100,102,0.35),transparent_30%),radial-gradient(circle_at_50%_90%,rgba(183,110,121,0.25),transparent_35%)]"></div>
+	<div class="absolute inset-0 backdrop-blur-2xl"></div>
+
+	<div class="relative max-w-7xl mx-auto">
+		<!-- Header -->
+		<div class="mb-12">
+			<div class="flex items-center justify-between mb-8">
+				<h1 class="font-display text-4xl font-bold text-white theme-light:text-brand-900">My Profile</h1>
+				<a href="{% url 'accounts:logout' %}" class="px-6 py-2.5 rounded-lg bg-red-500/20 text-red-200 theme-light:text-red-700 theme-light:bg-red-100 border border-red-500/30 hover:bg-red-500/30 transition-all">
+					<i class="fas fa-sign-out-alt mr-2"></i>Logout
+				</a>
+			</div>
+			<p class="text-white theme-light:text-brand-700">Manage your account, orders, and preferences</p>
+		</div>
+
+		<!-- Main Grid -->
+		<div class="grid lg:grid-cols-3 gap-8">
+			<!-- Sidebar - Profile Info -->
+			<div class="lg:col-span-1">
+				<!-- Profile Card -->
+				<div class="glass-dark rounded-2xl border border-accent-400/30 theme-light:bg-white theme-light:border-brand-200 shadow-2xl overflow-hidden">
+					<div class="h-32 bg-gradient-to-r from-accent-500 to-accent-600"></div>
+					<div class="px-6 py-8 space-y-6 relative">
+						<!-- Profile Picture -->
+						<div class="flex flex-col items-center -mt-16 mb-4">
+							{% if user.profile.profile %}
+								<img src="{{ user.profile.profile.url }}" alt="{{ user.get_full_name }}" class="w-32 h-32 rounded-full border-4 border-brand-900 theme-light:border-cream-50 object-cover shadow-lg">
+							{% else %}
+								<div class="w-32 h-32 rounded-full bg-gradient-to-br from-accent-400 to-accent-600 border-4 border-brand-900 theme-light:border-cream-50 flex items-center justify-center shadow-lg">
+									<i class="fas fa-user text-4xl text-white"></i>
+								</div>
+							{% endif %}
+						</div>
+
+						<!-- Name & Email -->
+						<div class="space-y-2 text-center">
+							<h2 class="text-2xl font-bold text-white theme-light:text-brand-900">{{ user.get_full_name }}</h2>
+							<p class="text-accent-300 theme-light:text-accent-600 text-sm">@{{ user.username }}</p>
+							<p class="text-white theme-light:text-brand-700 text-sm break-all">{{ user.email }}</p>
+						</div>
+
+						<!-- Member Since -->
+						<div class="pt-4 border-t border-accent-400/20">
+							<p class="text-xs text-white theme-light:text-brand-600 mb-2">Member since</p>
+							<p class="text-white theme-light:text-brand-900 font-semibold">{{ user.date_joined|date:"F d, Y" }}</p>
+						</div>
+
+						<!-- Edit Profile Button -->
+						<button onclick="toggleEditModal()" class="w-full py-3 rounded-lg bg-gradient-to-r from-accent-500 to-accent-600 text-white font-semibold hover:shadow-lg hover:shadow-accent-700/30 transition-all">
+							<i class="fas fa-edit mr-2"></i>Edit Profile
+						</button>
+					</div>
+				</div>
+
+				<!-- Quick Stats -->
+				<div class="grid grid-cols-2 gap-4 mt-8">
+					<div class="glass-dark rounded-lg border border-accent-400/30 theme-light:bg-white theme-light:border-brand-200 p-4 text-center">
+						<div class="text-2xl font-bold text-accent-300 theme-light:text-accent-600 mb-1">12</div>
+						<p class="text-xs text-white theme-light:text-brand-700">Total Orders</p>
+					</div>
+					<div class="glass-dark rounded-lg border border-accent-400/30 theme-light:bg-white theme-light:border-brand-200 p-4 text-center">
+						<div class="text-2xl font-bold text-accent-300 theme-light:text-accent-600 mb-1">8</div>
+						<p class="text-xs text-white theme-light:text-brand-700">Saved Items</p>
+					</div>
+				</div>
+			</div>
+
+			<!-- Main Content -->
+			<div class="lg:col-span-2 space-y-8">
+				<!-- Tabs Navigation -->
+				<div class="glass-dark rounded-2xl border border-accent-400/30 theme-light:bg-white theme-light:border-brand-200 shadow-2xl">
+					<div class="flex border-b border-accent-400/20">
+						<button onclick="switchTab('overview')" class="tab-button flex-1 px-6 py-4 text-white theme-light:text-brand-900 font-semibold border-b-2 border-transparent hover:border-accent-400 transition-all active-tab" data-tab="overview">
+							<i class="fas fa-home mr-2"></i>Overview
+						</button>
+						<button onclick="switchTab('orders')" class="tab-button flex-1 px-6 py-4 text-white theme-light:text-brand-700 font-semibold border-b-2 border-transparent hover:border-accent-400 transition-all" data-tab="orders">
+							<i class="fas fa-shopping-bag mr-2"></i>Orders
+						</button>
+						<button onclick="switchTab('settings')" class="tab-button flex-1 px-6 py-4 text-white theme-light:text-brand-700 font-semibold border-b-2 border-transparent hover:border-accent-400 transition-all" data-tab="settings">
+							<i class="fas fa-cog mr-2"></i>Settings
+						</button>
+					</div>
+
+					<!-- Tab Content -->
+					<div class="p-8 space-y-6">
+						<!-- Overview Tab -->
+						<div id="overview" class="tab-content">
+							<!-- Recent Orders -->
+							<div class="mb-8">
+								<h3 class="text-xl font-bold text-white theme-light:text-brand-900 mb-4">Recent Orders</h3>
+								<div class="space-y-3">
+									<!-- Order Item 1 -->
+									<div class="flex items-center justify-between p-4 rounded-lg bg-brand-800/40 theme-light:bg-cream-50 border border-accent-400/20 hover:border-accent-400/40 transition-all cursor-pointer">
+										<div class="flex items-center space-x-4">
+											<div class="w-12 h-12 rounded-lg bg-accent-500/20 flex items-center justify-center">
+												<i class="fas fa-box text-accent-400"></i>
+											</div>
+											<div>
+												<p class="text-white theme-light:text-brand-900 font-semibold">Order #12345</p>
+												<p class="text-sm text-white theme-light:text-brand-700">Delivered on Jan 15, 2026</p>
+											</div>
+										</div>
+										<div class="text-right">
+											<p class="text-white theme-light:text-brand-900 font-bold">$249.99</p>
+											<span class="inline-block mt-1 px-2 py-1 rounded text-xs bg-green-500/20 text-green-300 theme-light:bg-green-100 theme-light:text-green-700">Delivered</span>
+										</div>
+									</div>
+
+									<!-- Order Item 2 -->
+									<div class="flex items-center justify-between p-4 rounded-lg bg-brand-800/40 theme-light:bg-cream-50 border border-accent-400/20 hover:border-accent-400/40 transition-all cursor-pointer">
+										<div class="flex items-center space-x-4">
+											<div class="w-12 h-12 rounded-lg bg-accent-500/20 flex items-center justify-center">
+												<i class="fas fa-box text-accent-400"></i>
+											</div>
+											<div>
+												<p class="text-white theme-light:text-brand-900 font-semibold">Order #12344</p>
+												<p class="text-sm text-white theme-light:text-brand-700">In transit since Jan 10, 2026</p>
+											</div>
+										</div>
+										<div class="text-right">
+											<p class="text-white theme-light:text-brand-900 font-bold">$189.50</p>
+											<span class="inline-block mt-1 px-2 py-1 rounded text-xs bg-blue-500/20 text-blue-300 theme-light:bg-blue-100 theme-light:text-blue-700">In Transit</span>
+										</div>
+									</div>
+
+									<!-- Order Item 3 -->
+									<div class="flex items-center justify-between p-4 rounded-lg bg-brand-800/40 theme-light:bg-cream-50 border border-accent-400/20 hover:border-accent-400/40 transition-all cursor-pointer">
+										<div class="flex items-center space-x-4">
+											<div class="w-12 h-12 rounded-lg bg-accent-500/20 flex items-center justify-center">
+												<i class="fas fa-box text-accent-400"></i>
+											</div>
+											<div>
+												<p class="text-white theme-light:text-brand-900 font-semibold">Order #12343</p>
+												<p class="text-sm text-white theme-light:text-brand-700">Delivered on Jan 5, 2026</p>
+											</div>
+										</div>
+										<div class="text-right">
+											<p class="text-white theme-light:text-brand-900 font-bold">$325.00</p>
+											<span class="inline-block mt-1 px-2 py-1 rounded text-xs bg-green-500/20 text-green-300 theme-light:bg-green-100 theme-light:text-green-700">Delivered</span>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- Loyalty Info -->
+							<div class="p-6 rounded-lg bg-gradient-to-r from-accent-500/20 to-accent-600/20 border border-accent-400/30">
+								<h4 class="text-lg font-bold text-accent-300 theme-light:text-accent-600 mb-3">Loyalty Rewards</h4>
+								<div class="flex items-center justify-between mb-3">
+									<span class="text-white theme-light:text-brand-900">Points Balance</span>
+									<span class="text-2xl font-bold text-accent-300 theme-light:text-accent-600">1,250</span>
+								</div>
+								<div class="w-full bg-brand-800/40 rounded-full h-2">
+									<div class="bg-gradient-to-r from-accent-400 to-accent-600 h-2 rounded-full" style="width: 62.5%"></div>
+								</div>
+								<p class="text-xs text-white theme-light:text-brand-700 mt-2">750 more points to unlock Gold status</p>
+							</div>
+						</div>
+
+						<!-- Orders Tab -->
+						<div id="orders" class="tab-content hidden">
+							<div class="space-y-4">
+								<div class="flex items-center justify-between p-4 rounded-lg bg-brand-800/40 theme-light:bg-cream-50 border border-accent-400/20">
+									<div>
+										<p class="text-white theme-light:text-brand-900 font-semibold">Order #12345</p>
+										<p class="text-sm text-white theme-light:text-brand-700">3 items - $249.99</p>
+									</div>
+									<button class="px-4 py-2 rounded-lg bg-accent-500/20 text-accent-300 hover:bg-accent-500/30 transition-all">
+										View Details
+									</button>
+								</div>
+								<div class="flex items-center justify-between p-4 rounded-lg bg-brand-800/40 theme-light:bg-cream-50 border border-accent-400/20">
+									<div>
+										<p class="text-white theme-light:text-brand-900 font-semibold">Order #12344</p>
+										<p class="text-sm text-white theme-light:text-brand-700">2 items - $189.50</p>
+									</div>
+									<button class="px-4 py-2 rounded-lg bg-accent-500/20 text-accent-300 hover:bg-accent-500/30 transition-all">
+										View Details
+									</button>
+								</div>
+							</div>
+						</div>
+
+						<!-- Settings Tab -->
+						<div id="settings" class="tab-content hidden">
+							<div class="space-y-6">
+								<!-- Email Notifications -->
+								<div class="flex items-center justify-between p-4 rounded-lg bg-brand-800/40 theme-light:bg-cream-50 border border-accent-400/20">
+									<div>
+										<p class="text-white theme-light:text-brand-900 font-semibold">Email Notifications</p>
+										<p class="text-sm text-white theme-light:text-brand-700">Receive order updates and promotions</p>
+									</div>
+									<div class="relative inline-block w-12 h-6 bg-accent-500/30 rounded-full cursor-pointer toggle-switch">
+										<div class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-all"></div>
+									</div>
+								</div>
+
+								<!-- Two-Factor Auth -->
+								<div class="flex items-center justify-between p-4 rounded-lg bg-brand-800/40 theme-light:bg-cream-50 border border-accent-400/20">
+									<div>
+										<p class="text-white theme-light:text-brand-900 font-semibold">Two-Factor Authentication</p>
+										<p class="text-sm text-white theme-light:text-brand-700">Enhance your account security</p>
+									</div>
+									<button class="px-4 py-2 rounded-lg bg-accent-500/20 text-accent-300 hover:bg-accent-500/30 transition-all">
+										Enable
+									</button>
+								</div>
+
+								<!-- Change Password -->
+								<div class="p-4 rounded-lg bg-brand-800/40 theme-light:bg-cream-50 border border-accent-400/20">
+									<p class="text-white theme-light:text-brand-900 font-semibold mb-3">Change Password</p>
+									<div class="space-y-3">
+										<input type="password" placeholder="Current password" class="w-full px-4 py-2.5 rounded-lg bg-brand-700/50 border border-accent-400/20 text-white placeholder-white/50 focus:outline-none focus:border-accent-400 transition-all" />
+										<input type="password" placeholder="New password" class="w-full px-4 py-2.5 rounded-lg bg-brand-700/50 border border-accent-400/20 text-white placeholder-white/50 focus:outline-none focus:border-accent-400 transition-all" />
+										<input type="password" placeholder="Confirm new password" class="w-full px-4 py-2.5 rounded-lg bg-brand-700/50 border border-accent-400/20 text-white placeholder-white/50 focus:outline-none focus:border-accent-400 transition-all" />
+										<button class="w-full py-2.5 rounded-lg bg-accent-500 text-white font-semibold hover:bg-accent-600 transition-all">
+											Update Password
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- Edit Profile Modal -->
+<div id="editModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50 p-4">
+	<div class="glass-dark rounded-2xl border border-accent-400/30 max-w-md w-full p-8 space-y-6">
+		<h3 class="text-2xl font-bold text-white">Edit Profile</h3>
+		<div class="space-y-4">
+			<div>
+				<label class="text-white text-sm font-semibold mb-2 block">First Name</label>
+				<input type="text" value="{{ user.first_name }}" class="w-full px-4 py-2.5 rounded-lg bg-brand-700/50 border border-accent-400/20 text-white placeholder-white/50 focus:outline-none focus:border-accent-400 transition-all" />
+			</div>
+			<div>
+				<label class="text-white text-sm font-semibold mb-2 block">Last Name</label>
+				<input type="text" value="{{ user.last_name }}" class="w-full px-4 py-2.5 rounded-lg bg-brand-700/50 border border-accent-400/20 text-white placeholder-white/50 focus:outline-none focus:border-accent-400 transition-all" />
+			</div>
+			<div>
+				<label class="text-white text-sm font-semibold mb-2 block">Email</label>
+				<input type="email" value="{{ user.email }}" class="w-full px-4 py-2.5 rounded-lg bg-brand-700/50 border border-accent-400/20 text-white placeholder-white/50 focus:outline-none focus:border-accent-400 transition-all" />
+			</div>
+			<div>
+				<label class="text-white text-sm font-semibold mb-2 block">Profile Picture</label>
+				<input type="file" accept="image/*" class="w-full text-white file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-accent-500 file:text-white file:font-semibold hover:file:bg-accent-600 transition-all" />
+			</div>
+		</div>
+		<div class="flex gap-3">
+			<button onclick="toggleEditModal()" class="flex-1 py-2.5 rounded-lg border border-accent-400/30 text-white font-semibold hover:bg-brand-700/50 transition-all">
+				Cancel
+			</button>
+			<button class="flex-1 py-2.5 rounded-lg bg-gradient-to-r from-accent-500 to-accent-600 text-white font-semibold hover:shadow-lg transition-all">
+				Save Changes
+			</button>
+		</div>
+	</div>
+</div>
+
+<script>
+	// Tab switching
+	function switchTab(tabName) {
+		const contents = document.querySelectorAll('.tab-content');
+		const buttons = document.querySelectorAll('.tab-button');
+		
+		contents.forEach(content => content.classList.add('hidden'));
+		buttons.forEach(btn => btn.classList.remove('active-tab', 'border-accent-400'));
+		
+		document.getElementById(tabName).classList.remove('hidden');
+		event.target.closest('.tab-button').classList.add('active-tab', 'border-accent-400');
+	}
+
+	// Modal toggle
+	function toggleEditModal() {
+		const modal = document.getElementById('editModal');
+		modal.classList.toggle('hidden');
+		modal.classList.toggle('flex');
+	}
+
+	// Toggle switch functionality
+	document.querySelectorAll('.toggle-switch').forEach(toggle => {
+		toggle.addEventListener('click', function() {
+			this.classList.toggle('bg-accent-500');
+			this.querySelector('div').classList.toggle('translate-x-6');
+		});
+	});
+</script>
+
+<style>
+	.active-tab {
+		@apply border-accent-400;
+	}
+	
+	.tab-button:not(.active-tab) {
+		@apply text-white/70;
+	}
+</style>
+{% endblock %}

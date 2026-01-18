@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from .models import Profile
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages as message
+from django.contrib.auth.decorators import login_required
 
 
 def LoginView(request):
@@ -66,3 +67,9 @@ def RegisterView(request):
 def logout_view(request):
     logout(request)
     return redirect('home')
+
+
+@login_required(login_url='accounts:login')
+def profile_view(request):
+    profile, created = Profile.objects.get_or_create(user=request.user)
+    return render(request, 'accounts/profile.html', {'profile': profile})
