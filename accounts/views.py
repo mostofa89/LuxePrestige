@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from .models import Profile
+from .models import Profile, Address
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages as message
 from django.contrib.auth.decorators import login_required
@@ -73,3 +73,27 @@ def logout_view(request):
 def profile_view(request):
     profile, created = Profile.objects.get_or_create(user=request.user)
     return render(request, 'accounts/profile.html', {'profile': profile})
+
+
+
+def address_view(request):
+    # Placeholder for address view
+    if request.method == 'POST':
+        country = request.POST.get('country')
+        city = request.POST.get('city')
+        state = request.POST.get('state')
+        postal_code = request.POST.get('postal_code')
+        address_line = request.POST.get('address_line')
+
+        Address.objects.create(
+            user=request.user,
+            country=country,
+            city=city,
+            state=state,
+            postal_code=postal_code,
+            address_line=address_line
+        )
+        message.success(request, "Address added successfully.")
+        return redirect('accounts:profile')
+
+    return render(request, 'accounts/address.html')

@@ -54,6 +54,11 @@
 						<button onclick="toggleEditModal()" class="w-full py-3 rounded-lg bg-gradient-to-r from-accent-500 to-accent-600 text-white font-semibold hover:shadow-lg hover:shadow-accent-700/30 transition-all">
 							<i class="fas fa-edit mr-2"></i>Edit Profile
 						</button>
+
+						<!-- Manage Addresses Button -->
+						<a href="{% url 'accounts:address' %}" class="w-full py-3 rounded-lg bg-brand-800/40 theme-light:bg-cream-50 border border-accent-400/30 text-white theme-light:text-brand-900 font-semibold hover:border-accent-400/60 hover:bg-brand-700/40 transition-all text-center block">
+							<i class="fas fa-map-marker-alt mr-2"></i>Manage Addresses
+						</a>
 					</div>
 				</div>
 
@@ -81,8 +86,11 @@
 						<button onclick="switchTab('orders')" class="tab-button flex-1 px-6 py-4 text-white theme-light:text-brand-700 font-semibold border-b-2 border-transparent hover:border-accent-400 transition-all" data-tab="orders">
 							<i class="fas fa-shopping-bag mr-2"></i>Orders
 						</button>
-						<button onclick="switchTab('settings')" class="tab-button flex-1 px-6 py-4 text-white theme-light:text-brand-700 font-semibold border-b-2 border-transparent hover:border-accent-400 transition-all" data-tab="settings">
-							<i class="fas fa-cog mr-2"></i>Settings
+						<button onclick="switchTab('wishlist')" class="tab-button flex-1 px-6 py-4 text-white theme-light:text-brand-700 font-semibold border-b-2 border-transparent hover:border-accent-400 transition-all" data-tab="wishlist">
+							<i class="fas fa-heart mr-2"></i>Wishlist
+						</button>
+						<button onclick="switchTab('membership')" class="tab-button flex-1 px-6 py-4 text-white theme-light:text-brand-700 font-semibold border-b-2 border-transparent hover:border-accent-400 transition-all" data-tab="membership">
+							<i class="fas fa-crown mr-2"></i>Membership
 						</button>
 					</div>
 
@@ -186,40 +194,223 @@
 						</div>
 
 						<!-- Settings Tab -->
-						<div id="settings" class="tab-content hidden">
+						<div id="wishlist" class="tab-content hidden">
+							<div class="mb-6">
+								<h3 class="text-xl font-bold text-white theme-light:text-brand-900 mb-4">My Wishlist</h3>
+								<div class="grid md:grid-cols-2 gap-4">
+									<!-- Wishlist Item 1 -->
+									<div class="p-4 rounded-lg bg-brand-800/40 theme-light:bg-cream-50 border border-accent-400/20 hover:border-accent-400/40 transition-all">
+										<div class="flex items-start justify-between mb-3">
+											<div class="flex items-center space-x-3">
+												<div class="w-16 h-16 rounded-lg bg-accent-500/20 flex items-center justify-center">
+													<i class="fas fa-shopping-bag text-accent-400 text-xl"></i>
+												</div>
+												<div>
+													<p class="text-white theme-light:text-brand-900 font-semibold">Designer Handbag</p>
+													<p class="text-sm text-white theme-light:text-brand-700">Luxury Collection</p>
+												</div>
+											</div>
+											<button class="text-red-400 hover:text-red-300 transition-all">
+												<i class="fas fa-trash"></i>
+											</button>
+										</div>
+										<div class="flex items-center justify-between mt-3">
+											<p class="text-accent-300 theme-light:text-accent-600 font-bold text-lg">$499.00</p>
+											<button class="px-4 py-2 rounded-lg bg-accent-500 text-white font-semibold hover:bg-accent-600 transition-all text-sm">
+												Add to Cart
+											</button>
+										</div>
+									</div>
+
+									<!-- Wishlist Item 2 -->
+									<div class="p-4 rounded-lg bg-brand-800/40 theme-light:bg-cream-50 border border-accent-400/20 hover:border-accent-400/40 transition-all">
+										<div class="flex items-start justify-between mb-3">
+											<div class="flex items-center space-x-3">
+												<div class="w-16 h-16 rounded-lg bg-accent-500/20 flex items-center justify-center">
+													<i class="fas fa-gem text-accent-400 text-xl"></i>
+												</div>
+												<div>
+													<p class="text-white theme-light:text-brand-900 font-semibold">Diamond Necklace</p>
+													<p class="text-sm text-white theme-light:text-brand-700">Jewelry</p>
+												</div>
+											</div>
+											<button class="text-red-400 hover:text-red-300 transition-all">
+												<i class="fas fa-trash"></i>
+											</button>
+										</div>
+										<div class="flex items-center justify-between mt-3">
+											<p class="text-accent-300 theme-light:text-accent-600 font-bold text-lg">$1,299.00</p>
+											<button class="px-4 py-2 rounded-lg bg-accent-500 text-white font-semibold hover:bg-accent-600 transition-all text-sm">
+												Add to Cart
+											</button>
+										</div>
+									</div>
+
+									<!-- Wishlist Item 3 -->
+									<div class="p-4 rounded-lg bg-brand-800/40 theme-light:bg-cream-50 border border-accent-400/20 hover:border-accent-400/40 transition-all">
+										<div class="flex items-start justify-between mb-3">
+											<div class="flex items-center space-x-3">
+												<div class="w-16 h-16 rounded-lg bg-accent-500/20 flex items-center justify-center">
+													<i class="fas fa-shoe-prints text-accent-400 text-xl"></i>
+												</div>
+												<div>
+													<p class="text-white theme-light:text-brand-900 font-semibold">Leather Boots</p>
+													<p class="text-sm text-white theme-light:text-brand-700">Footwear</p>
+												</div>
+											</div>
+											<button class="text-red-400 hover:text-red-300 transition-all">
+												<i class="fas fa-trash"></i>
+											</button>
+										</div>
+										<div class="flex items-center justify-between mt-3">
+											<p class="text-accent-300 theme-light:text-accent-600 font-bold text-lg">$299.00</p>
+											<button class="px-4 py-2 rounded-lg bg-accent-500 text-white font-semibold hover:bg-accent-600 transition-all text-sm">
+												Add to Cart
+											</button>
+										</div>
+									</div>
+
+									<!-- Wishlist Item 4 -->
+									<div class="p-4 rounded-lg bg-brand-800/40 theme-light:bg-cream-50 border border-accent-400/20 hover:border-accent-400/40 transition-all">
+										<div class="flex items-start justify-between mb-3">
+											<div class="flex items-center space-x-3">
+												<div class="w-16 h-16 rounded-lg bg-accent-500/20 flex items-center justify-center">
+													<i class="fas fa-watch text-accent-400 text-xl"></i>
+												</div>
+												<div>
+													<p class="text-white theme-light:text-brand-900 font-semibold">Luxury Watch</p>
+													<p class="text-sm text-white theme-light:text-brand-700">Accessories</p>
+												</div>
+											</div>
+											<button class="text-red-400 hover:text-red-300 transition-all">
+												<i class="fas fa-trash"></i>
+											</button>
+										</div>
+										<div class="flex items-center justify-between mt-3">
+											<p class="text-accent-300 theme-light:text-accent-600 font-bold text-lg">$899.00</p>
+											<button class="px-4 py-2 rounded-lg bg-accent-500 text-white font-semibold hover:bg-accent-600 transition-all text-sm">
+												Add to Cart
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- Membership Tab -->
+						<div id="membership" class="tab-content hidden">
 							<div class="space-y-6">
-								<!-- Email Notifications -->
-								<div class="flex items-center justify-between p-4 rounded-lg bg-brand-800/40 theme-light:bg-cream-50 border border-accent-400/20">
-									<div>
-										<p class="text-white theme-light:text-brand-900 font-semibold">Email Notifications</p>
-										<p class="text-sm text-white theme-light:text-brand-700">Receive order updates and promotions</p>
+								<!-- Current Membership Status -->
+								<div class="p-6 rounded-lg bg-gradient-to-r from-accent-500/20 to-accent-600/20 border border-accent-400/30">
+									<div class="flex items-center justify-between mb-4">
+										<div>
+											<h3 class="text-2xl font-bold text-white theme-light:text-brand-900 mb-2">Silver Member</h3>
+											<p class="text-white theme-light:text-brand-700">Member since {{ user.date_joined|date:"F Y" }}</p>
+										</div>
+										<div class="w-16 h-16 rounded-full bg-gradient-to-br from-accent-400 to-accent-600 flex items-center justify-center">
+											<i class="fas fa-crown text-2xl text-white"></i>
+										</div>
 									</div>
-									<div class="relative inline-block w-12 h-6 bg-accent-500/30 rounded-full cursor-pointer toggle-switch">
-										<div class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-all"></div>
+									<div class="space-y-2">
+										<div class="flex items-center justify-between">
+											<span class="text-white theme-light:text-brand-900">Points Balance</span>
+											<span class="text-2xl font-bold text-accent-300 theme-light:text-accent-600">1,250</span>
+										</div>
+										<div class="w-full bg-brand-800/40 theme-light:bg-cream-200 rounded-full h-2">
+											<div class="bg-gradient-to-r from-accent-400 to-accent-600 h-2 rounded-full" style="width: 62.5%"></div>
+										</div>
+										<p class="text-xs text-white theme-light:text-brand-700">750 more points to unlock Gold status</p>
 									</div>
 								</div>
 
-								<!-- Two-Factor Auth -->
-								<div class="flex items-center justify-between p-4 rounded-lg bg-brand-800/40 theme-light:bg-cream-50 border border-accent-400/20">
-									<div>
-										<p class="text-white theme-light:text-brand-900 font-semibold">Two-Factor Authentication</p>
-										<p class="text-sm text-white theme-light:text-brand-700">Enhance your account security</p>
+								<!-- Membership Tiers -->
+								<div class="grid md:grid-cols-3 gap-4">
+									<!-- Bronze Tier -->
+									<div class="p-5 rounded-lg bg-brand-800/40 theme-light:bg-cream-50 border border-accent-400/20">
+										<div class="w-12 h-12 rounded-full bg-orange-500/20 flex items-center justify-center mb-3">
+											<i class="fas fa-medal text-orange-400 text-xl"></i>
+										</div>
+										<h4 class="text-lg font-bold text-white theme-light:text-brand-900 mb-2">Bronze</h4>
+										<p class="text-sm text-white theme-light:text-brand-700 mb-3">0 - 500 points</p>
+										<ul class="space-y-2 text-xs text-white theme-light:text-brand-700">
+											<li><i class="fas fa-check text-accent-400 mr-2"></i>5% discount</li>
+											<li><i class="fas fa-check text-accent-400 mr-2"></i>Free shipping over $50</li>
+											<li><i class="fas fa-check text-accent-400 mr-2"></i>Birthday rewards</li>
+										</ul>
 									</div>
-									<button class="px-4 py-2 rounded-lg bg-accent-500/20 text-accent-300 hover:bg-accent-500/30 transition-all">
-										Enable
-									</button>
+
+									<!-- Silver Tier -->
+									<div class="p-5 rounded-lg bg-gradient-to-br from-accent-500/30 to-accent-600/30 border-2 border-accent-400/50">
+										<div class="w-12 h-12 rounded-full bg-gray-300/20 flex items-center justify-center mb-3">
+											<i class="fas fa-medal text-gray-300 text-xl"></i>
+										</div>
+										<h4 class="text-lg font-bold text-white theme-light:text-brand-900 mb-2">Silver <span class="text-xs bg-accent-500 px-2 py-1 rounded text-white">Current</span></h4>
+										<p class="text-sm text-white theme-light:text-brand-700 mb-3">500 - 2,000 points</p>
+										<ul class="space-y-2 text-xs text-white theme-light:text-brand-700">
+											<li><i class="fas fa-check text-accent-400 mr-2"></i>10% discount</li>
+											<li><i class="fas fa-check text-accent-400 mr-2"></i>Free shipping</li>
+											<li><i class="fas fa-check text-accent-400 mr-2"></i>Early sale access</li>
+											<li><i class="fas fa-check text-accent-400 mr-2"></i>Exclusive offers</li>
+										</ul>
+									</div>
+
+									<!-- Gold Tier -->
+									<div class="p-5 rounded-lg bg-brand-800/40 theme-light:bg-cream-50 border border-accent-400/20">
+										<div class="w-12 h-12 rounded-full bg-yellow-500/20 flex items-center justify-center mb-3">
+											<i class="fas fa-crown text-yellow-400 text-xl"></i>
+										</div>
+										<h4 class="text-lg font-bold text-white theme-light:text-brand-900 mb-2">Gold</h4>
+										<p class="text-sm text-white theme-light:text-brand-700 mb-3">2,000+ points</p>
+										<ul class="space-y-2 text-xs text-white theme-light:text-brand-700">
+											<li><i class="fas fa-check text-accent-400 mr-2"></i>15% discount</li>
+											<li><i class="fas fa-check text-accent-400 mr-2"></i>Free express shipping</li>
+											<li><i class="fas fa-check text-accent-400 mr-2"></i>VIP early access</li>
+											<li><i class="fas fa-check text-accent-400 mr-2"></i>Personal stylist</li>
+											<li><i class="fas fa-check text-accent-400 mr-2"></i>Free returns</li>
+										</ul>
+									</div>
 								</div>
 
-								<!-- Change Password -->
-								<div class="p-4 rounded-lg bg-brand-800/40 theme-light:bg-cream-50 border border-accent-400/20">
-									<p class="text-white theme-light:text-brand-900 font-semibold mb-3">Change Password</p>
-									<div class="space-y-3">
-										<input type="password" placeholder="Current password" class="w-full px-4 py-2.5 rounded-lg bg-brand-700/50 border border-accent-400/20 text-white placeholder-white/50 focus:outline-none focus:border-accent-400 transition-all" />
-										<input type="password" placeholder="New password" class="w-full px-4 py-2.5 rounded-lg bg-brand-700/50 border border-accent-400/20 text-white placeholder-white/50 focus:outline-none focus:border-accent-400 transition-all" />
-										<input type="password" placeholder="Confirm new password" class="w-full px-4 py-2.5 rounded-lg bg-brand-700/50 border border-accent-400/20 text-white placeholder-white/50 focus:outline-none focus:border-accent-400 transition-all" />
-										<button class="w-full py-2.5 rounded-lg bg-accent-500 text-white font-semibold hover:bg-accent-600 transition-all">
-											Update Password
-										</button>
+								<!-- How to Earn Points -->
+								<div class="p-6 rounded-lg bg-brand-800/40 theme-light:bg-cream-50 border border-accent-400/20">
+									<h4 class="text-lg font-bold text-white theme-light:text-brand-900 mb-4">How to Earn Points</h4>
+									<div class="grid md:grid-cols-2 gap-4">
+										<div class="flex items-center space-x-3">
+											<div class="w-10 h-10 rounded-lg bg-accent-500/20 flex items-center justify-center">
+												<i class="fas fa-shopping-cart text-accent-400"></i>
+											</div>
+											<div>
+												<p class="text-white theme-light:text-brand-900 font-semibold">Every Purchase</p>
+												<p class="text-sm text-white theme-light:text-brand-700">1 point per $1 spent</p>
+											</div>
+										</div>
+										<div class="flex items-center space-x-3">
+											<div class="w-10 h-10 rounded-lg bg-accent-500/20 flex items-center justify-center">
+												<i class="fas fa-star text-accent-400"></i>
+											</div>
+											<div>
+												<p class="text-white theme-light:text-brand-900 font-semibold">Product Reviews</p>
+												<p class="text-sm text-white theme-light:text-brand-700">50 points per review</p>
+											</div>
+										</div>
+										<div class="flex items-center space-x-3">
+											<div class="w-10 h-10 rounded-lg bg-accent-500/20 flex items-center justify-center">
+												<i class="fas fa-share-nodes text-accent-400"></i>
+											</div>
+											<div>
+												<p class="text-white theme-light:text-brand-900 font-semibold">Referrals</p>
+												<p class="text-sm text-white theme-light:text-brand-700">100 points per friend</p>
+											</div>
+										</div>
+										<div class="flex items-center space-x-3">
+											<div class="w-10 h-10 rounded-lg bg-accent-500/20 flex items-center justify-center">
+												<i class="fas fa-gift text-accent-400"></i>
+											</div>
+											<div>
+												<p class="text-white theme-light:text-brand-900 font-semibold">Birthday Bonus</p>
+												<p class="text-sm text-white theme-light:text-brand-700">200 points annually</p>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>
