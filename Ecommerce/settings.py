@@ -15,6 +15,9 @@ from pathlib import Path
 import pymysql
 pymysql.install_as_MySQLdb()
 
+from dotenv import load_dotenv
+load_dotenv()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -28,7 +31,9 @@ SECRET_KEY = 'django-insecure-1b&x)@9*y=msa5ns_)tz=9ljnr7@)&^$tg8=$_oy*2#5uua*kk
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '*']
+
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:8000', 'http://localhost:8000']
 
 
 # Application definition
@@ -63,9 +68,11 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.csrf',
             ],
         },
     },
@@ -122,6 +129,14 @@ USE_I18N = True
 
 USE_TZ = True
 
+# Session settings
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+SESSION_COOKIE_AGE = 1209600
+SESSION_COOKIE_SECURE = False
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SAMESITE = 'Lax'
+CSRF_COOKIE_SECURE = False
+CSRF_COOKIE_HTTPONLY = True
 
 LOGIN_URL = 'accounts:login'
 
@@ -139,3 +154,16 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# email settings (env-driven; defaults to console backend as fallback)
+# Configure via .env: EMAIL_BACKEND, EMAIL_HOST, EMAIL_PORT, EMAIL_USE_TLS, EMAIL_HOST_USER, EMAIL_HOST_PASSWORD
+# Email settings - Gmail SMTP
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'luxepestige@gmail.com'
+EMAIL_HOST_PASSWORD = 'buvikquymxhxmydz'  # Your 16-character App Password
+DEFAULT_FROM_EMAIL = 'luxepestige@gmail.com'
+
