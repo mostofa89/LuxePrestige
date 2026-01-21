@@ -7,14 +7,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
-
 from .models import Profile, Address, OTP
 import random
 
-
-# =========================
-# AUTH VIEWS
-# =========================
 
 def LoginView(request):
     if request.method == 'POST':
@@ -36,9 +31,6 @@ def logout_view(request):
     return redirect('home')
 
 
-# =========================
-# REGISTRATION + OTP
-# =========================
 
 def RegisterView(request):
     if request.method == 'POST':
@@ -187,9 +179,6 @@ def resend_otp_view(request):
     return redirect('accounts:verify_otp')
 
 
-# =========================
-# PROFILE & ADDRESS
-# =========================
 
 @login_required(login_url='accounts:login')
 def profile_view(request):
