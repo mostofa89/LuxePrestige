@@ -165,7 +165,17 @@ def resend_otp_view(request):
     try:
         send_mail(
             subject='Resend OTP',
-            message=f"Your new OTP is {otp_code}",
+            message = f"""
+
+Your new verification code is: {otp_code}
+
+This code is valid for 10 minutes. Please enter it in the verification page to complete your registration.
+
+If you did not request this, please ignore this email.
+
+Best regards,
+The Ecommerce Store Team
+""",
             from_email=settings.EMAIL_HOST_USER,
             recipient_list=[data['email']],
             fail_silently=False,
