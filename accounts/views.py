@@ -193,7 +193,45 @@ The Ecommerce Store Team
 @login_required(login_url='accounts:login')
 def profile_view(request):
     profile, _ = Profile.objects.get_or_create(user=request.user)
-    return render(request, 'accounts/profile.html', {'profile': profile})
+
+    if request.method == 'POST':
+        first_name = request.POST.get('first_name', '').strip()
+        last_name = request.POST.get('last_name', '').strip()
+        email = request.POST.get('email', '').strip()
+        profile_pic = request.FILES.get('profile_pic')
+
+        # Basic validation: prevent duplicate email on another account
+        if email and email != request.user.email and User.objects.filter(email=email).exclude(id=request.user.id).exists():
+            messages.error(request, "Email already in use by another account")
+            return redirect('accounts:profile')
+
+        # Update user fields
+        user = request.user
+        if first_name:
+            user.first_name = first_name
+        if last_name:
+            user.last_name = last_name
+        if email:
+            user.email = email
+        user.save()
+
+        # Update profile picture if provided
+        if profile_pic:
+            profile.profile = profile_pic
+            profile.save()
+            messages.success(request, "Profile image updated successfully")
+        else:
+            messages.info(request, "Profile saved. No new image selected")
+
+        return redirect('accounts:profile')
+
+    # Refresh profile from database to ensure latest image
+    profile.refresh_from_db()
+    context = {
+        'profile': profile,
+        'user_profile': profile,
+    }
+    return render(request, 'accounts/profile.html', context)
 
 
 @login_required(login_url='accounts:login')
