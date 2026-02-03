@@ -20,7 +20,7 @@ class Brand(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=50)
-    slaug = models.SlugField(unique=True)
+    slug = models.SlugField(unique=True)
     is_active = models.BooleanField(default=True)
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -132,7 +132,7 @@ class ProductAttributeValue(models.Model):
         db_table = 'product_attribute_values'
 
 
-class Memebership(models.Model):
+class Membership(models.Model):
     level_name = models.CharField(max_length=50)
     discount_percentage = models.DecimalField(max_digits=5, decimal_places=2)
     is_active = models.BooleanField(default=True)
@@ -153,7 +153,7 @@ class Customer(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=15)
-    membership = models.ForeignKey(Memebership, on_delete=models.SET_NULL, null=True, blank=True)
+    membership = models.ForeignKey(Membership, on_delete=models.SET_NULL, null=True, blank=True)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -191,7 +191,7 @@ class Wishlist(models.Model):
 
 
     def __str__(self):
-        return self.product.name
+        return f"Wishlist for {self.customer.name}"
     
     class Meta:
         db_table = 'wishlists'
@@ -215,14 +215,12 @@ class WishlistItem(models.Model):
 
 class Cart(models.Model):
     customer = models.OneToOneField(Customer, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
 
     def __str__(self):
-        return f"{self.quantity} x {self.product.name} in cart"
+        return f"Cart for {self.customer.name}"
     
 
     class Meta:
@@ -246,7 +244,7 @@ class CartItem(models.Model):
 
 
 class Order(models.Model):
-    Order_status = [
+    STATUS_CHOICES = [
         ('pending', 'Pending'),
         ('processing', 'Processing'),
         ('shipped', 'Shipped'),
@@ -257,7 +255,7 @@ class Order(models.Model):
     order_number = models.CharField(max_length=20, unique=True)
     shipping_address = models.TextField(max_length=500, null=True, blank=True)
     billing_address = models.TextField(max_length=500, null=True, blank=True)
-    status = models.CharField(max_length=20, choices=Order_status, default='pending')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     vat = models.DecimalField(max_digits=10, decimal_places=2)
     tax = models.DecimalField(max_digits=10, decimal_places=2)
     shipping_cost = models.DecimalField(max_digits=10, decimal_places=2)
@@ -277,28 +275,26 @@ class Order(models.Model):
     class Meta:
         db_table = 'orders'
 
+    def save(self, *args, **kwargs):
+        if not self.order_number:
+            current_year = datetime.now().year
+            current_month = datetime.now().month
+            current_day = datetime.now().day
+            customer_id = self.customer.id
+            increase_number = 1
+            new_order = f"ORD{current_year}{current_month}{current_day}{customer_id}000{increase_number}"
 
-        def save(self, *args, **kwargs):
-            if not self.order_number:
-                curent_year = datetime.now().year
-                current_month = datetime.now().month
-                curent_day = datetime.now().day
-                customer_id = self.customer.id
-                last_order = Order.objects.all().order_by('id').last()
-                increase_number = 1
-                new_order = f"ORD{curent_year}{current_month}{curent_day}{customer_id}000{increase_number}"
+            while Order.objects.filter(order_number=new_order).exists():
+                increase_number += 1
+                new_order = f"ORD{current_year}{current_month}{current_day}{customer_id}000{increase_number}"
 
-                while Order.objects.filter(order_number=new_order).exists():
-                    increase_number += 1
-                    new_order = f"ORD{curent_year}{current_month}{curent_day}{customer_id}000{increase_number}"
-                
-                self.order_number = new_order
+            self.order_number = new_order
 
-            super().save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
 
 class CancelledOrder(models.Model):
-    status = [
+    STATUS_CHOICES = [
         ('requested', 'Requested'),
         ('approved', 'Approved'),
         ('rejected', 'Rejected'),
@@ -306,7 +302,7 @@ class CancelledOrder(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     reason = models.TextField()
     is_active = models.BooleanField(default=True)
-    status = models.CharField(max_length=20, choices=status, default='requested')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='requested')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -344,7 +340,7 @@ class OnlinePaymentRequest(models.Model):
         db_table = 'online_payment_requests'
 
 
-class DiscountCupon(models.Model):
+class DiscountCoupon(models.Model):
     code = models.CharField(max_length=20)
     percentage = models.DecimalField(max_digits=5, decimal_places=2)
     valid_from = models.DateTimeField()
@@ -365,13 +361,13 @@ class DiscountCupon(models.Model):
     
 
 class OrderReturn(models.Model):
-    status = [
+    STATUS_CHOICES = [
         ('pending', 'Pending'),
         ('approved', 'Approved'),
         ('rejected', 'Rejected'),
     ]
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    status = models.CharField(max_length=20, choices=status, default='pending')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     reason = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
