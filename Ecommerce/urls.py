@@ -23,6 +23,7 @@ from . import views
 urlpatterns = [
     path('', views.Home, name='home'),
     path('admin/', admin.site.urls),
+    path('', include('backends.urls')),
 ]
 
 
