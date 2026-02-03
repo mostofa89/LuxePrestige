@@ -167,8 +167,6 @@ class Customer(models.Model):
         db_table = 'customers'
 
 
-
-
 class Review(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
@@ -184,22 +182,6 @@ class Review(models.Model):
 
     class Meta:
         db_table = 'reviews'
-
-class Order(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)  
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.IntegerField()
-    total_price = models.DecimalField(max_digits=10, decimal_places=2)
-    order_date = models.DateTimeField(auto_now_add=True)
-
-
-    def __str__(self):
-        return f"Order of {self.quantity} x {self.product.name}"
-    
-
-    class Meta:
-        db_table = 'orders'
-    
 
 
 class Wishlist(models.Model):
@@ -285,6 +267,7 @@ class Order(models.Model):
     total_amount = models.DecimalField(max_digits=10, decimal_places=2)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
 
 
     def __str__(self):
@@ -314,7 +297,29 @@ class Order(models.Model):
             super().save(*args, **kwargs)
 
 
-class onlinePayemntRequest(models.Model):
+class CancelledOrder(models.Model):
+    status = [
+        ('requested', 'Requested'),
+        ('approved', 'Approved'),
+        ('rejected', 'Rejected'),
+    ]
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    reason = models.TextField()
+    is_active = models.BooleanField(default=True)
+    status = models.CharField(max_length=20, choices=status, default='requested')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+    def __str__(self):
+        return f"Cancelled Order ID {self.order.id} - {self.get_status_display()}"
+    
+
+    class Meta:
+        db_table = 'cancelled_orders'
+
+
+class OnlinePaymentRequest(models.Model):
     status = [
         ('pending', 'Pending'),
         ('completed', 'Completed'),
@@ -344,86 +349,58 @@ class DiscountCupon(models.Model):
     percentage = models.DecimalField(max_digits=5, decimal_places=2)
     valid_from = models.DateTimeField()
     valid_to = models.DateTimeField()
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
 
     def __str__(self):
         return self.code
     
 
-class Supplier(models.Model):
-    name = models.CharField(max_length=100)
-    contact_info = models.TextField()
-
-    def __str__(self):
-        return self.name
+    class Meta:
+        db_table = 'discount_coupons'
     
 
-class Inventory(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity_in_stock = models.IntegerField()
-    last_updated = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return f"Inventory for {self.product.name}"
     
 
-class Shipment(models.Model):
+class OrderReturn(models.Model):
+    status = [
+        ('pending', 'Pending'),
+        ('approved', 'Approved'),
+        ('rejected', 'Rejected'),
+    ]
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    shipment_date = models.DateTimeField()
-    delivery_date = models.DateTimeField()
-
-    def __str__(self):
-        return f"Shipment for Order ID {self.order.id}"
-    
-
-    
-
-
-    
-
-class Coupon(models.Model):
-    code = models.CharField(max_length=20)
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
-    valid_from = models.DateTimeField()
-    valid_to = models.DateTimeField()
-
-    def __str__(self):
-        return self.code
-    
-
-class ShippingAddress(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    address_line1 = models.CharField(max_length=255)
-    address_line2 = models.CharField(max_length=255, blank=True, null=True)
-    city = models.CharField(max_length=100)
-    state = models.CharField(max_length=100)
-
-
-class Transaction(models.Model):
-    payment = models.ForeignKey(Payment, on_delete=models.CASCADE)
-    transaction_date = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=50)
-
-    def __str__(self):
-        return f"Transaction for Payment ID {self.payment.id} - {self.status}"
-
-
-class Return(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    return_date = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=20, choices=status, default='pending')
     reason = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
 
     def __str__(self):
         return f"Return for Order ID {self.order.id}"
     
 
+    class Meta:
+        db_table = 'order_returns'
+
+
 class Refund(models.Model):
-    return_order = models.ForeignKey(Return, on_delete=models.CASCADE)
-    refund_date = models.DateTimeField(auto_now_add=True)
+    return_order = models.ForeignKey(OrderReturn, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
+    transaction_id = models.CharField(max_length=100)
+    refund_method = models.CharField(max_length=50)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
 
     def __str__(self):
         return f"Refund for Return ID {self.return_order.id}"
     
+
+    class Meta:
+        db_table = 'refunds'
+
 
 
 class CustomerSupport(models.Model):
@@ -436,121 +413,75 @@ class CustomerSupport(models.Model):
         return f"Customer Support for Order ID {self.order.id} - {self.resolution_status}"
     
 
-class DeliveryMethod(models.Model):
-    name = models.CharField(max_length=100)
-    description = models.TextField()
-    cost = models.DecimalField(max_digits=10, decimal_places=2)
+    class Meta:
+        db_table = 'customer_supports'
+
+
+
+class CustomerSupportTicket(models.Model):
+    support = models.OneToOneField(CustomerSupport, on_delete=models.CASCADE)
+    ticket_number = models.CharField(max_length=100)
+    issue_details = models.TextField()
+    status = models.CharField(max_length=50)
 
     def __str__(self):
-        return self.name
-    
-
-class Tax(models.Model):
-    name = models.CharField(max_length=100)
-    percentage = models.DecimalField(max_digits=5, decimal_places=2)
-
-    def __str__(self):
-        return self.name
-    
-
-
-class GiftCard(models.Model):
-    code = models.CharField(max_length=20)
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
-    valid_from = models.DateTimeField()
-    valid_to = models.DateTimeField()
-
-    def __str__(self):
-        return self.code
+        return f"Support Ticket {self.ticket_number} - {self.status}"
     
 
 
-class NewsletterSubscription(models.Model):
-    email = models.EmailField(unique=True)
-    subscribed_date = models.DateTimeField(auto_now_add=True)
+    class Meta:
+        db_table = 'customer_support_tickets'
+
+
+class ServerCustomerSupportChat(models.Model):
+    support = models.OneToOneField(CustomerSupport, on_delete=models.CASCADE)
+    message = models.TextField()
+    sent_at = models.DateTimeField(auto_now_add=True)
+    sender = models.CharField(max_length=50)
 
     def __str__(self):
-        return self.email
+        return f"Chat Message from {self.sender} at {self.sent_at}"
     
 
-class FeaturedProduct(models.Model):
+    class Meta:
+        db_table = 'customer_support_chats'
+
+
+class CustomerSupportFeedback(models.Model):
+    support = models.OneToOneField(ServerCustomerSupportChat, on_delete=models.CASCADE)
+    feedback_text = models.TextField()
+    rating = models.IntegerField()
+
+    def __str__(self):
+        return f"Feedback for Support ID {self.support.id} - {self.rating} stars"
+    
+
+
+    class Meta:
+        db_table = 'customer_support_feedbacks'
+
+
+
+class Inventory(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    featured_date = models.DateTimeField(auto_now_add=True)
+    stock_quantity = models.IntegerField()
+    restock_date = models.DateTimeField(null=True, blank=True)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
 
     def __str__(self):
-        return f"Featured: {self.product.name}"
+        return f"Inventory for {self.product.name} - {self.stock_quantity} in stock"
+    
+
+    class Meta:
+        db_table = 'inventories'
     
 
 
-class BestSeller(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    sold_quantity = models.IntegerField()
-
-    def __str__(self):
-        return f"Best Seller: {self.product.name} - {self.sold_quantity} sold"
     
 
 
-class NewArrival(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    arrival_date = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"New Arrival: {self.product.name}"
-    
-
-
-class FlashSale(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    discount_percentage = models.DecimalField(max_digits=5, decimal_places=2)
-    start_time = models.DateTimeField()
-    end_time = models.DateTimeField()
-
-    def __str__(self):
-        return f"Flash Sale: {self.product.name} - {self.discount_percentage}% off"
-    
-
-
-class BundleDeal(models.Model):
-    name = models.CharField(max_length=100)
-    products = models.ManyToManyField(Product)
-    bundle_price = models.DecimalField(max_digits=10, decimal_places=2)
-
-    def __str__(self):
-        return self.name
-    
-
-
-class LoyaltyProgram(models.Model):
-    customer_name = models.CharField(max_length=100)
-    points_earned = models.IntegerField()
-    membership_level = models.CharField(max_length=50)
-
-    def __str__(self):
-        return f"{self.customer_name} - {self.membership_level}"
-    
-
-class GiftWrapOption(models.Model):
-    name = models.CharField(max_length=100)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-
-    def __str__(self):
-        return self.name
-    
-
-class SocialMediaIntegration(models.Model):
-    platform_name = models.CharField(max_length=100)
-    profile_url = models.URLField()
-
-    def __str__(self):
-        return self.platform_name
-    
-
-class AnalyticsTracking(models.Model):
-    tracking_id = models.CharField(max_length=100)
-    description = models.TextField()
-
-    def __str__(self):
-        return self.tracking_id
     
 
