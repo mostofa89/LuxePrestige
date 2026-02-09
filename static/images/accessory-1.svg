@@ -1,0 +1,29 @@
+<svg width="400" height="533" viewBox="0 0 400 533" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="acc1bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FAF8F5;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#F4C6CB;stop-opacity:0.3" />
+      <stop offset="100%" style="stop-color:#F1A3AB;stop-opacity:0.5" />
+    </linearGradient>
+    <linearGradient id="acc1silk" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F4C6CB;stop-opacity:0.9" />
+      <stop offset="50%" style="stop-color:#F1A3AB;stop-opacity:0.7" />
+      <stop offset="100%" style="stop-color:#D85D6B;stop-opacity:0.6" />
+    </linearGradient>
+  </defs>
+  
+  <rect width="400" height="533" fill="url(#acc1bg)" />
+  
+  <!-- Flowing silk scarf waves -->
+  <path d="M 100 180 Q 150 160, 200 180 T 300 180" stroke="#F1A3AB" stroke-width="35" fill="none" opacity="0.6" stroke-linecap="round"/>
+  <path d="M 110 220 Q 160 200, 210 220 T 310 220" stroke="#F4C6CB" stroke-width="32" fill="none" opacity="0.5" stroke-linecap="round"/>
+  <path d="M 95 260 Q 145 240, 195 260 T 295 260" stroke="#D85D6B" stroke-width="38" fill="none" opacity="0.7" stroke-linecap="round"/>
+  <path d="M 105 300 Q 155 280, 205 300 T 305 300" stroke="#E07A86" stroke-width="28" fill="none" opacity="0.55" stroke-linecap="round"/>
+  
+  <!-- Shimmer accents -->
+  <circle cx="145" cy="175" r="4" fill="#F1A3AB" opacity="0.8"/>
+  <circle cx="245" cy="195" r="3" fill="#E07A86" opacity="0.7"/>
+  <circle cx="160" cy="245" r="5" fill="#F4C6CB" opacity="0.85"/>
+  <circle cx="195" cy="285" r="3.5" fill="#D85D6B" opacity="0.75"/>
+  <circle cx="255" cy="275" r="4" fill="#F1A3AB" opacity="0.8"/>
+</svg>

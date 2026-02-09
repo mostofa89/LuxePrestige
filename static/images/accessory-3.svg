@@ -1,0 +1,43 @@
+<svg width="400" height="533" viewBox="0 0 400 533" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="acc3bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FAF8F5;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#F4C6CB;stop-opacity:0.2" />
+      <stop offset="100%" style="stop-color:#D85D6B;stop-opacity:0.35" />
+    </linearGradient>
+    <radialGradient id="acc3dial">
+      <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:1" />
+      <stop offset="70%" style="stop-color:#F4C6CB;stop-opacity:0.9" />
+      <stop offset="100%" style="stop-color:#E07A86;stop-opacity:1" />
+    </radialGradient>
+  </defs>
+  
+  <rect width="400" height="533" fill="url(#acc3bg)" />
+  
+  <!-- Watch case -->
+  <circle cx="200" cy="266" r="75" fill="url(#acc3dial)"/>
+  <circle cx="200" cy="266" r="70" stroke="#D85D6B" stroke-width="2" fill="none"/>
+  
+  <!-- Bezel jewels -->
+  <circle cx="200" cy="191" r="4" fill="#E07A86"/>
+  <circle cx="275" cy="266" r="4" fill="#F1A3AB"/>
+  <circle cx="200" cy="341" r="4" fill="#E07A86"/>
+  <circle cx="125" cy="266" r="4" fill="#F1A3AB"/>
+  
+  <!-- Watch hands -->
+  <line x1="200" y1="266" x2="200" y2="220" stroke="#A23A47" stroke-width="3" stroke-linecap="round"/>
+  <line x1="200" y1="266" x2="235" y2="266" stroke="#C44B5A" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="200" cy="266" r="6" fill="#D85D6B"/>
+  
+  <!-- Band segments -->
+  <rect x="140" y="140" width="25" height="35" rx="4" fill="#E07A86" opacity="0.8"/>
+  <rect x="235" y="140" width="25" height="35" rx="4" fill="#E07A86" opacity="0.8"/>
+  <rect x="140" y="357" width="25" height="35" rx="4" fill="#E07A86" opacity="0.8"/>
+  <rect x="235" y="357" width="25" height="35" rx="4" fill="#E07A86" opacity="0.8"/>
+  
+  <!-- Luminous accents on dial -->
+  <circle cx="190" cy="236" r="2" fill="#F4C6CB" opacity="0.9"/>
+  <circle cx="210" cy="236" r="2" fill="#F4C6CB" opacity="0.9"/>
+  <circle cx="220" cy="256" r="2" fill="#F4C6CB" opacity="0.9"/>
+  <circle cx="220" cy="276" r="2" fill="#F4C6CB" opacity="0.9"/>
+</svg>
