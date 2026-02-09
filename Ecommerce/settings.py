@@ -135,7 +135,7 @@ SESSION_COOKIE_SAMESITE = 'Lax'
 CSRF_COOKIE_SECURE = False
 CSRF_COOKIE_HTTPONLY = True
 
-LOGIN_URL = 'accounts:login'
+LOGIN_URL = 'backends:dashboard'
 
 
 # Static files (CSS, JavaScript, Images)

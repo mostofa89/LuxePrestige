@@ -1,0 +1,133 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Ethereal - Account Dashboard{% endblock %}
+
+{% block content %}
+<section class="pt-28 pb-24">
+    <div class="flex flex-col lg:flex-row min-h-[calc(100vh-7rem)]">
+		<aside class="w-full lg:w-72 shrink-0 self-stretch bg-gradient-to-b from-moon-white/95 to-transparent dark:from-black-pearl/95 border-r border-solid border-obsidian/10 dark:border-pearl/10 px-6 py-10 lg:pt-24 lg:pb-16">
+			<div class="sticky top-24 space-y-8">
+				<div>
+					<p class="text-xs tracking-[0.35em] uppercase text-twilight dark:text-lavender-mist mb-2">Account</p>
+					<h1 class="font-cormorant text-3xl text-obsidian dark:text-pearl font-light">Dashboard</h1>
+				</div>
+				<div>
+					<h3 class="font-cormorant text-2xl text-obsidian dark:text-pearl font-light mb-4">Models</h3>
+					<ul class="space-y-3 text-sm">
+						{% if model_overview %}
+							{% for item in model_overview %}
+								<li>
+									<a href="{{ item.url|default:'#' }}"
+										class="flex items-center justify-between text-twilight dark:text-lavender-mist hover:text-rose-gold transition-colors">
+										<span>{{ item.label }}</span>
+										<span class="text-xs px-2 py-1 rounded-full bg-moon-white dark:bg-midnight text-obsidian dark:text-pearl">{{ item.count }}</span>
+									</a>
+								</li>
+							{% endfor %}
+							<li><a class="text-twilight dark:text-lavender-mist hover:text-rose-gold transition-colors" href="#">Settings</a></li>
+						{% else %}
+							<li><a class="text-twilight dark:text-lavender-mist hover:text-rose-gold transition-colors" href="#">Brand</a></li>
+							<li><a class="text-twilight dark:text-lavender-mist hover:text-rose-gold transition-colors" href="#">Category</a></li>
+							<li><a class="text-twilight dark:text-lavender-mist hover:text-rose-gold transition-colors" href="#">Product</a></li>
+							<li><a class="text-twilight dark:text-lavender-mist hover:text-rose-gold transition-colors" href="#">Product Image</a></li>
+							<li><a class="text-twilight dark:text-lavender-mist hover:text-rose-gold transition-colors" href="#">Attribute</a></li>
+							<li><a class="text-twilight dark:text-lavender-mist hover:text-rose-gold transition-colors" href="#">Attribute Value</a></li>
+							<li><a class="text-twilight dark:text-lavender-mist hover:text-rose-gold transition-colors" href="#">Customer</a></li>
+							<li><a class="text-twilight dark:text-lavender-mist hover:text-rose-gold transition-colors" href="#">Order</a></li>
+							<li><a class="text-twilight dark:text-lavender-mist hover:text-rose-gold transition-colors" href="#">Cart</a></li>
+							<li><a class="text-twilight dark:text-lavender-mist hover:text-rose-gold transition-colors" href="#">Wishlist</a></li>
+							<li><a class="text-twilight dark:text-lavender-mist hover:text-rose-gold transition-colors" href="#">Settings</a></li>
+						{% endif %}
+					</ul>
+				</div>
+			</div>
+		</aside>
+
+		<div class="flex-1 px-6 lg:px-12 xl:px-16 py-10">
+			<div class="max-w-6xl">
+				<div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8 mb-12">
+					<div>
+						<p class="text-xs tracking-[0.35em] uppercase text-twilight dark:text-lavender-mist mb-3">Account</p>
+						<h2 class="font-cormorant text-4xl lg:text-5xl text-obsidian dark:text-pearl font-light">Overview</h2>
+					</div>
+				</div>
+
+				<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+					<div class="lg:col-span-2 space-y-8">
+				<div class="rounded-3xl border border-solid border-obsidian/10 dark:border-pearl/10 bg-moon-white/80 dark:bg-black-pearl/60 p-8">
+					<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+						<div>
+							<p class="text-xs tracking-[0.3em] uppercase text-twilight dark:text-lavender-mist">Welcome back</p>
+							<h2 class="font-cormorant text-3xl text-obsidian dark:text-pearl font-light mt-3">{{ user.get_full_name|default:user.username }}</h2>
+							<p class="text-sm text-twilight dark:text-lavender-mist mt-2">Member since {{ user.date_joined|date:"F Y" }}</p>
+						</div>
+						<div class="flex items-center gap-4">
+							<div class="rounded-full w-16 h-16 bg-pearl dark:bg-midnight flex items-center justify-center text-xl text-rose-gold font-semibold">
+								{{ user.username|slice:":1"|upper }}
+							</div>
+							<div>
+								<p class="text-xs tracking-[0.2em] uppercase text-twilight dark:text-lavender-mist">Loyalty</p>
+								<p class="text-lg text-obsidian dark:text-pearl">Ethereal Circle</p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="rounded-3xl border border-solid border-obsidian/10 dark:border-pearl/10 bg-moon-white/80 dark:bg-black-pearl/60 p-8">
+					<div class="flex items-center justify-between mb-6">
+						<h3 class="font-cormorant text-2xl text-obsidian dark:text-pearl font-light">Recent Orders</h3>
+						<a href="#" class="text-xs tracking-[0.25em] uppercase text-rose-gold hover:text-midnight dark:hover:text-champagne transition-colors">View
+							All</a>
+					</div>
+					<div class="space-y-4">
+						<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border border-solid border-obsidian/10 dark:border-pearl/10 rounded-2xl p-5">
+							<div>
+								<p class="text-xs tracking-[0.2em] uppercase text-twilight dark:text-lavender-mist">Order #1842</p>
+								<p class="text-lg text-obsidian dark:text-pearl mt-2">Luna Pendant</p>
+							</div>
+							<div class="flex items-center gap-6">
+								<p class="text-sm text-twilight dark:text-lavender-mist">Jan 26, 2026</p>
+								<span class="text-xs tracking-[0.2em] uppercase bg-pearl dark:bg-midnight text-obsidian dark:text-pearl px-4 py-2 rounded-full">Shipped</span>
+							</div>
+						</div>
+						<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border border-solid border-obsidian/10 dark:border-pearl/10 rounded-2xl p-5">
+							<div>
+								<p class="text-xs tracking-[0.2em] uppercase text-twilight dark:text-lavender-mist">Order #1798</p>
+								<p class="text-lg text-obsidian dark:text-pearl mt-2">Aurora Drops</p>
+							</div>
+							<div class="flex items-center gap-6">
+								<p class="text-sm text-twilight dark:text-lavender-mist">Jan 10, 2026</p>
+								<span class="text-xs tracking-[0.2em] uppercase bg-rose-gold/15 text-rose-gold px-4 py-2 rounded-full">Processing</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+					<div class="space-y-8">
+				<div class="rounded-3xl border border-solid border-obsidian/10 dark:border-pearl/10 bg-moon-white/80 dark:bg-black-pearl/60 p-8">
+					<h3 class="font-cormorant text-2xl text-obsidian dark:text-pearl font-light mb-6">Account Details</h3>
+					<div class="space-y-4 text-sm text-twilight dark:text-lavender-mist">
+						<p><span class="text-obsidian dark:text-pearl">Email:</span> {{ user.email|default:"Not set" }}</p>
+						<p><span class="text-obsidian dark:text-pearl">Phone:</span> {{ user.profile.phone|default:"Not set" }}</p>
+						<p><span class="text-obsidian dark:text-pearl">Address:</span> {{ user.profile.address|default:"Not set" }}</p>
+					</div>
+				</div>
+
+				<div class="rounded-3xl border border-solid border-obsidian/10 dark:border-pearl/10 bg-moon-white/80 dark:bg-black-pearl/60 p-8">
+					<h3 class="font-cormorant text-2xl text-obsidian dark:text-pearl font-light mb-6">Quick Links</h3>
+					<ul class="space-y-3 text-sm">
+						<li><a class="text-twilight dark:text-lavender-mist hover:text-rose-gold transition-colors" href="#">Saved Items</a></li>
+						<li><a class="text-twilight dark:text-lavender-mist hover:text-rose-gold transition-colors" href="#">Payment Methods</a></li>
+						<li><a class="text-twilight dark:text-lavender-mist hover:text-rose-gold transition-colors" href="#">Address Book</a></li>
+						<li><a class="text-twilight dark:text-lavender-mist hover:text-rose-gold transition-colors" href="#">Support</a></li>
+					</ul>
+				</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock %}
