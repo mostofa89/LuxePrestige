@@ -12,7 +12,7 @@
 
     <!-- Google Fonts -->
     <link
-        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Tenor+Sans&family=Spectral:wght@200;300;400&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Manrope:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
 
     <script>
@@ -33,36 +33,38 @@
             theme: {
                 extend: {
                     colors: {
-                        // Light Mode - Ethereal Color Palette
-                        'moon-white': '#EFECE3',
-                        'pearl': '#E6E2D9',
-                        'champagne': '#D8D2C6',
-                        'rose-gold': '#8FABD4',
+                        // Light Mode - Ethereal Mist Palette
+                        'moon-white': '#FFFFFF',
+                        'pearl': '#FFFFFF',
+                        'champagne': '#8FABD4',
+                        'rose-gold': '#4A70A9',
                         'blush': '#8FABD4',
-                        'lavender-mist': '#BEB7B2',
-                        'twilight': '#706965',
-                        'midnight': '#3A3A3A',
+                        'lavender-mist': '#8FABD4',
+                        'twilight': '#242424',
+                        'midnight': '#242424',
                         'obsidian': '#242424',
-                        'black-pearl': '#141414',
+                        'black-pearl': '#0F1214',
 
                         // Accent Colors
                         'gold-shimmer': '#8FABD4',
-                        'silver-glow': '#B7B0AA',
-                        'rose-quartz': '#D9E2F1',
+                        'silver-glow': '#8FABD4',
+                        'rose-quartz': '#FFFFFF',
                         'amethyst': '#4A70A9',
-                        'secondary': '#8FABD4',
+                        'secondary': '#4A70A9',
                     },
                     fontFamily: {
-                        'cormorant': ['Cormorant Garamond', 'serif'],
-                        'tenor': ['Tenor Sans', 'sans-serif'],
-                        'spectral': ['Spectral', 'serif'],
-                        'display': ['Cormorant Garamond', 'serif'],
-                        'title': ['Tenor Sans', 'sans-serif'],
+                        'cormorant': ['Fraunces', 'serif'],
+                        'tenor': ['Manrope', 'sans-serif'],
+                        'spectral': ['Fraunces', 'serif'],
+                        'display': ['Fraunces', 'serif'],
+                        'title': ['Manrope', 'sans-serif'],
                     },
                     animation: {
                         'scroll-wheel': 'scrollWheel 2s ease-in-out infinite',
                         'badge-pulse': 'badgePulse 2s ease-in-out infinite',
                         'shimmer': 'shimmer 3s ease-in-out infinite',
+                        'glow-pulse': 'glowPulse 6s ease-in-out infinite',
+                        'float-sway': 'floatSway 8s ease-in-out infinite',
                         'rotate-decor': 'rotateDecor 20s linear infinite',
                         'reveal': 'reveal 0.8s ease forwards',
                         'float': 'float 25s infinite ease-in-out',
@@ -75,8 +77,6 @@
                         'bounce-scroll': 'bounceScroll 2s ease-in-out infinite',
                         'scroll': 'scroll 2s ease-in-out infinite',
                         'aurora': 'aurora 20s infinite alternate',
-                        'particle-float': 'particleFloat 20s infinite ease-in-out',
-                        'particle-twinkle': 'particleTwinkle 3s infinite alternate',
                     },
                     keyframes: {
                         scrollWheel: {
@@ -90,6 +90,14 @@
                         shimmer: {
                             '0%, 100%': { opacity: '0.8' },
                             '50%': { opacity: '1' },
+                        },
+                        glowPulse: {
+                            '0%, 100%': { transform: 'translateY(0)', filter: 'drop-shadow(0 0 8px rgba(138, 171, 212, 0.35))' },
+                            '50%': { transform: 'translateY(-3px)', filter: 'drop-shadow(0 0 18px rgba(74, 112, 169, 0.5))' },
+                        },
+                        floatSway: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-6px)' },
                         },
                         rotateDecor: {
                             '0%': { transform: 'rotate(0deg)' },
@@ -123,8 +131,8 @@
                             'to': { opacity: '1', transform: 'translateY(0)' },
                         },
                         glow: {
-                            '0%, 100%': { filter: 'drop-shadow(0 0 10px rgba(143, 171, 212, 0.3))' },
-                            '50%': { filter: 'drop-shadow(0 0 25px rgba(143, 171, 212, 0.6))' },
+                            '0%, 100%': { filter: 'drop-shadow(0 0 10px rgba(138, 171, 212, 0.35))' },
+                            '50%': { filter: 'drop-shadow(0 0 25px rgba(74, 112, 169, 0.6))' },
                         },
                         pulseGlow: {
                             '0%, 100%': { opacity: '1', transform: 'scale(1)' },
@@ -142,17 +150,6 @@
                         aurora: {
                             '0%, 100%': { opacity: '0.12', filter: 'blur(140px) hue-rotate(0deg)' },
                             '50%': { opacity: '0.2', filter: 'blur(160px) hue-rotate(20deg)' },
-                        },
-                        particleFloat: {
-                            '0%': { opacity: '0', transform: 'translateY(100vh) translateX(0) scale(0.3)' },
-                            '10%': { opacity: '1' },
-                            '50%': { transform: 'translateY(50vh) translateX(80px) scale(1.2)' },
-                            '90%': { opacity: '0.6' },
-                            '100%': { opacity: '0', transform: 'translateY(-20vh) translateX(150px) scale(0.5)' },
-                        },
-                        particleTwinkle: {
-                            '0%, 100%': { opacity: '0.2', filter: 'brightness(1)' },
-                            '50%': { opacity: '0.6', filter: 'brightness(1.5)' },
                         },
                     },
                 },
@@ -190,13 +187,33 @@
             animation: pageFade 0.8s ease both;
         }
 
+        main > section {
+            animation: fadeInUp 1s ease both;
+        }
+
+        main > section:nth-of-type(2) {
+            animation-delay: 0.1s;
+        }
+
+        main > section:nth-of-type(3) {
+            animation-delay: 0.2s;
+        }
+
+        main > section:nth-of-type(4) {
+            animation-delay: 0.3s;
+        }
+
+        main > section:nth-of-type(5) {
+            animation-delay: 0.4s;
+        }
+
         /* Utility class for font families */
         .font-display {
-            font-family: 'Cormorant Garamond', serif;
+            font-family: 'Fraunces', serif;
         }
 
         .font-title {
-            font-family: 'Tenor Sans', sans-serif;
+            font-family: 'Manrope', sans-serif;
         }
 
         /* Product card hover effects */
@@ -212,6 +229,247 @@
             transform: translateY(0);
         }
 
+        .card-glow {
+            position: relative;
+            transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+            box-shadow: 0 25px 50px rgba(20, 28, 31, 0.12);
+            animation: glowPulse 6s ease-in-out infinite;
+            backdrop-filter: blur(18px) saturate(140%);
+            background: rgba(247, 247, 244, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+        }
+
+        .dark .card-glow {
+            background: rgba(15, 18, 20, 0.6);
+            border-color: rgba(138, 171, 212, 0.2);
+        }
+
+        .glass-panel {
+            backdrop-filter: blur(18px) saturate(140%);
+            background: rgba(247, 247, 244, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+        }
+
+        .dark .glass-panel {
+            background: rgba(15, 18, 20, 0.6);
+            border-color: rgba(138, 171, 212, 0.2);
+        }
+
+        .card-glow::after {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: inherit;
+            background: radial-gradient(circle at top left, rgba(138, 171, 212, 0.35), transparent 55%),
+                radial-gradient(circle at bottom right, rgba(74, 112, 169, 0.3), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.35s ease;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .card-glow::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: linear-gradient(120deg, rgba(138, 171, 212, 0), rgba(138, 171, 212, 0.25), rgba(138, 171, 212, 0));
+            opacity: 0;
+            transition: opacity 0.35s ease;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .card-glow > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-glow:hover,
+        .card-glow:focus-within {
+            transform: translateY(-4px);
+            box-shadow: 0 35px 70px rgba(20, 28, 31, 0.18);
+            border-color: rgba(138, 171, 212, 0.35);
+        }
+
+        .card-glow:hover::after,
+        .card-glow:focus-within::after {
+            opacity: 1;
+        }
+
+        .card-glow:hover::before,
+        .card-glow:focus-within::before {
+            opacity: 1;
+        }
+
+        .atomic-field {
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .atom {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(138, 171, 212, 0.9), rgba(138, 171, 212, 0.1));
+            box-shadow: 0 0 12px rgba(138, 171, 212, 0.7);
+            animation: atomDrift var(--atom-duration, 18s) ease-in-out infinite;
+        }
+
+        .bond {
+            position: absolute;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(138, 171, 212, 0), rgba(138, 171, 212, 0.5), rgba(138, 171, 212, 0));
+            opacity: 0.6;
+            transform-origin: left center;
+            animation: bondPulse 8s ease-in-out infinite;
+        }
+
+        .light-particles {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .light-particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.98), rgba(138, 171, 212, 0.35), transparent 70%);
+            box-shadow: 0 0 22px rgba(138, 171, 212, 0.85), 0 0 40px rgba(255, 255, 255, 0.35);
+            opacity: 0.55;
+            animation: lightFloat var(--light-duration, 14s) ease-in-out infinite,
+                lightTwinkle var(--light-twinkle, 4s) ease-in-out infinite;
+        }
+
+        button,
+        .btn,
+        a.btn,
+        [role="button"],
+        input[type="button"],
+        input[type="submit"],
+        .btn-primary-hover,
+        .btn-secondary-hover {
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+        }
+
+        button::after,
+        .btn::after,
+        a.btn::after,
+        [role="button"]::after,
+        input[type="button"]::after,
+        input[type="submit"]::after,
+        .btn-primary-hover::after,
+        .btn-secondary-hover::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(120deg, rgba(255, 255, 255, 0), rgba(138, 171, 212, 0.35), rgba(255, 255, 255, 0));
+            opacity: 0;
+            transform: translateX(-120%);
+            transition: opacity 0.3s ease, transform 0.6s ease;
+        }
+
+        button:hover,
+        button:focus-visible,
+        .btn:hover,
+        .btn:focus-visible,
+        a.btn:hover,
+        a.btn:focus-visible,
+        [role="button"]:hover,
+        [role="button"]:focus-visible,
+        input[type="button"]:hover,
+        input[type="button"]:focus-visible,
+        input[type="submit"]:hover,
+        input[type="submit"]:focus-visible,
+        .btn-primary-hover:hover,
+        .btn-primary-hover:focus-visible,
+        .btn-secondary-hover:hover,
+        .btn-secondary-hover:focus-visible {
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: 0 18px 35px rgba(20, 28, 31, 0.18);
+        }
+
+        button:hover::after,
+        button:focus-visible::after,
+        .btn:hover::after,
+        .btn:focus-visible::after,
+        a.btn:hover::after,
+        a.btn:focus-visible::after,
+        [role="button"]:hover::after,
+        [role="button"]:focus-visible::after,
+        input[type="button"]:hover::after,
+        input[type="button"]:focus-visible::after,
+        input[type="submit"]:hover::after,
+        input[type="submit"]:focus-visible::after,
+        .btn-primary-hover:hover::after,
+        .btn-primary-hover:focus-visible::after,
+        .btn-secondary-hover:hover::after,
+        .btn-secondary-hover:focus-visible::after {
+            opacity: 1;
+            transform: translateX(120%);
+        }
+
+
+        @keyframes atomDrift {
+            0% {
+                transform: translate3d(0, 0, 0) scale(0.8);
+                opacity: 0.2;
+            }
+            50% {
+                transform: translate3d(var(--atom-drift-x, 60px), var(--atom-drift-y, -40px), 0) scale(1.1);
+                opacity: 0.9;
+            }
+            100% {
+                transform: translate3d(var(--atom-drift-x, 60px), var(--atom-drift-y, -40px), 0) scale(0.9);
+                opacity: 0.3;
+            }
+        }
+
+        @keyframes bondPulse {
+            0%, 100% {
+                opacity: 0.2;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        @keyframes lightFloat {
+            0% {
+                transform: translateY(10vh) scale(0.7);
+                opacity: 0;
+            }
+            30% {
+                opacity: 0.7;
+            }
+            60% {
+                transform: translateY(-20vh) translateX(40px) scale(1.1);
+            }
+            100% {
+                transform: translateY(-40vh) translateX(-20px) scale(0.8);
+                opacity: 0;
+            }
+        }
+
+        @keyframes lightTwinkle {
+            0%, 100% {
+                opacity: 0.3;
+            }
+            50% {
+                opacity: 0.9;
+            }
+        }
+
         .nav-links a {
             position: relative;
         }
@@ -223,7 +481,7 @@
             bottom: -6px;
             width: 100%;
             height: 2px;
-            background: linear-gradient(90deg, rgba(143, 171, 212, 0), rgba(143, 171, 212, 0.8), rgba(74, 112, 169, 0));
+            background: linear-gradient(90deg, rgba(138, 171, 212, 0), rgba(138, 171, 212, 0.85), rgba(74, 112, 169, 0));
             transform: scaleX(0);
             transform-origin: center;
             transition: transform 0.35s ease;
@@ -245,7 +503,7 @@
             bottom: -4px;
             width: 100%;
             height: 1px;
-            background: linear-gradient(90deg, rgba(143, 171, 212, 0), rgba(143, 171, 212, 0.7), rgba(74, 112, 169, 0));
+            background: linear-gradient(90deg, rgba(138, 171, 212, 0), rgba(138, 171, 212, 0.7), rgba(74, 112, 169, 0));
             transform: scaleX(0);
             transform-origin: center;
             transition: transform 0.35s ease;
@@ -258,14 +516,14 @@
 
         .btn-secondary-hover:hover,
         .btn-secondary-hover:focus-visible {
-            background-color: #8FABD4;
-            color: #FDFCFA;
+            background-color: #4A70A9;
+            color: #0F1214;
         }
 
         .dark .btn-secondary-hover:hover,
         .dark .btn-secondary-hover:focus-visible {
-            background-color: #8FABD4;
-            color: #FDFCFA;
+            background-color: #4A70A9;
+            color: #0F1214;
         }
 
         /* Ambient Background Animations */
@@ -285,10 +543,21 @@
             width: 100%;
             height: 100%;
             background: 
-                radial-gradient(circle at 20% 30%, rgba(143, 171, 212, 0.08), transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(190, 183, 178, 0.08), transparent 50%),
-                radial-gradient(circle at 50% 50%, rgba(74, 112, 169, 0.06), transparent 60%);
+                radial-gradient(circle at 15% 20%, rgba(138, 171, 212, 0.12), transparent 52%),
+                radial-gradient(circle at 85% 70%, rgba(138, 171, 212, 0.1), transparent 55%),
+                radial-gradient(circle at 50% 50%, rgba(36, 36, 36, 0.05), transparent 60%);
             animation: float-slow 30s ease-in-out infinite;
+        }
+
+        .ethereal-pattern {
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(rgba(138, 171, 212, 0.12) 1px, transparent 1px),
+                radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+            background-size: 28px 28px, 90px 90px;
+            opacity: 0.6;
+            mix-blend-mode: screen;
+            animation: floatSlow 38s ease-in-out infinite;
         }
 
         .aurora {
@@ -304,7 +573,7 @@
             height: 800px;
             top: -15%;
             right: -15%;
-            background: radial-gradient(circle, #BEB7B2, transparent);
+            background: radial-gradient(circle, #FFFFFF, transparent);
             animation: float 25s infinite ease-in-out, aurora 20s infinite alternate;
         }
 
@@ -326,170 +595,14 @@
             animation: float 25s infinite ease-in-out 15s, aurora 20s infinite alternate 8s;
         }
 
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 2;
-            pointer-events: none;
-            transform: translate3d(var(--spark-shift-x, 0px), var(--spark-shift-y, 0px), 0);
-            transition: transform 0.4s ease-out;
-        }
-
-
-        .water-drops {
-            position: fixed;
-            inset: 0;
-            z-index: 1;
-            pointer-events: none;
-            overflow: hidden;
-        }
-
-        .water-drop {
-            position: absolute;
-            border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.12) 55%, rgba(255, 255, 255, 0) 70%);
-            box-shadow: 0 0 50px rgba(143, 171, 212, 0.35);
-            opacity: 0.1;
-            animation: waterDrop 14s ease-in-out infinite;
-        }
-
-        .water-drop.drop-1 {
-            width: 240px;
-            height: 240px;
-            top: 12%;
-            left: 8%;
-            animation-delay: 0s;
-        }
-
-        .water-drop.drop-2 {
-            width: 320px;
-            height: 320px;
-            top: 45%;
-            right: 10%;
-            animation-delay: 4s;
-        }
-
-        .water-drop.drop-3 {
-            width: 200px;
-            height: 200px;
-            bottom: 12%;
-            left: 35%;
-            animation-delay: 8s;
-        }
-
-        .dark .water-drop {
-            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.08) 55%, rgba(255, 255, 255, 0) 70%);
-            box-shadow: 0 0 45px rgba(143, 171, 212, 0.18);
-        }
-
-        @keyframes waterDrop {
-            0% {
-                transform: translateY(40px) scale(0.85);
-                opacity: 0;
-            }
-            20% {
-                opacity: 0.65;
-            }
-            50% {
-                transform: translateY(0) scale(1);
-                opacity: 0.95;
-            }
-            80% {
-                opacity: 0.45;
-            }
-            100% {
-                transform: translateY(-40px) scale(1.05);
-                opacity: 0;
-            }
-        }
-
-        .particle {
-            position: absolute;
-            width: 3px;
-            height: 3px;
-            background: radial-gradient(circle, rgba(143, 171, 212, 0.9), rgba(143, 171, 212, 0.3) 60%, rgba(143, 171, 212, 0));
-            border-radius: 50%;
-            opacity: 0.4;
-            animation: sparkDrift var(--spark-duration, 16s) ease-in-out infinite,
-                sparkTwinkle var(--spark-twinkle, 3.5s) ease-in-out infinite;
-            box-shadow: 0 0 12px rgba(143, 171, 212, 0.9), 0 0 20px rgba(143, 171, 212, 0.45);
-            mix-blend-mode: normal;
-            filter: drop-shadow(0 0 8px rgba(143, 171, 212, 0.65));
-        }
-
-        .dark .particle {
-            box-shadow: 0 0 10px rgba(143, 171, 212, 0.7), 0 0 16px rgba(143, 171, 212, 0.35);
-            mix-blend-mode: screen;
-            filter: drop-shadow(0 0 4px rgba(143, 171, 212, 0.4));
-        }
-
-        .footer-sparks {
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-            z-index: 0;
-            overflow: hidden;
-        }
-
-        .footer-spark {
-            position: absolute;
-            width: 3px;
-            height: 3px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(143, 171, 212, 0.95), rgba(143, 171, 212, 0.3) 60%, rgba(143, 171, 212, 0));
-            opacity: 0;
-            animation: footerSpark 10s ease-in-out infinite;
-            box-shadow: 0 0 10px rgba(143, 171, 212, 0.8), 0 0 16px rgba(74, 112, 169, 0.35);
-            mix-blend-mode: screen;
-        }
-
-        @keyframes footerSpark {
-            0% {
-                transform: translateY(0) scale(0.8);
-                opacity: 0;
-            }
-            30% {
-                opacity: 0.9;
-            }
-            100% {
-                transform: translateY(-40px) scale(1.1);
-                opacity: 0;
-            }
-        }
-
-        @keyframes sparkDrift {
-            0% {
-                transform: translate3d(0, 0, 0) scale(var(--spark-scale, 1));
-                opacity: 0;
-            }
-            25% {
-                opacity: var(--spark-bright, 0.8);
-            }
-            100% {
-                transform: translate3d(var(--spark-drift, 40px), -40px, 0) scale(var(--spark-scale, 1));
-                opacity: 0;
-            }
-        }
-
-        @keyframes sparkTwinkle {
-            0%, 100% {
-                opacity: 0.35;
-            }
-            50% {
-                opacity: 1;
-            }
-        }
 
         /* Dark mode adjustments */
         .dark .aurora-1 {
-            background: radial-gradient(circle, #C8C1BC, transparent);
+            background: radial-gradient(circle, #8FABD4, transparent);
         }
 
         .dark .aurora-2 {
-            background: radial-gradient(circle, #8FABD4, transparent);
+            background: radial-gradient(circle, #4A70A9, transparent);
         }
 
         .dark .aurora-3 {
@@ -514,42 +627,40 @@
 
     <!-- Ambient Background -->
     <div class="ambient-bg">
+        <div class="ethereal-pattern"></div>
         <div class="gradient-mesh"></div>
         <div class="aurora aurora-1"></div>
         <div class="aurora aurora-2"></div>
         <div class="aurora aurora-3"></div>
     </div>
 
-    <!-- Particles -->
-    <div class="particles" id="particles"></div>
+    <div class="atomic-field" id="atomicField" aria-hidden="true"></div>
 
+    <div class="light-particles" id="lightParticles" aria-hidden="true"></div>
 
-    <!-- Water drop animation -->
-    <div class="water-drops" aria-hidden="true">
-        <div class="water-drop drop-1"></div>
-        <div class="water-drop drop-2"></div>
-        <div class="water-drop drop-3"></div>
-    </div>
 
     <!-- Navigation -->
     <nav id="nav"
-        class="fixed top-0 left-0 w-full py-6 px-10 lg:px-20 flex justify-between items-center z-[1000] bg-gradient-to-b from-moon-white/95 to-transparent dark:from-black-pearl/95 backdrop-blur-md transition-all duration-500">
+        class="fixed top-0 left-0 w-full py-5 px-8 lg:px-20 flex justify-between items-center z-[1000] bg-moon-white/85 dark:bg-black-pearl/80 backdrop-blur-xl border-b border-obsidian/10 dark:border-pearl/10 transition-all duration-500">
         <div
-            class="logo font-cormorant text-2xl lg:text-3xl font-light tracking-widest text-obsidian dark:text-pearl">
+            class="logo font-cormorant text-2xl lg:text-3xl font-light tracking-[0.3em] text-obsidian dark:text-pearl">
             ETHEREAL
         </div>
         <ul class="nav-links hidden lg:flex gap-8 xl:gap-12 list-none">
-            <li><a href="#collections"
-                    class="text-midnight dark:text-champagne text-xs tracking-widest uppercase hover:text-rose-gold transition-colors duration-300">Collections</a>
+            <li><a href="{% url 'home' %}"
+                class="text-midnight dark:text-champagne text-xs tracking-[0.35em] uppercase hover:text-rose-gold transition-colors duration-300">Home</a>
+            </li>
+                <li><a href="#collections"
+                    class="text-midnight dark:text-champagne text-xs tracking-[0.35em] uppercase hover:text-rose-gold transition-colors duration-300">Collections</a>
             </li>
             <li><a href="#jewelry"
-                    class="text-midnight dark:text-champagne text-xs tracking-widest uppercase hover:text-rose-gold transition-colors duration-300">Jewelry</a>
+                    class="text-midnight dark:text-champagne text-xs tracking-[0.35em] uppercase hover:text-rose-gold transition-colors duration-300">Jewelry</a>
             </li>
             <li><a href="#accessories"
-                    class="text-midnight dark:text-champagne text-xs tracking-widest uppercase hover:text-rose-gold transition-colors duration-300">Accessories</a>
+                    class="text-midnight dark:text-champagne text-xs tracking-[0.35em] uppercase hover:text-rose-gold transition-colors duration-300">Accessories</a>
             </li>
             <li><a href="#about"
-                    class="text-midnight dark:text-champagne text-xs tracking-widest uppercase hover:text-rose-gold transition-colors duration-300">About</a>
+                    class="text-midnight dark:text-champagne text-xs tracking-[0.35em] uppercase hover:text-rose-gold transition-colors duration-300">About</a>
             </li>
         </ul>
         <div class="nav-actions flex gap-5 lg:gap-7 items-center">
@@ -604,7 +715,7 @@
     <div class="relative z-20 px-8 lg:px-20 pt-28">
         <div class="max-w-6xl mx-auto space-y-4">
             {% for message in messages %}
-                <div class="rounded-2xl border border-solid border-obsidian/10 dark:border-pearl/10 bg-moon-white/90 dark:bg-black-pearl/70 px-5 py-4 text-sm text-obsidian dark:text-pearl">
+                <div class="rounded-2xl border border-solid border-obsidian/10 dark:border-pearl/10 bg-moon-white/90 dark:bg-black-pearl/70 px-5 py-4 text-sm text-obsidian dark:text-pearl glass-panel">
                     {{ message }}
                 </div>
             {% endfor %}
@@ -619,8 +730,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="relative z-10 bg-champagne dark:bg-midnight text-midnight dark:text-pearl py-20 px-10 lg:px-20 transition-colors duration-600">
-        <div class="footer-sparks" aria-hidden="true"></div>
+    <footer class="relative z-10 bg-pearl dark:bg-midnight text-midnight dark:text-pearl py-20 px-10 lg:px-20 border-t border-obsidian/10 dark:border-pearl/10 transition-colors duration-600 animate-fade-in-up">
         <div class="footer-inner relative z-10">
             <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-16">
             <div>
@@ -728,80 +838,83 @@
         // Navbar scroll effect
         const nav = document.getElementById('nav');
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 100) {
-                nav.classList.add('bg-moon-white/98', 'dark:bg-black-pearl/98', 'shadow-lg');
-                nav.classList.remove('bg-gradient-to-b', 'from-moon-white/95', 'dark:from-black-pearl/95', 'to-transparent');
+            if (window.scrollY > 80) {
+                nav.classList.add('bg-moon-white/95', 'dark:bg-black-pearl/95', 'shadow-lg');
             } else {
-                nav.classList.remove('bg-moon-white/98', 'dark:bg-black-pearl/98', 'shadow-lg');
-                nav.classList.add('bg-gradient-to-b', 'from-moon-white/95', 'dark:from-black-pearl/95', 'to-transparent');
+                nav.classList.remove('bg-moon-white/95', 'dark:bg-black-pearl/95', 'shadow-lg');
             }
         });
 
-        // Generate particles
-        const particlesContainer = document.getElementById('particles');
-        const particleCount = 90;
-        
-        for (let i = 0; i < particleCount; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            const size = 2.5 + Math.random() * 3.5;
-            const top = Math.random() * 100;
-            const drift = (Math.random() * 60) - 30;
+        // Atomic particle and bond animation
+        const atomicField = document.getElementById('atomicField');
+        if (atomicField) {
+            const atomCount = 16;
+            const atoms = [];
 
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.top = top + '%';
-            particle.style.width = size + 'px';
-            particle.style.height = size + 'px';
-            particle.style.animationDelay = Math.random() * 10 + 's';
-            particle.style.setProperty('--spark-duration', (12 + Math.random() * 10) + 's');
-            particle.style.setProperty('--spark-twinkle', (2.5 + Math.random() * 2.5) + 's');
-            particle.style.setProperty('--spark-drift', drift + 'px');
-            particle.style.setProperty('--spark-scale', (0.7 + Math.random() * 0.8).toFixed(2));
-            particle.style.setProperty('--spark-bright', (0.6 + Math.random() * 0.3).toFixed(2));
-            particlesContainer.appendChild(particle);
+            for (let i = 0; i < atomCount; i++) {
+                const atom = document.createElement('div');
+                atom.className = 'atom';
+                const x = Math.random() * 100;
+                const y = Math.random() * 100;
+                const driftX = (Math.random() * 120) - 60;
+                const driftY = (Math.random() * 120) - 60;
+
+                atom.style.left = `${x}%`;
+                atom.style.top = `${y}%`;
+                atom.style.animationDelay = `${Math.random() * 6}s`;
+                atom.style.setProperty('--atom-duration', `${16 + Math.random() * 12}s`);
+                atom.style.setProperty('--atom-drift-x', `${driftX}px`);
+                atom.style.setProperty('--atom-drift-y', `${driftY}px`);
+                atomicField.appendChild(atom);
+
+                atoms.push({ element: atom, x, y });
+            }
+
+            const bonds = [];
+            for (let i = 0; i < atoms.length - 1; i += 2) {
+                const bond = document.createElement('div');
+                bond.className = 'bond';
+                bond.style.animationDelay = `${Math.random() * 6}s`;
+                atomicField.appendChild(bond);
+                bonds.push({ element: bond, a: atoms[i], b: atoms[i + 1] });
+            }
+
+            const updateBonds = () => {
+                bonds.forEach(({ element, a, b }) => {
+                    const rectA = a.element.getBoundingClientRect();
+                    const rectB = b.element.getBoundingClientRect();
+                    const ax = rectA.left + rectA.width / 2;
+                    const ay = rectA.top + rectA.height / 2;
+                    const bx = rectB.left + rectB.width / 2;
+                    const by = rectB.top + rectB.height / 2;
+                    const dx = bx - ax;
+                    const dy = by - ay;
+                    const length = Math.hypot(dx, dy);
+                    const angle = Math.atan2(dy, dx) * (180 / Math.PI);
+
+                    element.style.width = `${length}px`;
+                    element.style.transform = `translate(${ax}px, ${ay}px) rotate(${angle}deg)`;
+                });
+                requestAnimationFrame(updateBonds);
+            };
+
+            updateBonds();
         }
 
-        const footerSparks = document.querySelector('.footer-sparks');
-        if (footerSparks) {
-            const footerSparkCount = 30;
-            for (let i = 0; i < footerSparkCount; i++) {
-                const spark = document.createElement('div');
-                const size = 2 + Math.random() * 2.5;
-                const left = Math.random() * 100;
-                const top = 30 + Math.random() * 60;
-
-                spark.className = 'footer-spark';
-                spark.style.left = left + '%';
-                spark.style.top = top + '%';
-                spark.style.width = size + 'px';
-                spark.style.height = size + 'px';
-                spark.style.animationDelay = Math.random() * 8 + 's';
-                spark.style.animationDuration = (8 + Math.random() * 6) + 's';
-                footerSparks.appendChild(spark);
+        const lightParticles = document.getElementById('lightParticles');
+        if (lightParticles) {
+            const lightCount = 60;
+            for (let i = 0; i < lightCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'light-particle';
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                particle.style.setProperty('--light-duration', `${7 + Math.random() * 6}s`);
+                particle.style.setProperty('--light-twinkle', `${1.5 + Math.random() * 2.5}s`);
+                particle.style.animationDelay = `${Math.random() * 6}s`;
+                lightParticles.appendChild(particle);
             }
         }
-
-        let sparkTargetX = 0;
-        let sparkTargetY = 0;
-        let sparkCurrentX = 0;
-        let sparkCurrentY = 0;
-
-        window.addEventListener('mousemove', (event) => {
-            const x = (event.clientX / window.innerWidth) * 2 - 1;
-            const y = (event.clientY / window.innerHeight) * 2 - 1;
-            sparkTargetX = x * 12;
-            sparkTargetY = y * 8;
-        });
-
-        const updateSparkShift = () => {
-            sparkCurrentX += (sparkTargetX - sparkCurrentX) * 0.08;
-            sparkCurrentY += (sparkTargetY - sparkCurrentY) * 0.08;
-            particlesContainer.style.setProperty('--spark-shift-x', `${sparkCurrentX}px`);
-            particlesContainer.style.setProperty('--spark-shift-y', `${sparkCurrentY}px`);
-            requestAnimationFrame(updateSparkShift);
-        };
-
-        updateSparkShift();
 
         // Page load animation
         window.addEventListener('load', () => {

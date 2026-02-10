@@ -6,7 +6,7 @@
 {% block content %}
 <section class="pt-28 pb-24">
     <div class="flex flex-col lg:flex-row min-h-[calc(100vh-7rem)]">
-		<aside class="w-full lg:w-72 shrink-0 self-stretch bg-gradient-to-b from-moon-white/95 to-transparent dark:from-black-pearl/95 border-r border-solid border-obsidian/10 dark:border-pearl/10 px-6 py-10 lg:pt-24 lg:pb-16">
+		<aside class="w-full lg:w-72 shrink-0 self-stretch bg-pearl/80 dark:bg-black-pearl/70 backdrop-blur-xl border-r border-solid border-obsidian/10 dark:border-pearl/10 px-6 py-10 lg:pt-24 lg:pb-16">
 			<div class="sticky top-24 space-y-8">
 				<div>
 					<p class="text-xs tracking-[0.35em] uppercase text-twilight dark:text-lavender-mist mb-2">Account</p>
@@ -27,7 +27,7 @@
 							{% endfor %}
 							<li><a class="text-twilight dark:text-lavender-mist hover:text-rose-gold transition-colors" href="#">Settings</a></li>
 						{% else %}
-							<li><a class="text-twilight dark:text-lavender-mist hover:text-rose-gold transition-colors" href="#">Brand</a></li>
+							<li><a class="text-twilight dark:text-lavender-mist hover:text-rose-gold transition-colors" href="{% url 'backends:brand' %}">Brand</a></li>
 							<li><a class="text-twilight dark:text-lavender-mist hover:text-rose-gold transition-colors" href="#">Category</a></li>
 							<li><a class="text-twilight dark:text-lavender-mist hover:text-rose-gold transition-colors" href="#">Product</a></li>
 							<li><a class="text-twilight dark:text-lavender-mist hover:text-rose-gold transition-colors" href="#">Product Image</a></li>
@@ -48,14 +48,14 @@
 			<div class="max-w-6xl">
 				<div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8 mb-12">
 					<div>
-						<p class="text-xs tracking-[0.35em] uppercase text-twilight dark:text-lavender-mist mb-3">Account</p>
-						<h2 class="font-cormorant text-4xl lg:text-5xl text-obsidian dark:text-pearl font-light">Overview</h2>
+						<p class="text-xs tracking-[0.4em] uppercase text-twilight dark:text-lavender-mist mb-3">Account</p>
+						<h2 class="font-cormorant text-4xl lg:text-5xl text-obsidian dark:text-pearl font-light">Studio Overview</h2>
 					</div>
 				</div>
 
 				<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 					<div class="lg:col-span-2 space-y-8">
-				<div class="rounded-3xl border border-solid border-obsidian/10 dark:border-pearl/10 bg-moon-white/80 dark:bg-black-pearl/60 p-8">
+				<div class="rounded-3xl border border-solid border-obsidian/10 dark:border-pearl/10 bg-moon-white/85 dark:bg-black-pearl/70 p-8 shadow-[0_30px_60px_rgba(27,26,23,0.08)] card-glow">
 					<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
 						<div>
 							<p class="text-xs tracking-[0.3em] uppercase text-twilight dark:text-lavender-mist">Welcome back</p>
@@ -74,7 +74,7 @@
 					</div>
 				</div>
 
-				<div class="rounded-3xl border border-solid border-obsidian/10 dark:border-pearl/10 bg-moon-white/80 dark:bg-black-pearl/60 p-8">
+				<div class="rounded-3xl border border-solid border-obsidian/10 dark:border-pearl/10 bg-moon-white/85 dark:bg-black-pearl/70 p-8 shadow-[0_30px_60px_rgba(27,26,23,0.08)] card-glow">
 					<div class="flex items-center justify-between mb-6">
 						<h3 class="font-cormorant text-2xl text-obsidian dark:text-pearl font-light">Recent Orders</h3>
 						<a href="#" class="text-xs tracking-[0.25em] uppercase text-rose-gold hover:text-midnight dark:hover:text-champagne transition-colors">View
@@ -106,7 +106,7 @@
 			</div>
 
 					<div class="space-y-8">
-				<div class="rounded-3xl border border-solid border-obsidian/10 dark:border-pearl/10 bg-moon-white/80 dark:bg-black-pearl/60 p-8">
+				<div class="rounded-3xl border border-solid border-obsidian/10 dark:border-pearl/10 bg-moon-white/85 dark:bg-black-pearl/70 p-8 shadow-[0_30px_60px_rgba(27,26,23,0.08)] card-glow">
 					<h3 class="font-cormorant text-2xl text-obsidian dark:text-pearl font-light mb-6">Account Details</h3>
 					<div class="space-y-4 text-sm text-twilight dark:text-lavender-mist">
 						<p><span class="text-obsidian dark:text-pearl">Email:</span> {{ user.email|default:"Not set" }}</p>
@@ -115,7 +115,7 @@
 					</div>
 				</div>
 
-				<div class="rounded-3xl border border-solid border-obsidian/10 dark:border-pearl/10 bg-moon-white/80 dark:bg-black-pearl/60 p-8">
+				<div class="rounded-3xl border border-solid border-obsidian/10 dark:border-pearl/10 bg-moon-white/85 dark:bg-black-pearl/70 p-8 shadow-[0_30px_60px_rgba(27,26,23,0.08)] card-glow">
 					<h3 class="font-cormorant text-2xl text-obsidian dark:text-pearl font-light mb-6">Quick Links</h3>
 					<ul class="space-y-3 text-sm">
 						<li><a class="text-twilight dark:text-lavender-mist hover:text-rose-gold transition-colors" href="#">Saved Items</a></li>

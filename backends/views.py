@@ -1,7 +1,7 @@
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.contrib import messages
 from django.shortcuts import redirect, render
-from .models import Brand
+from .models import Brand, Product, UserPermission
 # Create your views here.
 
 def dashboard(request):
@@ -66,6 +66,11 @@ def brand(request):
         })
 
         return render(request, 'backends/brand.html', context)
+    
+
+
+def Login(request):
+    return render(request, 'backends/login.html')
     
 
 

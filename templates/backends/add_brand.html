@@ -6,7 +6,7 @@
 {% block content %}
 <section class="pt-28 pb-24">
 	<div class="flex flex-col lg:flex-row min-h-[calc(100vh-7rem)]">
-		<aside class="w-full lg:w-72 shrink-0 self-stretch bg-gradient-to-b from-moon-white/95 to-transparent dark:from-black-pearl/95 border-r border-solid border-obsidian/10 dark:border-pearl/10 px-6 py-10 lg:pt-24 lg:pb-16">
+		<aside class="w-full lg:w-72 shrink-0 self-stretch bg-pearl/80 dark:bg-black-pearl/70 backdrop-blur-xl border-r border-solid border-obsidian/10 dark:border-pearl/10 px-6 py-10 lg:pt-24 lg:pb-16">
 			<div class="sticky top-24 space-y-8">
 				<div>
 					<p class="text-xs tracking-[0.35em] uppercase text-twilight dark:text-lavender-mist mb-2">Backends</p>
@@ -35,7 +35,7 @@
 			<div class="max-w-4xl">
 				<div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8 mb-12">
 					<div>
-						<p class="text-xs tracking-[0.35em] uppercase text-twilight dark:text-lavender-mist mb-3">Backends</p>
+						<p class="text-xs tracking-[0.4em] uppercase text-twilight dark:text-lavender-mist mb-3">Backends</p>
 						<h2 class="font-cormorant text-4xl lg:text-5xl text-obsidian dark:text-pearl font-light">Create a Brand</h2>
 					</div>
 					<a href="{% url 'backends:brand' %}"
@@ -43,7 +43,7 @@
 						to Brands</a>
 				</div>
 
-				<div class="rounded-3xl border border-solid border-obsidian/10 dark:border-pearl/10 bg-moon-white/80 dark:bg-black-pearl/60 p-8">
+				<div class="rounded-3xl border border-solid border-obsidian/10 dark:border-pearl/10 bg-moon-white/85 dark:bg-black-pearl/70 p-8 shadow-[0_30px_60px_rgba(27,26,23,0.08)] card-glow">
 					{% if error %}
 						<div class="mb-6 rounded-2xl border border-solid border-rose-gold/40 bg-rose-gold/10 text-rose-gold px-4 py-3 text-sm">
 							{{ error }}
