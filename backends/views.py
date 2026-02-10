@@ -1,6 +1,7 @@
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.contrib import messages
 from django.shortcuts import redirect, render
+from .permissions import checkUserPermissions
 from .models import Brand, Product, UserPermission
 # Create your views here.
 
@@ -40,6 +41,8 @@ def brand(request):
     is_add_page = request.path.endswith('add_brand/')
 
     if request.method == 'POST':
+        if not checkUserPermissions(request, 'can_add', '/backend/brand-list/'):
+            return render(request, 'backends/403.html', status=403)
         name = request.POST.get('name')
         if name:
             if Brand.objects.filter(name__iexact=name).exists():
@@ -53,9 +56,15 @@ def brand(request):
         context['error'] = 'Brand name is required.'
 
     if is_add_page:
+        if not checkUserPermissions(request, 'can_add', '/backend/brand-list/'):
+            return render(request, 'backends/403.html', status=403)
         return render(request, 'backends/add_brand.html', context)
     
     if request.method == 'GET':
+        if not is_add_page:
+            if not checkUserPermissions(request, 'can_view', '/backend/brand-list/'):
+                return render(request, 'backends/403.html', status=403)
+            
         brands = Brand.objects.all().order_by('name')
         page_number = request.GET.get('page')
         page_obj, paginator_list = paginate_list(page_number, brands)
