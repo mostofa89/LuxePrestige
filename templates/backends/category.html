@@ -1,0 +1,89 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Ethereal - Categories{% endblock %}
+
+{% block content %}
+<section class="pt-28 pb-24">
+    <div class="flex flex-col lg:flex-row min-h-[calc(100vh-7rem)]">
+        {% include 'backends/partials/sidebar.html' with sidebar_title='Categories' %}
+
+        <div class="flex-1 px-6 lg:px-12 xl:px-16 py-10">
+            <div class="max-w-6xl">
+                <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8 mb-12">
+                    <div>
+                        <p class="text-xs tracking-[0.4em] uppercase text-twilight dark:text-lavender-mist mb-3">Backends</p>
+                        <h2 class="font-cormorant text-4xl lg:text-5xl text-obsidian dark:text-pearl font-light">Category Management</h2>
+                    </div>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="{% url 'backends:add_category' %}" class="px-6 py-3 text-xs tracking-[0.25em] uppercase bg-obsidian text-moon-white dark:bg-pearl dark:text-obsidian hover:bg-rose-gold transition-colors">Add Category</a>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-8">
+                    <div class="space-y-8">
+                        <div class="rounded-3xl border border-solid border-obsidian/10 dark:border-pearl/10 bg-moon-white/85 dark:bg-black-pearl/70 p-8 shadow-[0_30px_60px_rgba(27,26,23,0.08)] card-glow">
+                            <div class="flex items-center justify-between mb-6">
+                                <h3 class="font-cormorant text-2xl text-obsidian dark:text-pearl font-light">Categories</h3>
+                                <div class="text-xs tracking-[0.25em] uppercase text-twilight dark:text-lavender-mist">{{ categories|length|default:"0" }} total</div>
+                            </div>
+                            <div class="space-y-4">
+                                {% if categories %}
+                                    <div class="hidden md:grid grid-cols-12 gap-4 px-5 text-xs tracking-[0.25em] uppercase text-twilight dark:text-lavender-mist">
+                                        <div class="col-span-4">Name</div>
+                                        <div class="col-span-3">Slug</div>
+                                        <div class="col-span-3">Created</div>
+                                        <div class="col-span-2">Status</div>
+                                    </div>
+                                    {% for category in categories %}
+                                        <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-start md:items-center border border-solid border-obsidian/10 dark:border-pearl/10 rounded-2xl p-5 bg-moon-white/70 dark:bg-black-pearl/40 card-glow">
+                                            <div class="md:col-span-4">
+                                                <p class="text-xs tracking-[0.2em] uppercase text-twilight dark:text-lavender-mist md:hidden">Name</p>
+                                                <p class="text-lg text-obsidian dark:text-pearl mt-2 md:mt-0">{{ category.name }}</p>
+                                            </div>
+                                            <div class="md:col-span-3">
+                                                <p class="text-xs tracking-[0.2em] uppercase text-twilight dark:text-lavender-mist md:hidden">Slug</p>
+                                                <p class="text-sm text-twilight dark:text-lavender-mist mt-2 md:mt-0">{{ category.slug }}</p>
+                                            </div>
+                                            <div class="md:col-span-3">
+                                                <p class="text-xs tracking-[0.2em] uppercase text-twilight dark:text-lavender-mist md:hidden">Created</p>
+                                                <p class="text-sm text-twilight dark:text-lavender-mist mt-2 md:mt-0">{{ category.created_at|date:"M d, Y" }}</p>
+                                            </div>
+                                            <div class="md:col-span-2">
+                                                <p class="text-xs tracking-[0.2em] uppercase text-twilight dark:text-lavender-mist md:hidden">Status</p>
+                                                <span class="inline-flex text-xs tracking-[0.2em] uppercase px-4 py-2 rounded-full bg-pearl dark:bg-midnight text-obsidian dark:text-pearl mt-2 md:mt-0">
+                                                    {% if category.is_active %}Active{% else %}Inactive{% endif %}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <div class="text-sm text-twilight dark:text-lavender-mist">No categories found yet.</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {% if page_obj %}
+                    <div class="mt-10 flex flex-wrap items-center gap-2">
+                        {% if page_obj.has_previous %}
+                            <a href="?page={{ page_obj.previous_page_number }}" class="px-4 py-2 text-xs tracking-[0.2em] uppercase border border-solid border-obsidian/15 dark:border-pearl/15 text-obsidian dark:text-pearl hover:text-rose-gold transition-colors">Prev</a>
+                        {% endif %}
+                        {% for page in paginator_list %}
+                            {% if page == page_obj.number %}
+                                <span class="px-4 py-2 text-xs tracking-[0.2em] uppercase bg-obsidian text-moon-white dark:bg-pearl dark:text-obsidian">{{ page }}</span>
+                            {% else %}
+                                <a href="?page={{ page }}" class="px-4 py-2 text-xs tracking-[0.2em] uppercase border border-solid border-obsidian/15 dark:border-pearl/15 text-obsidian dark:text-pearl hover:text-rose-gold transition-colors">{{ page }}</a>
+                            {% endif %}
+                        {% endfor %}
+                        {% if page_obj.has_next %}
+                            <a href="?page={{ page_obj.next_page_number }}" class="px-4 py-2 text-xs tracking-[0.2em] uppercase border border-solid border-obsidian/15 dark:border-pearl/15 text-obsidian dark:text-pearl hover:text-rose-gold transition-colors">Next</a>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

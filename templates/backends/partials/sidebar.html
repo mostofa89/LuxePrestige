@@ -1,0 +1,16 @@
+<aside class="w-full lg:w-72 shrink-0 self-stretch bg-pearl/80 dark:bg-black-pearl/70 backdrop-blur-xl border-r border-solid border-obsidian/10 dark:border-pearl/10 px-6 py-10 lg:pt-24 lg:pb-16">
+    <div class="sticky top-24 space-y-8">
+        <div>
+            <p class="text-xs tracking-[0.35em] uppercase text-twilight dark:text-lavender-mist mb-2">Backends</p>
+            <h1 class="font-cormorant text-3xl text-obsidian dark:text-pearl font-light">{{ sidebar_title|default:"Backends" }}</h1>
+        </div>
+        <div>
+            <h3 class="font-cormorant text-2xl text-obsidian dark:text-pearl font-light mb-4">Models</h3>
+            <ul class="space-y-3 text-sm">
+                <li><a class="text-twilight dark:text-lavender-mist hover:text-rose-gold transition-colors" href="{% url 'backends:brand' %}">Brand</a></li>
+                <li><a class="text-twilight dark:text-lavender-mist hover:text-rose-gold transition-colors" href="{% url 'backends:category' %}">Category</a></li>
+                <li><a class="text-twilight dark:text-lavender-mist hover:text-rose-gold transition-colors" href="{% url 'backends:product' %}">Product</a></li>
+            </ul>
+        </div>
+    </div>
+</aside>

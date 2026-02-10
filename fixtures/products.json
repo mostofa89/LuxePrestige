@@ -1,0 +1,192 @@
+[
+    {
+        "model": "backends.product",
+        "pk": 1,
+        "fields": {
+            "name": "Solstice Chain",
+            "slug": "solstice-chain",
+            "description": "A fine link necklace with a warm satin finish.",
+            "price": "129.00",
+            "brand": 1,
+            "category": 1,
+            "total_review": 18,
+            "delivery_day_min": 2,
+            "delivery_day_max": 5,
+            "average_rating": "4.30",
+            "is_active": true,
+            "created_at": "2025-05-07T15:01:14.353Z",
+            "updated_at": "2025-05-07T15:01:14.353Z"
+        }
+    },
+    {
+        "model": "backends.product",
+        "pk": 2,
+        "fields": {
+            "name": "Nocturne Band",
+            "slug": "nocturne-band",
+            "description": "A polished band with a shadowed edge profile.",
+            "price": "89.00",
+            "brand": 2,
+            "category": 2,
+            "total_review": 12,
+            "delivery_day_min": 3,
+            "delivery_day_max": 6,
+            "average_rating": "4.10",
+            "is_active": true,
+            "created_at": "2025-05-07T15:01:14.353Z",
+            "updated_at": "2025-05-07T15:01:14.353Z"
+        }
+    },
+    {
+        "model": "backends.product",
+        "pk": 3,
+        "fields": {
+            "name": "Halo Studs",
+            "slug": "halo-studs",
+            "description": "Minimal studs with a soft glow setting.",
+            "price": "75.00",
+            "brand": 3,
+            "category": 3,
+            "total_review": 26,
+            "delivery_day_min": 2,
+            "delivery_day_max": 4,
+            "average_rating": "4.50",
+            "is_active": true,
+            "created_at": "2025-05-07T15:01:14.353Z",
+            "updated_at": "2025-05-07T15:01:14.353Z"
+        }
+    },
+    {
+        "model": "backends.product",
+        "pk": 4,
+        "fields": {
+            "name": "Sable Cuff",
+            "slug": "sable-cuff",
+            "description": "A structured cuff with a matte charcoal finish.",
+            "price": "140.00",
+            "brand": 4,
+            "category": 4,
+            "total_review": 9,
+            "delivery_day_min": 4,
+            "delivery_day_max": 7,
+            "average_rating": "4.00",
+            "is_active": true,
+            "created_at": "2025-05-07T15:01:14.353Z",
+            "updated_at": "2025-05-07T15:01:14.353Z"
+        }
+    },
+    {
+        "model": "backends.product",
+        "pk": 5,
+        "fields": {
+            "name": "Aurora Charm",
+            "slug": "aurora-charm",
+            "description": "A petite charm designed to layer with essentials.",
+            "price": "55.00",
+            "brand": 1,
+            "category": 5,
+            "total_review": 31,
+            "delivery_day_min": 2,
+            "delivery_day_max": 5,
+            "average_rating": "4.60",
+            "is_active": true,
+            "created_at": "2025-05-07T15:01:14.353Z",
+            "updated_at": "2025-05-07T15:01:14.353Z"
+        }
+    },
+    {
+        "model": "backends.product",
+        "pk": 6,
+        "fields": {
+            "name": "Cascade Pendant",
+            "slug": "cascade-pendant",
+            "description": "A pendant with layered curves and a quiet shine.",
+            "price": "160.00",
+            "brand": 2,
+            "category": 1,
+            "total_review": 14,
+            "delivery_day_min": 3,
+            "delivery_day_max": 6,
+            "average_rating": "4.20",
+            "is_active": true,
+            "created_at": "2025-05-07T15:01:14.353Z",
+            "updated_at": "2025-05-07T15:01:14.353Z"
+        }
+    },
+    {
+        "model": "backends.product",
+        "pk": 7,
+        "fields": {
+            "name": "Axis Ring",
+            "slug": "axis-ring",
+            "description": "A sculpted ring with a flat brushed plane.",
+            "price": "110.00",
+            "brand": 3,
+            "category": 2,
+            "total_review": 22,
+            "delivery_day_min": 2,
+            "delivery_day_max": 5,
+            "average_rating": "4.40",
+            "is_active": true,
+            "created_at": "2025-05-07T15:01:14.353Z",
+            "updated_at": "2025-05-07T15:01:14.353Z"
+        }
+    },
+    {
+        "model": "backends.product",
+        "pk": 8,
+        "fields": {
+            "name": "Drift Hoops",
+            "slug": "drift-hoops",
+            "description": "Medium hoops with a tapered silhouette.",
+            "price": "95.00",
+            "brand": 4,
+            "category": 3,
+            "total_review": 17,
+            "delivery_day_min": 3,
+            "delivery_day_max": 6,
+            "average_rating": "4.20",
+            "is_active": true,
+            "created_at": "2025-05-07T15:01:14.353Z",
+            "updated_at": "2025-05-07T15:01:14.353Z"
+        }
+    },
+    {
+        "model": "backends.product",
+        "pk": 9,
+        "fields": {
+            "name": "Lattice Bracelet",
+            "slug": "lattice-bracelet",
+            "description": "A flexible bracelet with interwoven links.",
+            "price": "120.00",
+            "brand": 1,
+            "category": 4,
+            "total_review": 28,
+            "delivery_day_min": 2,
+            "delivery_day_max": 5,
+            "average_rating": "4.50",
+            "is_active": true,
+            "created_at": "2025-05-07T15:01:14.353Z",
+            "updated_at": "2025-05-07T15:01:14.353Z"
+        }
+    },
+    {
+        "model": "backends.product",
+        "pk": 10,
+        "fields": {
+            "name": "Ember Clip",
+            "slug": "ember-clip",
+            "description": "A compact accessory clip with a warm sheen.",
+            "price": "45.00",
+            "brand": 2,
+            "category": 5,
+            "total_review": 6,
+            "delivery_day_min": 3,
+            "delivery_day_max": 5,
+            "average_rating": "3.90",
+            "is_active": true,
+            "created_at": "2025-05-07T15:01:14.353Z",
+            "updated_at": "2025-05-07T15:01:14.353Z"
+        }
+    }
+]

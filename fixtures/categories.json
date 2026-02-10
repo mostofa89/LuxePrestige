@@ -1,0 +1,62 @@
+[
+    {
+        "model": "backends.category",
+        "pk": 1,
+        "fields": {
+            "name": "Necklaces",
+            "slug": "necklaces",
+            "is_active": true,
+            "description": "Timeless chains and pendants for daily wear.",
+            "created_at": "2025-05-07T15:01:14.353Z",
+            "updated_at": "2025-05-07T15:01:14.353Z"
+        }
+    },
+    {
+        "model": "backends.category",
+        "pk": 2,
+        "fields": {
+            "name": "Rings",
+            "slug": "rings",
+            "is_active": true,
+            "description": "Signature bands and statement rings.",
+            "created_at": "2025-05-07T15:01:14.353Z",
+            "updated_at": "2025-05-07T15:01:14.353Z"
+        }
+    },
+    {
+        "model": "backends.category",
+        "pk": 3,
+        "fields": {
+            "name": "Earrings",
+            "slug": "earrings",
+            "is_active": true,
+            "description": "Studs, hoops, and drops with a refined edge.",
+            "created_at": "2025-05-07T15:01:14.353Z",
+            "updated_at": "2025-05-07T15:01:14.353Z"
+        }
+    },
+    {
+        "model": "backends.category",
+        "pk": 4,
+        "fields": {
+            "name": "Bracelets",
+            "slug": "bracelets",
+            "is_active": true,
+            "description": "Layered bangles and sculpted cuffs.",
+            "created_at": "2025-05-07T15:01:14.353Z",
+            "updated_at": "2025-05-07T15:01:14.353Z"
+        }
+    },
+    {
+        "model": "backends.category",
+        "pk": 5,
+        "fields": {
+            "name": "Accessories",
+            "slug": "accessories",
+            "is_active": true,
+            "description": "Elevated accents to finish every look.",
+            "created_at": "2025-05-07T15:01:14.353Z",
+            "updated_at": "2025-05-07T15:01:14.353Z"
+        }
+    }
+]

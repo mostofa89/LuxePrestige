@@ -1,0 +1,42 @@
+[
+    {
+        "model": "backends.brand",
+        "pk": 1,
+        "fields": {
+            "name": "Aster & Co",
+            "is_active": true,
+            "created_at": "2025-05-07T15:01:14.353Z",
+            "updated_at": "2025-05-07T15:01:14.353Z"
+        }
+    },
+    {
+        "model": "backends.brand",
+        "pk": 2,
+        "fields": {
+            "name": "Lumen Atelier",
+            "is_active": true,
+            "created_at": "2025-05-07T15:01:14.353Z",
+            "updated_at": "2025-05-07T15:01:14.353Z"
+        }
+    },
+    {
+        "model": "backends.brand",
+        "pk": 3,
+        "fields": {
+            "name": "Northbay Metals",
+            "is_active": true,
+            "created_at": "2025-05-07T15:01:14.353Z",
+            "updated_at": "2025-05-07T15:01:14.353Z"
+        }
+    },
+    {
+        "model": "backends.brand",
+        "pk": 4,
+        "fields": {
+            "name": "Velvet Arc",
+            "is_active": true,
+            "created_at": "2025-05-07T15:01:14.353Z",
+            "updated_at": "2025-05-07T15:01:14.353Z"
+        }
+    }
+]

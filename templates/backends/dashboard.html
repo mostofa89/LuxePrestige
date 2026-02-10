@@ -6,43 +6,7 @@
 {% block content %}
 <section class="pt-28 pb-24">
     <div class="flex flex-col lg:flex-row min-h-[calc(100vh-7rem)]">
-		<aside class="w-full lg:w-72 shrink-0 self-stretch bg-pearl/80 dark:bg-black-pearl/70 backdrop-blur-xl border-r border-solid border-obsidian/10 dark:border-pearl/10 px-6 py-10 lg:pt-24 lg:pb-16">
-			<div class="sticky top-24 space-y-8">
-				<div>
-					<p class="text-xs tracking-[0.35em] uppercase text-twilight dark:text-lavender-mist mb-2">Account</p>
-					<h1 class="font-cormorant text-3xl text-obsidian dark:text-pearl font-light">Dashboard</h1>
-				</div>
-				<div>
-					<h3 class="font-cormorant text-2xl text-obsidian dark:text-pearl font-light mb-4">Models</h3>
-					<ul class="space-y-3 text-sm">
-						{% if model_overview %}
-							{% for item in model_overview %}
-								<li>
-									<a href="{{ item.url|default:'#' }}"
-										class="flex items-center justify-between text-twilight dark:text-lavender-mist hover:text-rose-gold transition-colors">
-										<span>{{ item.label }}</span>
-										<span class="text-xs px-2 py-1 rounded-full bg-moon-white dark:bg-midnight text-obsidian dark:text-pearl">{{ item.count }}</span>
-									</a>
-								</li>
-							{% endfor %}
-							<li><a class="text-twilight dark:text-lavender-mist hover:text-rose-gold transition-colors" href="#">Settings</a></li>
-						{% else %}
-							<li><a class="text-twilight dark:text-lavender-mist hover:text-rose-gold transition-colors" href="{% url 'backends:brand' %}">Brand</a></li>
-							<li><a class="text-twilight dark:text-lavender-mist hover:text-rose-gold transition-colors" href="#">Category</a></li>
-							<li><a class="text-twilight dark:text-lavender-mist hover:text-rose-gold transition-colors" href="#">Product</a></li>
-							<li><a class="text-twilight dark:text-lavender-mist hover:text-rose-gold transition-colors" href="#">Product Image</a></li>
-							<li><a class="text-twilight dark:text-lavender-mist hover:text-rose-gold transition-colors" href="#">Attribute</a></li>
-							<li><a class="text-twilight dark:text-lavender-mist hover:text-rose-gold transition-colors" href="#">Attribute Value</a></li>
-							<li><a class="text-twilight dark:text-lavender-mist hover:text-rose-gold transition-colors" href="#">Customer</a></li>
-							<li><a class="text-twilight dark:text-lavender-mist hover:text-rose-gold transition-colors" href="#">Order</a></li>
-							<li><a class="text-twilight dark:text-lavender-mist hover:text-rose-gold transition-colors" href="#">Cart</a></li>
-							<li><a class="text-twilight dark:text-lavender-mist hover:text-rose-gold transition-colors" href="#">Wishlist</a></li>
-							<li><a class="text-twilight dark:text-lavender-mist hover:text-rose-gold transition-colors" href="#">Settings</a></li>
-						{% endif %}
-					</ul>
-				</div>
-			</div>
-		</aside>
+		{% include 'backends/partials/sidebar.html' with sidebar_title='Dashboard' %}
 
 		<div class="flex-1 px-6 lg:px-12 xl:px-16 py-10">
 			<div class="max-w-6xl">
