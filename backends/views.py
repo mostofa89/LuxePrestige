@@ -2,7 +2,7 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.contrib import messages
 from django.shortcuts import redirect, render
 from .permissions import checkUserPermissions
-from .models import Brand, Product, UserPermission, Category
+from .models import Brand, Product, ProductCategory, UserPermission, Category, Inventory, Review
 # Create your views here.
 
 def dashboard(request):
@@ -186,8 +186,103 @@ def product(request):
         })
 
         return render(request, 'backends/product.html', context)
+
+
+def add_product_category(request):
+    context = {}
+    is_add_page = request.path.endswith('add_product_category/')
+    products = Product.objects.filter(is_active=True).order_by('name')
+    categories = Category.objects.filter(is_active=True).order_by('name')
+    context.update({
+        'products': products,
+        'categories': categories,
+    })
+
+    if request.method == 'POST':
+        product = request.POST.get('product')
+        category = request.POST.get('category')
+        if product and category:
+            if ProductCategory.objects.filter(product_id=product, category_id=category).exists():
+                context['error'] = 'This product is already assigned to the selected category.'
+                return render(request, 'backends/add_product_category.html', context)
+            
+            else:
+                ProductCategory.objects.create(product_id=product, category_id=category)
+                messages.success(request, 'Product category added successfully.')
+                return redirect(request.path)
+        
+        context['error'] = 'Product and category are required.'
+        return render(request, 'backends/add_product_category.html', context)
+        
+
+    elif is_add_page:
+        return render(request, 'backends/add_product_category.html', context)
     
 
+def product_category(request):
+    context = {}
+    if request.method == 'GET':      
+        product_categories = ProductCategory.objects.select_related('product', 'category').order_by('product__name', 'category__name')
+        page_number = request.GET.get('page')
+        page_obj, paginator_list = paginate_list(page_number, product_categories)
+        context.update({
+            'product_categories': page_obj.object_list,
+            'page_obj': page_obj,
+            'paginator_list': paginator_list,
+        })
+
+        return render(request, 'backends/productlist.html', context)
+    
+
+def inventory_list(request):
+    inventory_list = Inventory.objects.select_related('product').order_by('product__name')
+    page_number = request.GET.get('page')
+    page_obj, paginator_list = paginate_list(page_number, inventory_list)
+    context = {
+            'inventory_list': page_obj.object_list,
+            'page_obj': page_obj,
+            'paginator_list': paginator_list,
+    }
+
+    return render(request, 'backends/inventory.html', context)
+    
+    
+def inventory_add(request):
+    if request.method == 'POST':
+        product_id = request.POST.get('product')
+        quantity = request.POST.get('quantity')
+        restock_date = request.POST.get('restock_date')
+        
+        if product_id and quantity and restock_date:
+            inventory, created = Inventory.objects.get_or_create(
+                product_id=product_id,
+                stock_quantity=quantity,
+                restock_date=restock_date,
+            )
+
+            if restock_date:
+                inventory.restock_date = restock_date
+            inventory.save()
+            messages.success(request, 'Inventory updated successfully.')
+            return redirect('backends:inventory')
+        
+        messages.error(request, 'Product, quantity, and restock date are required.')
+        return redirect('backends:inventory_add')
+    
+    products = Product.objects.filter(is_active=True).order_by('name')
+    return render(request, 'backends/add_to_inventory.html', {'products': products})
+
+
+def reviews(request):
+    reviews = Review.objects.filter(is_active=True).select_related('product', 'user').order_by('-created_at')
+    page_number = request.GET.get('page')
+    page_obj, paginator_list = paginate_list(page_number, reviews)
+    context = {
+        'reviews': page_obj.object_list,
+        'page_obj': page_obj,
+        'paginator_list': paginator_list,
+    }
+    return render(request, 'backends/reviews.html', context)
 
 def Login(request):
     return render(request, 'backends/login.html')
