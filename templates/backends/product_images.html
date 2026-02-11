@@ -1,56 +1,64 @@
 {% extends 'base/base.html' %}
 {% load static %}
 
-{% block title %}Ethereal - Inventory{% endblock %}
+{% block title %}Ethereal - Product Images{% endblock %}
 
 {% block content %}
 <section class="pt-28 pb-24">
 	<div class="flex flex-col lg:flex-row min-h-[calc(100vh-7rem)]">
-		{% include 'backends/partials/sidebar.html' with sidebar_title='Inventory' %}
+		{% include 'backends/partials/sidebar.html' with sidebar_title='Product Images' %}
 
 		<div class="flex-1 px-6 lg:px-12 xl:px-16 py-10">
 			<div class="max-w-6xl">
 				<div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8 mb-12">
 					<div>
 						<p class="text-xs tracking-[0.4em] uppercase text-twilight dark:text-lavender-mist mb-3">Backends</p>
-						<h2 class="font-cormorant text-4xl lg:text-5xl text-obsidian dark:text-pearl font-light">Inventory Control</h2>
+						<h2 class="font-cormorant text-4xl lg:text-5xl text-obsidian dark:text-pearl font-light">Product Images</h2>
 					</div>
 					<div class="flex flex-wrap gap-4">
-						<a href="{% url 'backends:add_inventory' %}" class="btn px-6 py-3 text-xs tracking-[0.25em] uppercase bg-obsidian text-moon-white dark:bg-pearl dark:text-obsidian hover:bg-rose-gold transition-colors">Add Inventory</a>
+						<a href="{% url 'backends:add_product_image' %}" class="btn px-6 py-3 text-xs tracking-[0.25em] uppercase bg-obsidian text-moon-white dark:bg-pearl dark:text-obsidian hover:bg-rose-gold transition-colors">Add Image</a>
 					</div>
 				</div>
 
 				<div class="rounded-3xl border border-solid border-obsidian/10 dark:border-pearl/10 bg-moon-white/85 dark:bg-black-pearl/70 p-8 shadow-[0_30px_60px_rgba(27,26,23,0.08)] card-glow">
 					<div class="flex items-center justify-between mb-6">
-						<h3 class="font-cormorant text-2xl text-obsidian dark:text-pearl font-light">Inventory</h3>
-						<div class="text-xs tracking-[0.25em] uppercase text-twilight dark:text-lavender-mist">{{ inventory_list|length|default:"0" }} total</div>
+						<h3 class="font-cormorant text-2xl text-obsidian dark:text-pearl font-light">Images</h3>
+						<div class="text-xs tracking-[0.25em] uppercase text-twilight dark:text-lavender-mist">{{ product_images|length|default:"0" }} total</div>
 					</div>
 					<div class="space-y-4">
-						{% if inventory_list %}
+						{% if product_images %}
 							<div class="hidden md:grid grid-cols-12 gap-4 px-5 text-xs tracking-[0.25em] uppercase text-twilight dark:text-lavender-mist">
+								<div class="col-span-2">Image</div>
 								<div class="col-span-3">Product</div>
-								<div class="col-span-2">Stock Qty</div>
-								<div class="col-span-2">Restock Date</div>
+								<div class="col-span-1">Position</div>
+								<div class="col-span-2">Alt Text</div>
 								<div class="col-span-1">Status</div>
 								<div class="col-span-2">Created</div>
-								<div class="col-span-1">Updated</div>
 								<div class="col-span-1 text-right">Actions</div>
 							</div>
-							{% for item in inventory_list %}
+							{% for item in product_images %}
 								<div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-start md:items-center border border-solid border-obsidian/10 dark:border-pearl/10 rounded-2xl p-5 bg-moon-white/70 dark:bg-black-pearl/40 card-glow">
+									<div class="md:col-span-2">
+										<p class="text-xs tracking-[0.2em] uppercase text-twilight dark:text-lavender-mist md:hidden">Image</p>
+										<div class="mt-2 md:mt-0">
+											{% if item.image %}
+												<img src="{{ item.image.url }}" alt="{{ item.alt_text|default:item.product.name }}" class="w-20 h-20 object-cover rounded-xl border border-solid border-obsidian/10 dark:border-pearl/10">
+											{% else %}
+												<div class="w-20 h-20 bg-pearl dark:bg-midnight rounded-xl flex items-center justify-center text-twilight dark:text-lavender-mist text-xs">No Image</div>
+											{% endif %}
+										</div>
+									</div>
 									<div class="md:col-span-3">
 										<p class="text-xs tracking-[0.2em] uppercase text-twilight dark:text-lavender-mist md:hidden">Product</p>
 										<p class="text-lg text-obsidian dark:text-pearl mt-2 md:mt-0">{{ item.product.name }}</p>
 									</div>
-									<div class="md:col-span-2">
-										<p class="text-xs tracking-[0.2em] uppercase text-twilight dark:text-lavender-mist md:hidden">Stock Qty</p>
-										<p class="text-sm text-twilight dark:text-lavender-mist mt-2 md:mt-0">{{ item.stock_quantity }}</p>
+									<div class="md:col-span-1">
+										<p class="text-xs tracking-[0.2em] uppercase text-twilight dark:text-lavender-mist md:hidden">Position</p>
+										<p class="text-sm text-twilight dark:text-lavender-mist mt-2 md:mt-0">{{ item.position }}</p>
 									</div>
 									<div class="md:col-span-2">
-										<p class="text-xs tracking-[0.2em] uppercase text-twilight dark:text-lavender-mist md:hidden">Restock Date</p>
-										<p class="text-sm text-twilight dark:text-lavender-mist mt-2 md:mt-0">
-											{% if item.restock_date %}{{ item.restock_date|date:"M d, Y" }}{% else %}--{% endif %}
-										</p>
+										<p class="text-xs tracking-[0.2em] uppercase text-twilight dark:text-lavender-mist md:hidden">Alt Text</p>
+										<p class="text-sm text-twilight dark:text-lavender-mist mt-2 md:mt-0">{{ item.alt_text|default:"--" }}</p>
 									</div>
 									<div class="md:col-span-1">
 										<p class="text-xs tracking-[0.2em] uppercase text-twilight dark:text-lavender-mist md:hidden">Status</p>
@@ -61,10 +69,6 @@
 									<div class="md:col-span-2">
 										<p class="text-xs tracking-[0.2em] uppercase text-twilight dark:text-lavender-mist md:hidden">Created</p>
 										<p class="text-sm text-twilight dark:text-lavender-mist mt-2 md:mt-0">{{ item.created_at|date:"M d, Y" }}</p>
-									</div>
-									<div class="md:col-span-1">
-										<p class="text-xs tracking-[0.2em] uppercase text-twilight dark:text-lavender-mist md:hidden">Updated</p>
-										<p class="text-sm text-twilight dark:text-lavender-mist mt-2 md:mt-0">{{ item.updated_at|date:"M d, Y" }}</p>
 									</div>
 									<div class="md:col-span-1 md:text-right">
 										<p class="text-xs tracking-[0.2em] uppercase text-twilight dark:text-lavender-mist md:hidden">Actions</p>
@@ -77,7 +81,7 @@
 								</div>
 							{% endfor %}
 						{% else %}
-							<div class="text-sm text-twilight dark:text-lavender-mist">No inventory records found.</div>
+							<div class="text-sm text-twilight dark:text-lavender-mist">No product images found.</div>
 						{% endif %}
 					</div>
 				</div>

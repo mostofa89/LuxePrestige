@@ -1,0 +1,73 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Ethereal - Add Product Image{% endblock %}
+
+{% block content %}
+<section class="pt-28 pb-24">
+	<div class="flex flex-col lg:flex-row min-h-[calc(100vh-7rem)]">
+		{% include 'backends/partials/sidebar.html' with sidebar_title='Add Product Image' %}
+
+		<div class="flex-1 px-6 lg:px-12 xl:px-16 py-10">
+			<div class="max-w-4xl">
+				<div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8 mb-12">
+					<div>
+						<p class="text-xs tracking-[0.4em] uppercase text-twilight dark:text-lavender-mist mb-3">Backends</p>
+						<h2 class="font-cormorant text-4xl lg:text-5xl text-obsidian dark:text-pearl font-light">Add Product Image</h2>
+					</div>
+					<a href="{% url 'backends:product_images' %}"
+						class="btn px-6 py-3 text-xs tracking-[0.25em] uppercase border border-solid border-obsidian/20 dark:border-pearl/20 text-obsidian dark:text-pearl hover:text-rose-gold transition-colors">Back to Images</a>
+				</div>
+
+				<div class="rounded-3xl border border-solid border-obsidian/10 dark:border-pearl/10 bg-moon-white/85 dark:bg-black-pearl/70 p-8 shadow-[0_30px_60px_rgba(27,26,23,0.08)] card-glow">
+					{% if messages %}
+						{% for message in messages %}
+							<div class="mb-6 rounded-2xl border border-solid {% if message.tags == 'error' %}border-rose-gold/40 bg-rose-gold/10 text-rose-gold{% else %}border-obsidian/20 bg-obsidian/10 text-obsidian dark:text-pearl{% endif %} px-4 py-3 text-sm">
+								{{ message }}
+							</div>
+						{% endfor %}
+					{% endif %}
+
+					<form method="post" enctype="multipart/form-data" class="space-y-6">
+						{% csrf_token %}
+						<div>
+							<label class="block text-xs tracking-[0.25em] uppercase text-twilight dark:text-lavender-mist mb-2" for="product-select">Product</label>
+							<select id="product-select" name="product" required
+								class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 text-sm text-obsidian dark:text-pearl focus:border-rose-gold focus:outline-none">
+								<option value="" disabled selected>Select a product</option>
+								{% for product in products %}
+									<option value="{{ product.id }}">{{ product.name }}</option>
+								{% endfor %}
+							</select>
+						</div>
+						<div>
+							<label class="block text-xs tracking-[0.25em] uppercase text-twilight dark:text-lavender-mist mb-2" for="image-upload">Image</label>
+							<input id="image-upload" name="image" type="file" accept="image/*" required
+								class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 text-sm text-obsidian dark:text-pearl focus:border-rose-gold focus:outline-none file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:tracking-[0.25em] file:uppercase file:bg-obsidian file:text-moon-white dark:file:bg-pearl dark:file:text-obsidian hover:file:bg-rose-gold file:transition-colors" />
+						</div>
+						<div class="grid gap-6 md:grid-cols-2">
+							<div>
+								<label class="block text-xs tracking-[0.25em] uppercase text-twilight dark:text-lavender-mist mb-2" for="position-input">Position</label>
+								<input id="position-input" name="position" type="number" min="0" value="0"
+									class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 text-sm text-obsidian dark:text-pearl focus:border-rose-gold focus:outline-none" />
+								<p class="text-xs text-twilight dark:text-lavender-mist mt-2">Display order (0 = first)</p>
+							</div>
+							<div>
+								<label class="block text-xs tracking-[0.25em] uppercase text-twilight dark:text-lavender-mist mb-2" for="alt-text">Alt Text (Optional)</label>
+								<input id="alt-text" name="alt_text" type="text"
+									class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 text-sm text-obsidian dark:text-pearl focus:border-rose-gold focus:outline-none" />
+							</div>
+						</div>
+						<div class="flex flex-wrap gap-4">
+							<button type="submit"
+							class="btn px-6 py-3 text-xs tracking-[0.25em] uppercase bg-obsidian text-moon-white dark:bg-pearl dark:text-obsidian hover:bg-rose-gold transition-colors">Upload Image</button>
+							<a href="{% url 'backends:product_images' %}"
+							class="btn px-6 py-3 text-xs tracking-[0.25em] uppercase border border-solid border-obsidian/20 dark:border-pearl/20 text-obsidian dark:text-pearl hover:text-rose-gold transition-colors">Cancel</a>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock %}

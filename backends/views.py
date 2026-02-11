@@ -1,8 +1,9 @@
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.contrib import messages
 from django.shortcuts import redirect, render
+from django.http import JsonResponse
 from .permissions import checkUserPermissions
-from .models import Brand, Product, ProductCategory, UserPermission, Category, Inventory, Review
+from .models import Brand, Product, ProductCategory, ProductImage, UserPermission, Category, Inventory, Review
 # Create your views here.
 
 def dashboard(request):
@@ -233,6 +234,40 @@ def product_category(request):
 
         return render(request, 'backends/productlist.html', context)
     
+def add_product_image(request):
+    if request.method == 'POST':
+        product = request.POST.get('product')
+        image = request.FILES.get('image')
+        position = request.POST.get('position', 0)
+        alt_text = request.POST.get('alt_text', '')
+        if product and image:
+            product = Product.objects.filter(id=product, is_active=True).first()
+            if product:
+                ProductImage.objects.create(product=product, image=image, position=position, alt_text=alt_text)
+                messages.success(request, 'Product image added successfully.')
+                return redirect('backends:add_product_image')
+        
+        messages.error(request, 'Product and image are required.')
+        return redirect('backends:add_product_image')
+    
+    context = {
+        'products': Product.objects.filter(is_active=True).order_by('name'),
+    }
+    return render(request, 'backends/add_product_image.html', context)
+    
+
+def product_image_list(request):
+    product_images = ProductImage.objects.select_related('product').order_by('product__name', 'position')
+    page_number = request.GET.get('page')
+    page_obj, paginator_list = paginate_list(page_number, product_images)
+    context = {
+            'product_images': page_obj.object_list,
+            'page_obj': page_obj,
+            'paginator_list': paginator_list,
+    }
+
+    return render(request, 'backends/product_images.html', context)
+    
 
 def inventory_list(request):
     inventory_list = Inventory.objects.select_related('product').order_by('product__name')
@@ -273,16 +308,17 @@ def inventory_add(request):
     return render(request, 'backends/add_to_inventory.html', {'products': products})
 
 
-def reviews(request):
-    reviews = Review.objects.filter(is_active=True).select_related('product', 'user').order_by('-created_at')
-    page_number = request.GET.get('page')
-    page_obj, paginator_list = paginate_list(page_number, reviews)
-    context = {
-        'reviews': page_obj.object_list,
-        'page_obj': page_obj,
-        'paginator_list': paginator_list,
-    }
-    return render(request, 'backends/reviews.html', context)
+def get_products_json(request):
+    """Return products as JSON for dynamic dropdown updates"""
+    products = Product.objects.filter(is_active=True).order_by('name').values('id', 'name')
+    return JsonResponse(list(products), safe=False)
+
+
+def get_categories_json(request):
+    """Return categories as JSON for dynamic dropdown updates"""
+    categories = Category.objects.filter(is_active=True).order_by('name').values('id', 'name')
+    return JsonResponse(list(categories), safe=False)
+
 
 def Login(request):
     return render(request, 'backends/login.html')

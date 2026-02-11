@@ -1,4 +1,5 @@
 py manage.py loaddata fixtures/fixtures.json
 py manage.py loaddata fixtures/categories.json
-py manage.py loaddata fixtures/products.json
 py manage.py loaddata fixtures/brands.json
+py manage.py loaddata fixtures/products.json
+py manage.py loaddata fixtures/product_image.json
