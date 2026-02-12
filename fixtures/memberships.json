@@ -1,0 +1,194 @@
+[
+    {
+        "model": "backends.membership",
+        "pk": 1,
+        "fields": {
+            "name": "Bronze Standard",
+            "tier": "bronze",
+            "price": "4.99",
+            "description": "Basic membership for casual shoppers",
+            "benefits": "3% discount on all purchases\nFree shipping on orders over $75\nAccess to monthly email sales\nJewelry care tips via newsletter",
+            "discount_percentage": "3.00",
+            "is_active": true,
+            "is_featured": false,
+            "created_at": "2026-02-12T10:00:00Z",
+            "updated_at": "2026-02-12T10:00:00Z"
+        }
+    },
+    {
+        "model": "backends.membership",
+        "pk": 2,
+        "fields": {
+            "name": "Bronze Circle",
+            "tier": "bronze",
+            "price": "9.99",
+            "description": "Entry-level membership for jewelry enthusiasts",
+            "benefits": "5% discount on all purchases\nFree shipping on orders over $50\nEarly access to seasonal sales\nMonthly jewelry care tips",
+            "discount_percentage": "5.00",
+            "is_active": true,
+            "is_featured": false,
+            "created_at": "2026-02-12T10:00:00Z",
+            "updated_at": "2026-02-12T10:00:00Z"
+        }
+    },
+    {
+        "model": "backends.membership",
+        "pk": 3,
+        "fields": {
+            "name": "Bronze Plus",
+            "tier": "bronze",
+            "price": "14.99",
+            "description": "Enhanced bronze membership with extended benefits",
+            "benefits": "8% discount on all purchases\nFree shipping on orders over $35\nEarly VIP sale access (24 hours)\nMonthly jewelry maintenance tips\nBirthday discount (10% off)",
+            "discount_percentage": "8.00",
+            "is_active": true,
+            "is_featured": false,
+            "created_at": "2026-02-12T10:00:00Z",
+            "updated_at": "2026-02-12T10:00:00Z"
+        }
+    },
+    {
+        "model": "backends.membership",
+        "pk": 4,
+        "fields": {
+            "name": "Silver Classic",
+            "tier": "silver",
+            "price": "19.99",
+            "description": "Classic silver membership with balanced benefits",
+            "benefits": "12% discount on all purchases\nFree shipping on all orders\nPriority customer support\nAccess to limited edition collections\nMonthly curated selections\nBirthday special discount (12% off)\nFree gift wrapping service",
+            "discount_percentage": "12.00",
+            "is_active": true,
+            "is_featured": false,
+            "created_at": "2026-02-12T10:00:00Z",
+            "updated_at": "2026-02-12T10:00:00Z"
+        }
+    },
+    {
+        "model": "backends.membership",
+        "pk": 5,
+        "fields": {
+            "name": "Silver Elegance",
+            "tier": "silver",
+            "price": "24.99",
+            "description": "Enhanced membership with premium benefits",
+            "benefits": "13% discount on all purchases\nFree shipping on all orders\nPriority customer support\nExclusive access to limited editions\nQuarterly gift boxes with curated pieces\nBirthday bonus discount (15% off)\nFree jewelry cleaning service",
+            "discount_percentage": "13.00",
+            "is_active": true,
+            "is_featured": true,
+            "created_at": "2026-02-12T10:00:00Z",
+            "updated_at": "2026-02-12T10:00:00Z"
+        }
+    },
+    {
+        "model": "backends.membership",
+        "pk": 6,
+        "fields": {
+            "name": "Silver Premium",
+            "tier": "silver",
+            "price": "29.99",
+            "description": "Premium silver tier with luxury add-ons",
+            "benefits": "15% discount on all purchases\nFree express shipping on all orders\nPriority 24/7 customer support\nExclusive access to limited editions and pre-orders\nBi-monthly premium gift boxes\nBirthday and anniversary bonuses\nFree jewelry cleaning service (quarterly)",
+            "discount_percentage": "15.00",
+            "is_active": true,
+            "is_featured": true,
+            "created_at": "2026-02-12T10:00:00Z",
+            "updated_at": "2026-02-12T10:00:00Z"
+        }
+    },
+    {
+        "model": "backends.membership",
+        "pk": 7,
+        "fields": {
+            "name": "Gold Prestige",
+            "tier": "gold",
+            "price": "39.99",
+            "description": "Premium membership for luxury jewelry collectors",
+            "benefits": "18% discount on all purchases\nFree express shipping worldwide\nDedicated personal stylist\nInvite-only VIP events\nComplimentary jewelry cleaning service\nFree resizing and repairs (2x annual)\nMonthly exclusive drops access\nComplimentary gift wrapping & greeting card",
+            "discount_percentage": "18.00",
+            "is_active": true,
+            "is_featured": true,
+            "created_at": "2026-02-12T10:00:00Z",
+            "updated_at": "2026-02-12T10:00:00Z"
+        }
+    },
+    {
+        "model": "backends.membership",
+        "pk": 8,
+        "fields": {
+            "name": "Gold Deluxe",
+            "tier": "gold",
+            "price": "49.99",
+            "description": "Deluxe gold option with premium styling",
+            "benefits": "19% discount on all purchases\nFree express shipping worldwide\nPersonal style consultations\nExclusive VIP event access\nFree quarterly jewelry cleaning\nFree resizing and repairs (4x annual)\nBi-weekly exclusive drops\nPremium gift packaging\nMonthly gift with purchase",
+            "discount_percentage": "19.00",
+            "is_active": true,
+            "is_featured": false,
+            "created_at": "2026-02-12T10:00:00Z",
+            "updated_at": "2026-02-12T10:00:00Z"
+        }
+    },
+    {
+        "model": "backends.membership",
+        "pk": 9,
+        "fields": {
+            "name": "Gold Elite",
+            "tier": "gold",
+            "price": "59.99",
+            "description": "Elite gold tier with comprehensive luxury services",
+            "benefits": "20% discount on all purchases\nFree priority express shipping worldwide\nDedicated personal stylist with consultation calls\nMonthly VIP exclusive events\nUnlimited jewelry cleaning service\nFree resizing and repairs (unlimited)\nWeekly exclusive collections access\nCustom packaging and personalized service\nAnnual exclusive gift ($200+ value)",
+            "discount_percentage": "20.00",
+            "is_active": true,
+            "is_featured": true,
+            "created_at": "2026-02-12T10:00:00Z",
+            "updated_at": "2026-02-12T10:00:00Z"
+        }
+    },
+    {
+        "model": "backends.membership",
+        "pk": 10,
+        "fields": {
+            "name": "Platinum Essence",
+            "tier": "platinum",
+            "price": "99.99",
+            "description": "Ultimate luxury membership with white-glove service",
+            "benefits": "25% discount on all purchases\nFree priority express shipping\nPersonal jewelry concierge service\nPrivate shopping appointments\nCustom design consultations\nUnlimited free resizing and repairs\nWeekly exclusive collections preview\nInvitations to Ethereal Studio Events\nComprehensive jewelry insurance reimbursement\nDedicated account manager\nFree professional appraisals (annual)\nCumulative rewards program",
+            "discount_percentage": "25.00",
+            "is_active": true,
+            "is_featured": true,
+            "created_at": "2026-02-12T10:00:00Z",
+            "updated_at": "2026-02-12T10:00:00Z"
+        }
+    },
+    {
+        "model": "backends.membership",
+        "pk": 11,
+        "fields": {
+            "name": "Platinum Crown",
+            "tier": "platinum",
+            "price": "149.99",
+            "description": "Supreme platinum tier with exclusive privileges",
+            "benefits": "30% discount on all purchases\nFree overnight courier shipping worldwide\nSenior personal jewelry concierge (24/7)\nPrivate exclusive shopping experiences\nComplimentary custom design services\nUnlimited free resizing and repairs\nDaily exclusive previews\nPrivate Ethereal boutique access\nFull jewelry insurance coverage\nSenior account executive\nFree jewelry authentication and appraisals\nPriority access to rare and vintage pieces\nAnnual luxury gift hamper\nInvitations to invitation-only auctions",
+            "discount_percentage": "30.00",
+            "is_active": true,
+            "is_featured": true,
+            "created_at": "2026-02-12T10:00:00Z",
+            "updated_at": "2026-02-12T10:00:00Z"
+        }
+    },
+    {
+        "model": "backends.membership",
+        "pk": 12,
+        "fields": {
+            "name": "Platinum Diamond",
+            "tier": "platinum",
+            "price": "199.99",
+            "description": "Most exclusive platinum tier with unparalleled luxury",
+            "benefits": "35% discount on all purchases\nFree same-day courier shipping\nDedicated VIP concierge team\nComplimentary bespoke jewelry design\nCustom design with master craftsperson\nLifetime free maintenance and repairs\nDaily curated previews\n24/7 private boutique access\nConcierge insurance and valuation services\nDedicated C-suite account executive\nAuthentication, appraisal and insurance planning\nFirsthand access to private collections\nQuarterly luxury experience gifts\nInvitations to exclusive international events\nPersonal shopping trips with stylist",
+            "discount_percentage": "35.00",
+            "is_active": true,
+            "is_featured": true,
+            "created_at": "2026-02-12T10:00:00Z",
+            "updated_at": "2026-02-12T10:00:00Z"
+        }
+    }
+]

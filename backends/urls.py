@@ -15,9 +15,9 @@ urlpatterns = [
     path('product_category/', views.product_category, name='product_category'),
     path('add_product_image/', views.add_product_image, name='add_product_image'),
     path('product_images/', views.product_image_list, name='product_images'),
+    path('memberships/', views.membership_list, name='memberships'),
+    path('add_membership/', views.add_membership, name='add_membership'),
     path('inventory/', views.inventory_list, name='inventory'),
     path('add_inventory/', views.inventory_add, name='add_inventory'),
-    path('api/products/', views.get_products_json, name='get-products-json'),
-    path('api/categories/', views.get_categories_json, name='get-categories-json'),
     path('login/', views.Login, name='login')
 ]

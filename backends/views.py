@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.shortcuts import redirect, render
 from django.http import JsonResponse
 from .permissions import checkUserPermissions
-from .models import Brand, Product, ProductCategory, ProductImage, UserPermission, Category, Inventory, Review
+from .models import Brand, Product, ProductCategory, ProductImage, UserPermission, Category, Inventory, Review, Membership
 # Create your views here.
 
 def dashboard(request):
@@ -267,6 +267,40 @@ def product_image_list(request):
     }
 
     return render(request, 'backends/product_images.html', context)
+
+
+def add_membership(request):
+    if request.method == 'POST':
+        memberships_choice = request.POST.get('membership_choice')
+        discount_percentage = request.POST.get('discount_percentage')
+      
+        if memberships_choice and discount_percentage:
+            if Membership.objects.filter(membership_choice__iexact=memberships_choice).exists():
+                messages.error(request, 'Membership with this name already exists.')
+                return redirect('backends:memberships')
+            
+            else:
+                Membership.objects.create(membership_choice=memberships_choice, discount_percentage=discount_percentage)
+                messages.success(request, 'Membership added successfully.')
+                return redirect('backends:memberships')
+        
+        messages.error(request, 'All membership fields are required.')
+        return redirect('backends:memberships')
+    
+    return render(request, 'backends/add_membership.html', {'memberships': Membership.objects.all().order_by('membership_choice')})
+
+
+def membership_list(request):
+    memberships = Membership.objects.all().order_by('membership_choice')
+    page_number = request.GET.get('page')
+    page_obj, paginator_list = paginate_list(page_number, memberships)
+    context = {
+            'memberships': page_obj.object_list,
+            'page_obj': page_obj,
+            'paginator_list': paginator_list,
+    }
+
+    return render(request, 'backends/memberships.html', context)
     
 
 def inventory_list(request):
@@ -318,6 +352,86 @@ def get_categories_json(request):
     """Return categories as JSON for dynamic dropdown updates"""
     categories = Category.objects.filter(is_active=True).order_by('name').values('id', 'name')
     return JsonResponse(list(categories), safe=False)
+
+
+def membership_list(request):
+    """Display all memberships with pagination"""
+    memberships = Membership.objects.all().order_by('-created_at')
+    
+    # Parse benefits for each membership
+    for membership in memberships:
+        membership.benefits = [b.strip() for b in membership.benefits.split('\n') if b.strip()]
+    
+    page_number = request.GET.get('page')
+    page_obj, paginator_list = paginate_list(page_number, memberships)
+    
+    context = {
+        'memberships': page_obj,
+        'page_obj': page_obj,
+        'paginator_list': paginator_list,
+        'paginator': Paginator(memberships, 10)
+    }
+    return render(request, 'backends/memberships.html', context)
+
+
+def add_membership(request):
+    """Add or edit a membership"""
+    context = {}
+    membership = None
+    membership_id = request.GET.get('id')
+    
+    if membership_id:
+        try:
+            membership = Membership.objects.get(id=membership_id)
+            context['membership'] = membership
+        except Membership.DoesNotExist:
+            context['error'] = 'Membership not found.'
+            return render(request, 'backends/add_membership.html', context)
+    
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        tier = request.POST.get('tier')
+        price = request.POST.get('price')
+        description = request.POST.get('description')
+        benefits_text = request.POST.get('benefits')
+        is_active = request.POST.get('is_active') == 'on'
+        is_featured = request.POST.get('is_featured') == 'on'
+        
+        if not name or not tier:
+            context['error'] = 'Name and Tier are required.'
+            if membership:
+                context['membership'] = membership
+            return render(request, 'backends/add_membership.html', context)
+        
+        if membership:
+            # Update existing membership
+            membership.name = name
+            membership.tier = tier
+            membership.price = price or 0
+            membership.description = description
+            membership.benefits = benefits_text
+            membership.is_active = is_active
+            membership.is_featured = is_featured
+            membership.save()
+            messages.success(request, 'Membership updated successfully.')
+        else:
+            # Create new membership
+            membership = Membership(
+                name=name,
+                tier=tier,
+                price=price or 0,
+                description=description,
+                benefits=benefits_text,
+                is_active=is_active,
+                is_featured=is_featured
+            )
+            membership.save()
+            messages.success(request, 'Membership created successfully.')
+        
+        return redirect('backends:memberships')
+    
+    context['membership'] = membership
+    return render(request, 'backends/add_membership.html', context)
 
 
 def Login(request):

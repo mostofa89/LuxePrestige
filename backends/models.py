@@ -135,15 +135,26 @@ class ProductAttributeValue(models.Model):
 
 
 class Membership(models.Model):
-    level_name = models.CharField(max_length=50)
-    discount_percentage = models.DecimalField(max_digits=5, decimal_places=2)
+    TIER_CHOICES = [
+        ('bronze', 'Bronze'),
+        ('silver', 'Silver'),
+        ('gold', 'Gold'),
+        ('platinum', 'Platinum'),
+    ]
+    name = models.CharField(max_length=100, default='Standard Membership')
+    tier = models.CharField(max_length=50, choices=TIER_CHOICES)
+    price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    description = models.TextField(blank=True)
+    benefits = models.TextField(blank=True, help_text="Enter each benefit on a new line")
+    discount_percentage = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
     is_active = models.BooleanField(default=True)
+    is_featured = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
 
     def __str__(self):
-        return self.level_name
+        return self.name
     
 
     class Meta:
