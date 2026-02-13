@@ -1,0 +1,77 @@
+[
+    {
+        "model": "backends.membership",
+        "pk": 1,
+        "fields": {
+            "name": "Bronze Standard",
+            "tier": "bronze",
+            "description": "Basic membership for casual shoppers. Start your journey with essential benefits.",
+            "benefits": "Welcome bonus to your account\nAccess to monthly email newsletters\nJewelry care tips and maintenance guides\nSpecial birthday month offer",
+            "discount_percentage": "0.00",
+            "is_active": true,
+            "is_featured": false,
+            "created_at": "2026-02-12T10:00:00Z",
+            "updated_at": "2026-02-12T10:00:00Z"
+        }
+    },
+    {
+        "model": "backends.membership",
+        "pk": 2,
+        "fields": {
+            "name": "Silver Premium",
+            "tier": "silver",
+            "description": "Premium membership with elevated benefits. Perfect for regular shoppers.",
+            "benefits": "3% discount on all purchases\nFree shipping on all orders\nPriority customer support\nExclusive access to limited edition collections\nMonthly curated jewelry selections\nBirthday special with extra discount\nFree gift wrapping on every order",
+            "discount_percentage": "3.00",
+            "is_active": true,
+            "is_featured": true,
+            "created_at": "2026-02-12T10:00:00Z",
+            "updated_at": "2026-02-12T10:00:00Z"
+        }
+    },
+    {
+        "model": "backends.membership",
+        "pk": 3,
+        "fields": {
+            "name": "Gold Prestige",
+            "tier": "gold",
+            "description": "Premium membership for luxury jewelry collectors. Exclusive privileges included.",
+            "benefits": "7% discount on all purchases\nFree express shipping worldwide\nFree home delivery on orders over $100\nDedicated personal stylist access\nInvite-only VIP event access\nComplimentary jewelry cleaning service (quarterly)\nFree jewelry resizing and repairs (twice annually)\nMonthly exclusive new collection previews\nComplimentary premium gift wrapping",
+            "discount_percentage": "7.00",
+            "is_active": true,
+            "is_featured": true,
+            "created_at": "2026-02-12T10:00:00Z",
+            "updated_at": "2026-02-12T10:00:00Z"
+        }
+    },
+    {
+        "model": "backends.membership",
+        "pk": 4,
+        "fields": {
+            "name": "Platinum Essence",
+            "tier": "platinum",
+            "description": "Ultimate luxury membership with white-glove service. For the discerning collector.",
+            "benefits": "11% discount on all purchases\nFree priority express shipping\nFree home delivery on all orders\nPersonal jewelry concierge service (dedicated team)\nPrivate shopping experiences and appointments\nCustom design consultation services\nUnlimited free jewelry cleaning service\nUnlimited jewelry resizing and repairs\nWeekly exclusive collections preview access\nInvitations to Ethereal Studio private events\nDedicated account manager\nFree professional jewelry appraisals (annual)",
+            "discount_percentage": "11.00",
+            "is_active": true,
+            "is_featured": true,
+            "created_at": "2026-02-12T10:00:00Z",
+            "updated_at": "2026-02-12T10:00:00Z"
+        }
+    },
+    {
+        "model": "backends.membership",
+        "pk": 5,
+        "fields": {
+            "name": "Diamond Elite",
+            "tier": "diamond",
+            "description": "Most exclusive tier with unparalleled luxury and benefits. Elite collectors program.",
+            "benefits": "15% discount on all purchases\nFree same-day courier shipping\nFree home delivery on all orders worldwide\nDedicated VIP concierge team (24/7 access)\nExclusive private shopping experiences\nComplimentary bespoke jewelry design service\nCustom design with master craftsperson\nLifetime free maintenance and repairs\nDaily curated jewelry previews\n24/7 private boutique access\nConcierge insurance and valuation services\nDedicated C-suite account executive\nFree jewelry authentication and appraisals (unlimited)\nFirsthand access to private and rare collections\nQuarterly luxury experience gifts\nInvitations to exclusive international events\nPersonal shopping trips with dedicated stylist",
+            "discount_percentage": "15.00",
+            "is_active": true,
+            "is_featured": true,
+            "created_at": "2026-02-12T10:00:00Z",
+            "updated_at": "2026-02-12T10:00:00Z"
+        }
+    }
+]

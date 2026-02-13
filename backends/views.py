@@ -1,4 +1,5 @@
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.db.models import Case, IntegerField, When
 from django.contrib import messages
 from django.shortcuts import redirect, render
 from django.http import JsonResponse
@@ -269,40 +270,6 @@ def product_image_list(request):
     return render(request, 'backends/product_images.html', context)
 
 
-def add_membership(request):
-    if request.method == 'POST':
-        memberships_choice = request.POST.get('membership_choice')
-        discount_percentage = request.POST.get('discount_percentage')
-      
-        if memberships_choice and discount_percentage:
-            if Membership.objects.filter(membership_choice__iexact=memberships_choice).exists():
-                messages.error(request, 'Membership with this name already exists.')
-                return redirect('backends:memberships')
-            
-            else:
-                Membership.objects.create(membership_choice=memberships_choice, discount_percentage=discount_percentage)
-                messages.success(request, 'Membership added successfully.')
-                return redirect('backends:memberships')
-        
-        messages.error(request, 'All membership fields are required.')
-        return redirect('backends:memberships')
-    
-    return render(request, 'backends/add_membership.html', {'memberships': Membership.objects.all().order_by('membership_choice')})
-
-
-def membership_list(request):
-    memberships = Membership.objects.all().order_by('membership_choice')
-    page_number = request.GET.get('page')
-    page_obj, paginator_list = paginate_list(page_number, memberships)
-    context = {
-            'memberships': page_obj.object_list,
-            'page_obj': page_obj,
-            'paginator_list': paginator_list,
-    }
-
-    return render(request, 'backends/memberships.html', context)
-    
-
 def inventory_list(request):
     inventory_list = Inventory.objects.select_related('product').order_by('product__name')
     page_number = request.GET.get('page')
@@ -356,7 +323,25 @@ def get_categories_json(request):
 
 def membership_list(request):
     """Display all memberships with pagination"""
-    memberships = Membership.objects.all().order_by('-created_at')
+    memberships = Membership.objects.annotate(
+        tier_order=Case(
+            When(tier='bronze', then=0),
+            When(tier='silver', then=1),
+            When(tier='gold', then=2),
+            When(tier='platinum', then=3),
+            When(tier='diamond', then=4),
+            default=99,
+            output_field=IntegerField(),
+        )
+    ).order_by('tier_order', 'id')
+
+    tier_policy = {
+        'bronze': {'range': '0-9,999', 'discount': '0%'},
+        'silver': {'range': '10,000-19,999', 'discount': '3%'},
+        'gold': {'range': '20,000-29,999', 'discount': '7%'},
+        'platinum': {'range': '30,000-39,999', 'discount': '11%'},
+        'diamond': {'range': '40,000+', 'discount': '15%'},
+    }
     
     # Parse benefits for each membership
     for membership in memberships:
@@ -369,7 +354,8 @@ def membership_list(request):
         'memberships': page_obj,
         'page_obj': page_obj,
         'paginator_list': paginator_list,
-        'paginator': Paginator(memberships, 10)
+        'paginator': Paginator(memberships, 10),
+        'tier_policy': tier_policy,
     }
     return render(request, 'backends/memberships.html', context)
 
@@ -383,6 +369,8 @@ def add_membership(request):
     if membership_id:
         try:
             membership = Membership.objects.get(id=membership_id)
+            if membership.benefits:
+                membership.benefits = [b.strip() for b in membership.benefits.split('\n') if b.strip()]
             context['membership'] = membership
         except Membership.DoesNotExist:
             context['error'] = 'Membership not found.'
@@ -391,7 +379,6 @@ def add_membership(request):
     if request.method == 'POST':
         name = request.POST.get('name')
         tier = request.POST.get('tier')
-        price = request.POST.get('price')
         description = request.POST.get('description')
         benefits_text = request.POST.get('benefits')
         is_active = request.POST.get('is_active') == 'on'
@@ -407,7 +394,6 @@ def add_membership(request):
             # Update existing membership
             membership.name = name
             membership.tier = tier
-            membership.price = price or 0
             membership.description = description
             membership.benefits = benefits_text
             membership.is_active = is_active
@@ -419,7 +405,6 @@ def add_membership(request):
             membership = Membership(
                 name=name,
                 tier=tier,
-                price=price or 0,
                 description=description,
                 benefits=benefits_text,
                 is_active=is_active,

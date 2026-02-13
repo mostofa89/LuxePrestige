@@ -1,4 +1,5 @@
 from datetime import datetime
+from decimal import Decimal, ROUND_DOWN
 from django.db import models
 from django.contrib.auth.models import User
 # Create your models here.
@@ -140,10 +141,10 @@ class Membership(models.Model):
         ('silver', 'Silver'),
         ('gold', 'Gold'),
         ('platinum', 'Platinum'),
+        ('diamond', 'Diamond'),
     ]
     name = models.CharField(max_length=100, default='Standard Membership')
     tier = models.CharField(max_length=50, choices=TIER_CHOICES)
-    price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     description = models.TextField(blank=True)
     benefits = models.TextField(blank=True, help_text="Enter each benefit on a new line")
     discount_percentage = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
@@ -159,6 +160,9 @@ class Membership(models.Model):
 
     class Meta:
         db_table = 'memberships'
+        constraints = [
+            models.UniqueConstraint(fields=['tier'], name='unique_membership_tier')
+        ]
 
 
 class Customer(models.Model):
@@ -167,6 +171,8 @@ class Customer(models.Model):
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=15)
     membership = models.ForeignKey(Membership, on_delete=models.SET_NULL, null=True, blank=True)
+    points = models.IntegerField(default=0)
+    points_discount_percentage = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -178,6 +184,17 @@ class Customer(models.Model):
 
     class Meta:
         db_table = 'customers'
+
+    def get_tier_from_points(self):
+        if self.points >= 40000:
+            return 'diamond', Decimal('15.00')
+        if self.points >= 30000:
+            return 'platinum', Decimal('11.00')
+        if self.points >= 20000:
+            return 'gold', Decimal('7.00')
+        if self.points >= 10000:
+            return 'silver', Decimal('3.00')
+        return 'bronze', Decimal('0.00')
 
 
 class Review(models.Model):
@@ -325,6 +342,7 @@ class Order(models.Model):
     due_amount = models.DecimalField(max_digits=10, decimal_places=2)
     coupon = models.DecimalField(max_digits=10, decimal_places=2)
     total_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    points_awarded = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
@@ -336,6 +354,29 @@ class Order(models.Model):
 
     class Meta:
         db_table = 'orders'
+
+    def _calculate_points_from_paid_amount(self):
+        if not self.paid_amount:
+            return 0
+        return int((self.paid_amount * Decimal('10')).quantize(Decimal('1'), rounding=ROUND_DOWN))
+
+    def _apply_points_to_customer(self, points):
+        if points <= 0:
+            return
+        customer = self.customer
+        customer.points = (customer.points or 0) + points
+        tier, discount = customer.get_tier_from_points()
+        membership = Membership.objects.filter(tier=tier, is_active=True).order_by('id').first()
+
+        update_fields = ['points']
+        if membership and customer.membership_id != membership.id:
+            customer.membership = membership
+            update_fields.append('membership')
+        if customer.points_discount_percentage != discount:
+            customer.points_discount_percentage = discount
+            update_fields.append('points_discount_percentage')
+
+        customer.save(update_fields=update_fields + ['updated_at'])
 
     def save(self, *args, **kwargs):
         if not self.order_number:
@@ -352,7 +393,21 @@ class Order(models.Model):
 
             self.order_number = new_order
 
+        points_to_award = 0
+        if self.status == 'delivered' and self.points_awarded == 0:
+            previous = None
+            if self.pk:
+                previous = Order.objects.filter(pk=self.pk).values('status', 'points_awarded').first()
+            prev_status = previous['status'] if previous else None
+            prev_awarded = previous['points_awarded'] if previous else 0
+            if prev_status != 'delivered' and prev_awarded == 0:
+                points_to_award = self._calculate_points_from_paid_amount()
+                self.points_awarded = points_to_award
+
         super().save(*args, **kwargs)
+
+        if points_to_award:
+            self._apply_points_to_customer(points_to_award)
 
 
 class CancelledOrder(models.Model):
