@@ -45,7 +45,7 @@
 									<option value="{{ product.id }}">{{ product.name }}</option>
 								{% endfor %}
 							</select>
-							<a href="{% url 'backends:add-product' %}" target="_blank"
+							<a href="{% url 'backends:add_product' %}" target="_blank"
 								class="btn inline-block mt-2 text-xs text-twilight dark:text-lavender-mist hover:text-rose-gold transition-colors">+ Add New Product</a>
 						</div>
 						<div>
@@ -65,7 +65,7 @@
 									<option value="{{ category.id }}">{{ category.name }}</option>
 								{% endfor %}
 							</select>
-							<a href="{% url 'backends:add-category' %}" target="_blank"
+							<a href="{% url 'backends:add_category' %}" target="_blank"
 								class="btn inline-block mt-2 text-xs text-twilight dark:text-lavender-mist hover:text-rose-gold transition-colors">+ Add New Category</a>
 						</div>
 						<div class="flex flex-wrap gap-4">

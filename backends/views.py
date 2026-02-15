@@ -344,8 +344,46 @@ def membership_list(request):
     }
     
     # Parse benefits for each membership
+    # Also attach visual progress data (uses current customer's points if available)
+    # Tier thresholds (min inclusive, next_min exclusive)
+    thresholds = {
+        'bronze': (0, 10000),
+        'silver': (10000, 20000),
+        'gold': (20000, 30000),
+        'platinum': (30000, 40000),
+        'diamond': (40000, None),
+    }
+
+    # Get current customer points (backend admin view may not have a customer)
+    customer_points = None
+    if request.user.is_authenticated:
+        try:
+            customer_points = request.user.customer.points
+        except Exception:
+            customer_points = None
+
     for membership in memberships:
-        membership.benefits = [b.strip() for b in membership.benefits.split('\n') if b.strip()]
+        # benefits list
+        membership.benefits = [b.strip() for b in (membership.benefits or '').split('\n') if b.strip()]
+        # tier ranges
+        min_p, next_p = thresholds.get(membership.tier, (0, None))
+        membership.tier_min = min_p
+        membership.tier_max = (next_p - 1) if next_p else None
+        # compute progress percent relative to tier (use customer points if available)
+        if customer_points is not None:
+            if next_p:
+                span = max(1, next_p - min_p)
+                progress = int(max(0, min(100, (customer_points - min_p) * 100 / span)))
+            else:
+                # diamond: progress is full if customer already in diamond, otherwise show percent relative to min
+                if customer_points >= min_p:
+                    progress = 100
+                else:
+                    progress = int(max(0, min(100, customer_points * 100 / max(1, min_p))))
+        else:
+            progress = 25  # fallback placeholder
+        membership.progress_percent = progress
+        membership.progress_label = f"{membership.progress_percent}%"
     
     page_number = request.GET.get('page')
     page_obj, paginator_list = paginate_list(page_number, memberships)

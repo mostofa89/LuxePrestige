@@ -19,5 +19,7 @@ urlpatterns = [
     path('add_membership/', views.add_membership, name='add_membership'),
     path('inventory/', views.inventory_list, name='inventory'),
     path('add_inventory/', views.inventory_add, name='add_inventory'),
+    path('get-products-json/', views.get_products_json, name='get-products-json'),
+    path('get-categories-json/', views.get_categories_json, name='get-categories-json'),
     path('login/', views.Login, name='login')
 ]
