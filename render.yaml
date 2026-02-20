@@ -9,13 +9,15 @@ services:
       - key: DEBUG
         value: false
       - key: ALLOWED_HOSTS
-        value: ethereal-jewelry.onrender.com
+        value: ethereal-jewelry.onrender.com,*.onrender.com,127.0.0.1,localhost
       - key: DATABASE_URL
         sync: true
       - key: SECRET_KEY
         sync: true
       - key: ENVIRONMENT
         value: production
+      - key: CSRF_TRUSTED_ORIGINS
+        value: https://ethereal-jewelry.onrender.com,https://*.onrender.com
 databases:
   - name: ethereal_db
     databaseName: ethereal_db
