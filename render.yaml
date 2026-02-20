@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: ethereal-jewelry
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput
+    startCommand: gunicorn Ecommerce.wsgi:application --bind 0.0.0.0:$PORT
+    envVars:
+      - key: DEBUG
+        value: false
+      - key: ALLOWED_HOSTS
+        value: ethereal-jewelry.onrender.com
+      - key: DATABASE_URL
+        sync: true
+      - key: SECRET_KEY
+        sync: true
+      - key: ENVIRONMENT
+        value: production
+databases:
+  - name: ethereal_db
+    databaseName: ethereal_db
+    user: ethereal_user
+    plan: free
