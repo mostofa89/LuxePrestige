@@ -1,10 +1,10 @@
 services:
   - type: web
-    name: ethereal-jewelry
+    name: LuxePrestige
     env: python
     plan: free
-    buildCommand: pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput
-    startCommand: gunicorn Ecommerce.wsgi:application --bind 0.0.0.0:$PORT
+    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput
+    startCommand: python manage.py migrate && gunicorn Ecommerce.wsgi:application --bind 0.0.0.0:$PORT
     envVars:
       - key: DEBUG
         value: false
