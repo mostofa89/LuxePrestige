@@ -112,11 +112,22 @@ if DATABASE_URL:
             DATABASES['default']['OPTIONS']['ssl'] = {'ca': None}
             
 elif ENVIRONMENT == 'production':
-    # Production requires DATABASE_URL to be set
-    raise Exception(
-        "DATABASE_URL environment variable is required in production. "
-        "Please set it in your Render dashboard to connect to your database."
-    )
+    # TEMPORARY FALLBACK: Use SQLite in production if DATABASE_URL not set
+    # WARNING: SQLite is NOT recommended for production - add DATABASE_URL ASAP!
+    import sys
+    print("=" * 80, file=sys.stderr)
+    print("⚠️  WARNING: Using SQLite as temporary database!", file=sys.stderr)
+    print("⚠️  This is NOT recommended for production.", file=sys.stderr)
+    print("⚠️  Please set DATABASE_URL environment variable with MySQL connection.", file=sys.stderr)
+    print("⚠️  See MYSQL_SETUP_GUIDE.md for instructions.", file=sys.stderr)
+    print("=" * 80, file=sys.stderr)
+    
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': '/opt/render/project/src/db.sqlite3',
+        }
+    }
 else:
     # Local development database
     DATABASES = {
