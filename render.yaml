@@ -11,15 +11,18 @@ services:
       - key: ALLOWED_HOSTS
         value: luxeprestige.onrender.com,.onrender.com,127.0.0.1,localhost
       - key: DATABASE_URL
-        sync: true
+        fromDatabase:
+          name: luxeprestige_db
+          property: connectionString
       - key: SECRET_KEY
-        sync: true
+        generateValue: true
       - key: ENVIRONMENT
         value: production
       - key: CSRF_TRUSTED_ORIGINS
         value: https://luxeprestige.onrender.com,https://*.onrender.com
+        
 databases:
-  - name: ethereal_db
-    databaseName: ethereal_db
-    user: ethereal_user
+  - name: luxeprestige_db
+    databaseName: luxeprestige_db
+    user: luxeprestige_user
     plan: free
