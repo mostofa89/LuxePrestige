@@ -40,16 +40,31 @@ ENVIRONMENT = os.getenv('ENVIRONMENT', 'development')
 ALLOWED_HOSTS_STR = os.getenv('ALLOWED_HOSTS', '127.0.0.1,localhost')
 ALLOWED_HOSTS = [host.strip() for host in ALLOWED_HOSTS_STR.split(',')]
 
-# Add Render domains automatically in production
-if ENVIRONMENT == 'production':
+# Auto-detect if running on Render
+IS_RENDER = 'RENDER' in os.environ
+
+# Add Render domains automatically
+if IS_RENDER or ENVIRONMENT == 'production':
     # Allow Render domains - Django uses .domain.com format for wildcards
     if not any('.onrender.com' in host for host in ALLOWED_HOSTS):
         ALLOWED_HOSTS.append('.onrender.com')
     # Also add the specific domain if not present
     if 'luxeprestige.onrender.com' not in ALLOWED_HOSTS:
         ALLOWED_HOSTS.append('luxeprestige.onrender.com')
+    
+    print(f"✅ ALLOWED_HOSTS configured: {ALLOWED_HOSTS}", file=sys.stderr)
 
 CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS', 'http://127.0.0.1:8000,http://localhost:8000').split(',')
+
+# Add Render CSRF origins automatically
+if IS_RENDER or ENVIRONMENT == 'production':
+    render_origins = [
+        'https://luxeprestige.onrender.com',
+        'https://*.onrender.com'
+    ]
+    for origin in render_origins:
+        if origin not in CSRF_TRUSTED_ORIGINS:
+            CSRF_TRUSTED_ORIGINS.append(origin)
 
 # Application definition
 INSTALLED_APPS = [

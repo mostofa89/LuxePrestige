@@ -20,7 +20,7 @@ services:
         value: production
       - key: CSRF_TRUSTED_ORIGINS
         value: https://luxeprestige.onrender.com,https://*.onrender.com
-        
+
 databases:
   - name: luxeprestige_db
     databaseName: luxeprestige_db
