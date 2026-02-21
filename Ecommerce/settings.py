@@ -91,14 +91,32 @@ WSGI_APPLICATION = 'Ecommerce.wsgi.application'
 DATABASE_URL = os.getenv('DATABASE_URL')
 
 if DATABASE_URL:
-    # Parse DATABASE_URL for production (Render uses this)
+    # Parse DATABASE_URL for production (supports MySQL, PostgreSQL, etc.)
     import dj_database_url
     DATABASES = {
         'default': dj_database_url.config(
             default=DATABASE_URL,
-            conn_max_age=600
+            conn_max_age=600,
+            conn_health_checks=True,
         )
     }
+    
+    # Add SSL options for external MySQL databases (PlanetScale, Railway, etc.)
+    if 'mysql' in DATABASE_URL.lower():
+        DATABASES['default']['OPTIONS'] = {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+            'charset': 'utf8mb4',
+        }
+        # Add SSL if required (common for cloud MySQL)
+        if 'ssl_mode=REQUIRED' in DATABASE_URL or 'sslmode=require' in DATABASE_URL:
+            DATABASES['default']['OPTIONS']['ssl'] = {'ca': None}
+            
+elif ENVIRONMENT == 'production':
+    # Production requires DATABASE_URL to be set
+    raise Exception(
+        "DATABASE_URL environment variable is required in production. "
+        "Please set it in your Render dashboard to connect to your database."
+    )
 else:
     # Local development database
     DATABASES = {
@@ -110,7 +128,8 @@ else:
             'HOST': os.getenv('DB_HOST', 'localhost'),
             'PORT': os.getenv('DB_PORT', '3306'),
             'OPTIONS': {
-                'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+                'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+                'charset': 'utf8mb4',
             }
         }
     }
