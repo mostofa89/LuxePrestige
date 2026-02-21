@@ -9,7 +9,7 @@ services:
       - key: DEBUG
         value: false
       - key: ALLOWED_HOSTS
-        value: luxeprestige.onrender.com,*.onrender.com,127.0.0.1,localhost
+        value: luxeprestige.onrender.com,.onrender.com,127.0.0.1,localhost
       - key: DATABASE_URL
         sync: true
       - key: SECRET_KEY

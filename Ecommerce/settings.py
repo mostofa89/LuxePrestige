@@ -33,9 +33,12 @@ ALLOWED_HOSTS = [host.strip() for host in ALLOWED_HOSTS_STR.split(',')]
 
 # Add Render domains automatically in production
 if ENVIRONMENT == 'production':
-    # Allow Render domains
+    # Allow Render domains - Django uses .domain.com format for wildcards
     if not any('.onrender.com' in host for host in ALLOWED_HOSTS):
-        ALLOWED_HOSTS.append('*.onrender.com')
+        ALLOWED_HOSTS.append('.onrender.com')
+    # Also add the specific domain if not present
+    if 'luxeprestige.onrender.com' not in ALLOWED_HOSTS:
+        ALLOWED_HOSTS.append('luxeprestige.onrender.com')
 
 CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS', 'http://127.0.0.1:8000,http://localhost:8000').split(',')
 
