@@ -88,7 +88,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'Ecommerce.wsgi.application'
 
 # Database configuration - supports both MySQL and PostgreSQL
-DATABASE_URL = os.getenv('DATABASE_URL')
+DATABASE_URL = os.getenv('DATABASE_URL', '').strip()
 
 if DATABASE_URL:
     # Parse DATABASE_URL for production (supports MySQL, PostgreSQL, etc.)
@@ -110,40 +110,43 @@ if DATABASE_URL:
         # Add SSL if required (common for cloud MySQL)
         if 'ssl_mode=REQUIRED' in DATABASE_URL or 'sslmode=require' in DATABASE_URL:
             DATABASES['default']['OPTIONS']['ssl'] = {'ca': None}
-            
-elif ENVIRONMENT == 'production':
-    # TEMPORARY FALLBACK: Use SQLite in production if DATABASE_URL not set
-    # WARNING: SQLite is NOT recommended for production - add DATABASE_URL ASAP!
-    import sys
-    print("=" * 80, file=sys.stderr)
-    print("⚠️  WARNING: Using SQLite as temporary database!", file=sys.stderr)
-    print("⚠️  This is NOT recommended for production.", file=sys.stderr)
-    print("⚠️  Please set DATABASE_URL environment variable with MySQL connection.", file=sys.stderr)
-    print("⚠️  See MYSQL_SETUP_GUIDE.md for instructions.", file=sys.stderr)
-    print("=" * 80, file=sys.stderr)
-    
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': '/opt/render/project/src/db.sqlite3',
-        }
-    }
 else:
-    # Local development database
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': os.getenv('DB_NAME', 'ecommerce'),
-            'USER': os.getenv('DB_USER', 'root'),
-            'PASSWORD': os.getenv('DB_PASSWORD', ''),
-            'HOST': os.getenv('DB_HOST', 'localhost'),
-            'PORT': os.getenv('DB_PORT', '3306'),
-            'OPTIONS': {
-                'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-                'charset': 'utf8mb4',
+    # Check if running in production (Render sets RENDER env variable)
+    IS_RENDER = 'RENDER' in os.environ
+    
+    if IS_RENDER or ENVIRONMENT == 'production':
+        # TEMPORARY FALLBACK: Use SQLite in production if DATABASE_URL not set
+        # WARNING: SQLite is NOT recommended for production - add DATABASE_URL ASAP!
+        import sys
+        print("=" * 80, file=sys.stderr)
+        print("⚠️  WARNING: Using SQLite as temporary database!", file=sys.stderr)
+        print("⚠️  This is NOT recommended for production.", file=sys.stderr)
+        print("⚠️  Please set DATABASE_URL environment variable with MySQL connection.", file=sys.stderr)
+        print("⚠️  See MYSQL_SETUP_GUIDE.md for instructions.", file=sys.stderr)
+        print("=" * 80, file=sys.stderr)
+        
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': '/opt/render/project/src/db.sqlite3',
             }
         }
-    }
+    else:
+        # Local development database
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.mysql',
+                'NAME': os.getenv('DB_NAME', 'ecommerce'),
+                'USER': os.getenv('DB_USER', 'root'),
+                'PASSWORD': os.getenv('DB_PASSWORD', ''),
+                'HOST': os.getenv('DB_HOST', 'localhost'),
+                'PORT': os.getenv('DB_PORT', '3306'),
+                'OPTIONS': {
+                    'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+                    'charset': 'utf8mb4',
+                }
+            }
+        }
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
