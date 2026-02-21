@@ -13,9 +13,18 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+import sys
 
 # Load environment variables
 load_dotenv()
+
+# Debug: Print startup info
+print("=" * 80, file=sys.stderr)
+print("🚀 Django Starting Up", file=sys.stderr)
+print(f"DATABASE_URL set: {'Yes' if os.getenv('DATABASE_URL') else 'No'}", file=sys.stderr)
+print(f"RENDER env: {'Yes' if os.getenv('RENDER') else 'No'}", file=sys.stderr)
+print(f"ENVIRONMENT: {os.getenv('ENVIRONMENT', 'not set')}", file=sys.stderr)
+print("=" * 80, file=sys.stderr)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -90,9 +99,13 @@ WSGI_APPLICATION = 'Ecommerce.wsgi.application'
 # Database configuration - supports both MySQL and PostgreSQL
 DATABASE_URL = os.getenv('DATABASE_URL', '').strip()
 
+print(f"📊 Database URL empty: {not DATABASE_URL}", file=sys.stderr)
+print(f"📊 DATABASE_URL length: {len(DATABASE_URL) if DATABASE_URL else 0}", file=sys.stderr)
+
 if DATABASE_URL:
     # Parse DATABASE_URL for production (supports MySQL, PostgreSQL, etc.)
     import dj_database_url
+    print("✅ Using DATABASE_URL configuration", file=sys.stderr)
     DATABASES = {
         'default': dj_database_url.config(
             default=DATABASE_URL,
@@ -114,10 +127,12 @@ else:
     # Check if running in production (Render sets RENDER env variable)
     IS_RENDER = 'RENDER' in os.environ
     
+    print(f"📊 IS_RENDER: {IS_RENDER}", file=sys.stderr)
+    print(f"📊 ENVIRONMENT: {ENVIRONMENT}", file=sys.stderr)
+    
     if IS_RENDER or ENVIRONMENT == 'production':
         # TEMPORARY FALLBACK: Use SQLite in production if DATABASE_URL not set
         # WARNING: SQLite is NOT recommended for production - add DATABASE_URL ASAP!
-        import sys
         print("=" * 80, file=sys.stderr)
         print("⚠️  WARNING: Using SQLite as temporary database!", file=sys.stderr)
         print("⚠️  This is NOT recommended for production.", file=sys.stderr)
@@ -131,8 +146,10 @@ else:
                 'NAME': '/opt/render/project/src/db.sqlite3',
             }
         }
+        print(f"✅ SQLite database configured at: {DATABASES['default']['NAME']}", file=sys.stderr)
     else:
         # Local development database
+        print("✅ Using local MySQL database", file=sys.stderr)
         DATABASES = {
             'default': {
                 'ENGINE': 'django.db.backends.mysql',
