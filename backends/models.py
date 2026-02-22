@@ -17,6 +17,8 @@ class Brand(models.Model):
 
     class Meta:
         db_table = 'brands'
+        verbose_name = 'Brand'
+        verbose_name_plural = 'Brands'
     
 
 class Category(models.Model):
@@ -34,6 +36,8 @@ class Category(models.Model):
 
     class Meta:
         db_table = 'categories'
+        verbose_name = 'Category'
+        verbose_name_plural = 'Categories'
     
 
 class Product(models.Model):
@@ -59,6 +63,8 @@ class Product(models.Model):
 
     class Meta:
         db_table = 'products'
+        verbose_name = 'Product'
+        verbose_name_plural = 'Products'
     
 
 class ProductImage(models.Model):
@@ -78,6 +84,8 @@ class ProductImage(models.Model):
     class Meta:
         db_table = 'product_images'
         ordering = ['position']
+        verbose_name = 'Product Image'
+        verbose_name_plural = 'Product Images'
     
 
 class ProductCategory(models.Model):
@@ -90,6 +98,8 @@ class ProductCategory(models.Model):
 
     class Meta:
         db_table = 'product_categories'
+        verbose_name = 'Product Category'
+        verbose_name_plural = 'Product Categories'
 
 
 class Attribute(models.Model):
@@ -105,6 +115,8 @@ class Attribute(models.Model):
 
     class Meta:
         db_table = 'attributes'
+        verbose_name = 'Attribute'
+        verbose_name_plural = 'Attributes'
 
 
 class AttributeValue(models.Model):
@@ -121,6 +133,8 @@ class AttributeValue(models.Model):
 
     class Meta:
         db_table = 'attribute_values'
+        verbose_name = 'Attribute Value'
+        verbose_name_plural = 'Attribute Values'
 
 
 class ProductAttributeValue(models.Model):
@@ -133,6 +147,8 @@ class ProductAttributeValue(models.Model):
 
     class Meta:
         db_table = 'product_attribute_values'
+        verbose_name = 'Product Attribute Value'
+        verbose_name_plural = 'Product Attribute Values'
 
 
 class Membership(models.Model):
@@ -160,6 +176,8 @@ class Membership(models.Model):
 
     class Meta:
         db_table = 'memberships'
+        verbose_name = 'Membership'
+        verbose_name_plural = 'Memberships'
         constraints = [
             models.UniqueConstraint(fields=['tier'], name='unique_membership_tier')
         ]
@@ -184,6 +202,8 @@ class Customer(models.Model):
 
     class Meta:
         db_table = 'customers'
+        verbose_name = 'Customer'
+        verbose_name_plural = 'Customers'
 
     def get_tier_from_points(self):
         if self.points >= 40000:
@@ -212,6 +232,8 @@ class Review(models.Model):
 
     class Meta:
         db_table = 'reviews'
+        verbose_name = 'Review'
+        verbose_name_plural = 'Reviews'
 
 
 class MenuList(models.Model):
@@ -238,6 +260,8 @@ class MenuList(models.Model):
 
     class Meta:
         db_table = 'menulist'
+        verbose_name = 'Menu Item'
+        verbose_name_plural = 'Menu Items'
 
 
 class UserPermission(models.Model):
@@ -261,6 +285,8 @@ class UserPermission(models.Model):
 
     class Meta:
         db_table = 'user_permissions'
+        verbose_name = 'User Permission'
+        verbose_name_plural = 'User Permissions'
 
 
 class Wishlist(models.Model):
@@ -274,6 +300,8 @@ class Wishlist(models.Model):
     
     class Meta:
         db_table = 'wishlists'
+        verbose_name = 'Wishlist'
+        verbose_name_plural = 'Wishlists'
 
 
 class WishlistItem(models.Model):
@@ -289,6 +317,8 @@ class WishlistItem(models.Model):
 
     class Meta:
         db_table = 'wishlist_items'
+        verbose_name = 'Wishlist Item'
+        verbose_name_plural = 'Wishlist Items'
     
 
 
@@ -304,6 +334,8 @@ class Cart(models.Model):
 
     class Meta:
         db_table = 'carts'
+        verbose_name = 'Cart'
+        verbose_name_plural = 'Carts'
 
 
 class CartItem(models.Model):
@@ -320,6 +352,8 @@ class CartItem(models.Model):
 
     class Meta:
         db_table = 'cart_items'
+        verbose_name = 'Cart Item'
+        verbose_name_plural = 'Cart Items'
 
 
 class Order(models.Model):
@@ -354,6 +388,8 @@ class Order(models.Model):
 
     class Meta:
         db_table = 'orders'
+        verbose_name = 'Order'
+        verbose_name_plural = 'Orders'
 
     def _calculate_points_from_paid_amount(self):
         if not self.paid_amount:
@@ -430,6 +466,8 @@ class CancelledOrder(models.Model):
 
     class Meta:
         db_table = 'cancelled_orders'
+        verbose_name = 'Cancelled Order'
+        verbose_name_plural = 'Cancelled Orders'
 
 
 class OnlinePaymentRequest(models.Model):
@@ -455,6 +493,8 @@ class OnlinePaymentRequest(models.Model):
 
     class Meta:
         db_table = 'online_payment_requests'
+        verbose_name = 'Online Payment Request'
+        verbose_name_plural = 'Online Payment Requests'
 
 
 class DiscountCoupon(models.Model):
@@ -473,6 +513,8 @@ class DiscountCoupon(models.Model):
 
     class Meta:
         db_table = 'discount_coupons'
+        verbose_name = 'Discount Coupon'
+        verbose_name_plural = 'Discount Coupons'
     
 
     
@@ -496,6 +538,8 @@ class OrderReturn(models.Model):
 
     class Meta:
         db_table = 'order_returns'
+        verbose_name = 'Order Return'
+        verbose_name_plural = 'Order Returns'
 
 
 class Refund(models.Model):
@@ -513,6 +557,8 @@ class Refund(models.Model):
 
     class Meta:
         db_table = 'refunds'
+        verbose_name = 'Refund'
+        verbose_name_plural = 'Refunds'
 
 
 
@@ -528,6 +574,8 @@ class CustomerSupport(models.Model):
 
     class Meta:
         db_table = 'customer_supports'
+        verbose_name = 'Customer Support'
+        verbose_name_plural = 'Customer Support'
 
 
 
@@ -544,6 +592,8 @@ class CustomerSupportTicket(models.Model):
 
     class Meta:
         db_table = 'customer_support_tickets'
+        verbose_name = 'Customer Support Ticket'
+        verbose_name_plural = 'Customer Support Tickets'
 
 
 class ServerCustomerSupportChat(models.Model):
@@ -558,6 +608,8 @@ class ServerCustomerSupportChat(models.Model):
 
     class Meta:
         db_table = 'customer_support_chats'
+        verbose_name = 'Customer Support Chat'
+        verbose_name_plural = 'Customer Support Chats'
 
 
 class CustomerSupportFeedback(models.Model):
@@ -572,6 +624,8 @@ class CustomerSupportFeedback(models.Model):
 
     class Meta:
         db_table = 'customer_support_feedbacks'
+        verbose_name = 'Customer Support Feedback'
+        verbose_name_plural = 'Customer Support Feedback'
 
 
 
@@ -590,6 +644,8 @@ class Inventory(models.Model):
 
     class Meta:
         db_table = 'inventories'
+        verbose_name = 'Inventory'
+        verbose_name_plural = 'Inventory'
     
 
 
