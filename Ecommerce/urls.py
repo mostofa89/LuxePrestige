@@ -28,7 +28,7 @@ urlpatterns = [
 ]
 
 # Serve media files in development
-if settings.DEBUG:
+if settings.DEBUG or getattr(settings, 'ENVIRONMENT', 'development') != 'production':
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     # Note: Static files are automatically served by Django's runserver in DEBUG mode
     # No need to manually add static() for STATIC_URL in development

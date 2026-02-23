@@ -32,9 +32,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-1b&x)@9*y=msa5ns_)tz=9ljnr7@)&^$tg8=$_oy*2#5uua*kk')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG', 'False') == 'True'
-
 # Auto-detect if running on Render (Render sets this automatically)
 IS_RENDER = 'RENDER' in os.environ
 
@@ -43,6 +40,13 @@ if IS_RENDER:
     ENVIRONMENT = 'production'
 else:
     ENVIRONMENT = os.getenv('ENVIRONMENT', 'development')
+
+# SECURITY WARNING: don't run with debug turned on in production!
+debug_env = os.getenv('DEBUG')
+if debug_env is None:
+    DEBUG = ENVIRONMENT != 'production'
+else:
+    DEBUG = debug_env == 'True'
 
 # Get ALLOWED_HOSTS from environment or use defaults
 ALLOWED_HOSTS_STR = os.getenv('ALLOWED_HOSTS', '127.0.0.1,localhost')

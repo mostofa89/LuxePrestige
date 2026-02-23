@@ -43,6 +43,51 @@
         </div>
     </section>
 
+    <section class="py-24 px-8 lg:px-20 bg-pearl dark:bg-black-pearl" id="catalog">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-10 mb-16">
+                <div>
+                    <p class="text-xs tracking-[0.35em] uppercase text-twilight dark:text-lavender-mist mb-4">Atelier Catalog</p>
+                    <h2 class="font-cormorant text-5xl lg:text-6xl font-light text-obsidian dark:text-pearl">Categories & Products</h2>
+                </div>
+                <p class="text-sm text-twilight dark:text-lavender-mist max-w-xl">Browse your live categories and the newest products pulled from the database.</p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-14">
+                {% for category in categories %}
+                    <div class="border border-black/10 bg-white px-5 py-4 text-xs tracking-[0.3em] uppercase text-black text-center transition-all duration-300 hover:-translate-y-1 hover:border-rose-gold/70 hover:text-rose-gold hover:shadow-[0_12px_30px_-18px_rgba(205,151,119,0.7)]">
+                        {{ category.name }}
+                    </div>
+                {% empty %}
+                    <div class="col-span-full text-sm text-twilight dark:text-lavender-mist">No active categories found.</div>
+                {% endfor %}
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                {% for card in product_cards %}
+                    <article class="group border border-black/10 bg-white dark:border-pearl/15 dark:bg-black-pearl/70 p-6 transition-transform duration-300 hover:-translate-y-2 card-glow">
+                        <div class="relative aspect-[3/4] overflow-hidden bg-pearl dark:bg-midnight">
+                            {% if card.image %}
+                                <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="{{ card.image.image.url }}" alt="{{ card.product.name }}" loading="lazy" decoding="async">
+                            {% else %}
+                                <div class="w-full h-full flex items-center justify-center text-xs tracking-[0.25em] uppercase text-black/70 dark:text-pearl/70">
+                                    No Image
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="mt-6">
+                            <p class="text-xs tracking-[0.25em] uppercase text-black/70 dark:text-pearl/70">{{ card.product.category.name }}</p>
+                            <h3 class="font-cormorant text-2xl text-black dark:text-pearl mt-3">{{ card.product.name }}</h3>
+                            <p class="text-sm text-black/80 dark:text-champagne mt-2">${{ card.product.price }}</p>
+                        </div>
+                    </article>
+                {% empty %}
+                    <p class="text-sm text-twilight dark:text-lavender-mist">No active products found.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
     <section class="py-24 px-8 lg:px-20" id="collections">
         <div class="max-w-7xl mx-auto">
             <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-10 mb-16">
@@ -54,40 +99,26 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                <article class="group border border-obsidian/10 dark:border-pearl/10 bg-moon-white/80 dark:bg-black-pearl/60 p-6 transition-transform duration-300 hover:-translate-y-2 card-glow">
-                    <div class="relative aspect-[3/4] overflow-hidden bg-pearl dark:bg-midnight">
-                        <span class="absolute top-4 left-4 text-[10px] tracking-[0.3em] uppercase bg-rose-gold text-obsidian px-3 py-1">New</span>
-                        <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?auto=format&fit=crop&w=900&q=80" alt="Luna Pendant" loading="lazy" decoding="async">
-                    </div>
-                    <div class="mt-6">
-                        <p class="text-xs tracking-[0.25em] uppercase text-twilight dark:text-lavender-mist">Necklace</p>
-                        <h3 class="font-cormorant text-2xl text-obsidian dark:text-pearl mt-3">Luna Pendant</h3>
-                        <p class="text-sm text-midnight dark:text-champagne mt-2">$248</p>
-                    </div>
-                </article>
-
-                <article class="group border border-obsidian/10 dark:border-pearl/10 bg-moon-white/80 dark:bg-black-pearl/60 p-6 transition-transform duration-300 hover:-translate-y-2 card-glow">
-                    <div class="relative aspect-[3/4] overflow-hidden bg-champagne dark:bg-obsidian">
-                        <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://images.unsplash.com/photo-1506630448388-4e683c67ddb0?auto=format&fit=crop&w=900&q=80" alt="Celestial Band" loading="lazy" decoding="async">
-                    </div>
-                    <div class="mt-6">
-                        <p class="text-xs tracking-[0.25em] uppercase text-twilight dark:text-lavender-mist">Ring</p>
-                        <h3 class="font-cormorant text-2xl text-obsidian dark:text-pearl mt-3">Celestial Band</h3>
-                        <p class="text-sm text-midnight dark:text-champagne mt-2"><span class="line-through text-twilight mr-3">$320</span>$272</p>
-                    </div>
-                </article>
-
-                <article class="group border border-obsidian/10 dark:border-pearl/10 bg-moon-white/80 dark:bg-black-pearl/60 p-6 transition-transform duration-300 hover:-translate-y-2 card-glow">
-                    <div class="relative aspect-[3/4] overflow-hidden bg-pearl dark:bg-midnight">
-                        <span class="absolute top-4 left-4 text-[10px] tracking-[0.3em] uppercase bg-blush text-moon-white px-3 py-1">Sale</span>
-                        <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=900&q=80" alt="Aurora Drops" loading="lazy" decoding="async">
-                    </div>
-                    <div class="mt-6">
-                        <p class="text-xs tracking-[0.25em] uppercase text-twilight dark:text-lavender-mist">Earrings</p>
-                        <h3 class="font-cormorant text-2xl text-obsidian dark:text-pearl mt-3">Aurora Drops</h3>
-                        <p class="text-sm text-midnight dark:text-champagne mt-2"><span class="line-through text-twilight mr-3">$196</span>$147</p>
-                    </div>
-                </article>
+                {% for card in product_cards|slice:":6" %}
+                    <article class="group border border-black/10 bg-white dark:border-pearl/15 dark:bg-black-pearl/70 p-6 transition-transform duration-300 hover:-translate-y-2 card-glow">
+                        <div class="relative aspect-[3/4] overflow-hidden bg-pearl dark:bg-midnight">
+                            {% if card.image %}
+                                <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="{{ card.image.image.url }}" alt="{{ card.product.name }}" loading="lazy" decoding="async">
+                            {% else %}
+                                <div class="w-full h-full flex items-center justify-center text-xs tracking-[0.25em] uppercase text-black/70 dark:text-pearl/70">
+                                    No Image
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="mt-6">
+                            <p class="text-xs tracking-[0.25em] uppercase text-black/70 dark:text-pearl/70">{{ card.product.category.name }}</p>
+                            <h3 class="font-cormorant text-2xl text-black dark:text-pearl mt-3">{{ card.product.name }}</h3>
+                            <p class="text-sm text-black/80 dark:text-champagne mt-2">${{ card.product.price }}</p>
+                        </div>
+                    </article>
+                {% empty %}
+                    <p class="text-sm text-twilight dark:text-lavender-mist">No active products found.</p>
+                {% endfor %}
             </div>
         </div>
     </section>
