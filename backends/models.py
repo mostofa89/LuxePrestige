@@ -25,9 +25,9 @@ class Category(models.Model):
     name = models.CharField(max_length=50)
     slug = models.SlugField(unique=True)
     is_active = models.BooleanField(default=True)
-    description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    category_image = models.ImageField(blank=True, null=True, upload_to='category_images/')
 
 
     def __str__(self):
@@ -54,6 +54,8 @@ class Product(models.Model):
     average_rating = models.DecimalField(max_digits=3, decimal_places=2, default=0.0)
     is_active = models.BooleanField(default=True)
     is_featured = models.BooleanField(default=False)
+    avl_quantity = models.IntegerField(default=0)
+    product_image = models.ImageField(upload_to='product_images/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     

@@ -88,17 +88,25 @@ def category(request):
             return render(request, 'backends/403.html', status=403)
         name = request.POST.get('name')
         slug = request.POST.get('slug')
-        if name and slug:
+        category_image = request.FILES.get('category_image')
+        is_active = request.POST.get('is_active') == 'on'
+        
+        if name and slug :
             if Category.objects.filter(name__iexact=name).exists():
                 context['error'] = 'Category with this name already exists.'
                 return render(request, 'backends/add_category.html', context)
             
             else:
-                Category.objects.create(name=name, slug=slug)
+                Category.objects.create(
+                    name=name, 
+                    slug=slug,
+                    category_image=category_image,
+                    is_active=is_active
+                )
                 messages.success(request, 'Category added successfully.')
                 return redirect(request.path)
                 
-        context['error'] = 'Category name and slug are required.'
+        context['error'] = 'Category name, slug and description are required.'
 
     if is_add_page:
         if not checkUserPermissions(request, 'can_add', '/backends/category-list/'):
@@ -145,6 +153,10 @@ def product(request):
         category = request.POST.get('category')
         delivery_day_min = request.POST.get('delivery_day_min')
         delivery_day_max = request.POST.get('delivery_day_max')
+        avl_quantity = request.POST.get('avl_quantity')
+        product_image = request.FILES.get('product_image')
+        is_active = request.POST.get('is_active') == 'on'
+        is_featured = request.POST.get('is_featured') == 'on'
 
         if name and slug and description and price and brand and weight and category and delivery_day_min and delivery_day_max:
             if Product.objects.filter(name__iexact=name).exists():
@@ -162,6 +174,10 @@ def product(request):
                     category_id = category,
                     delivery_day_max = delivery_day_max,
                     delivery_day_min = delivery_day_min,
+                    avl_quantity = avl_quantity,
+                    product_image = product_image,
+                    is_active = is_active,
+                    is_featured = is_featured,
                 )
                 messages.success(request, 'Product added successfully.')
                 return redirect(request.path)
@@ -344,46 +360,8 @@ def membership_list(request):
     }
     
     # Parse benefits for each membership
-    # Also attach visual progress data (uses current customer's points if available)
-    # Tier thresholds (min inclusive, next_min exclusive)
-    thresholds = {
-        'bronze': (0, 10000),
-        'silver': (10000, 20000),
-        'gold': (20000, 30000),
-        'platinum': (30000, 40000),
-        'diamond': (40000, None),
-    }
-
-    # Get current customer points (backend admin view may not have a customer)
-    customer_points = None
-    if request.user.is_authenticated:
-        try:
-            customer_points = request.user.customer.points
-        except Exception:
-            customer_points = None
-
     for membership in memberships:
-        # benefits list
-        membership.benefits = [b.strip() for b in (membership.benefits or '').split('\n') if b.strip()]
-        # tier ranges
-        min_p, next_p = thresholds.get(membership.tier, (0, None))
-        membership.tier_min = min_p
-        membership.tier_max = (next_p - 1) if next_p else None
-        # compute progress percent relative to tier (use customer points if available)
-        if customer_points is not None:
-            if next_p:
-                span = max(1, next_p - min_p)
-                progress = int(max(0, min(100, (customer_points - min_p) * 100 / span)))
-            else:
-                # diamond: progress is full if customer already in diamond, otherwise show percent relative to min
-                if customer_points >= min_p:
-                    progress = 100
-                else:
-                    progress = int(max(0, min(100, customer_points * 100 / max(1, min_p))))
-        else:
-            progress = 25  # fallback placeholder
-        membership.progress_percent = progress
-        membership.progress_label = f"{membership.progress_percent}%"
+        membership.benefits = [b.strip() for b in membership.benefits.split('\n') if b.strip()]
     
     page_number = request.GET.get('page')
     page_obj, paginator_list = paginate_list(page_number, memberships)

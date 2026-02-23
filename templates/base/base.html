@@ -33,51 +33,58 @@
             theme: {
                 extend: {
                     colors: {
-                        // Ocean & Parchment - Modern Oceanic Palette
-                        'dark-bg': '#07070a',
-                        'light-bg': '#edede9',
-                        'shadow-grey': '#24272b',
-                        'parchment': '#edede9',
-                        'blue-green': '#468faf',
-                        'pacific-blue': '#61a5c2',
-                        'sky-blue': '#89c2d9',
-                        'white': '#edede9',
-                        'charcoal': '#24272b',
-                        'cream': '#edede9',
-                        'mauve': '#61a5c2',
-                        'font-brown': '#24272b',
+                        // Exclusive Custom Palette - Only Specified Colors
+                        'dark-bg': '#1b1b1e',
+                        'light-bg': '#fcfffd',
+                        'shadow-grey': '#40916c',
+                        'parchment': '#f5f1ed',
+                        'charcoal': '#1b1b1e',
+                        'cream': '#fcfffd',
+                        'font-brown': '#1b1b1e',
 
-                        // Aliases for compatibility
-                        'floral-white': '#edede9',
-                        'silver': '#89c2d9',
-                        'pearl': '#edede9',
-                        'bone': '#edede9',
-                        'linen': '#edede9',
-                        'almond-cream': '#edede9',
-                        'almond-silk': '#89c2d9',
-                        'carbon-black': '#07070a',
-                        'moon-white': '#edede9',
-                        'champagne': '#89c2d9',
-                        'rose-gold': '#61a5c2',
-                        'blush': '#468faf',
-                        'lavender-mist': '#89c2d9',
-                        'twilight': '#24272b',
-                        'midnight': '#07070a',
-                        'obsidian': '#07070a',
-                        'black-pearl': '#24272b',
-                        'ebony': '#07070a',
-                        'jet': '#24272b',
-                        'sage': '#468faf',
-                        'lavender-blush': '#61a5c2',
-                        'slate-grey': '#24272b',
-                        'khaki-beige': '#89c2d9',
+                        // Primary Colors
+                        'pearl': '#fcfffd',
+                        'moon-white': '#fcfffd',
+                        'champagne': '#edc4b3',
+                        'rose-gold': '#52b788',
+                        'blush': '#edc4b3',
+                        'lavender-mist': '#d8f3dc',
+                        'twilight': '#40916c',
+                        'midnight': '#1b1b1e',
+                        'obsidian': '#1b1b1e',
+                        'black-pearl': '#1b1b1e',
+                        'ebony': '#1b1b1e',
 
-                        // Accent Colors
-                        'gold-shimmer': '#61a5c2',
-                        'silver-glow': '#edede9',
-                        'rose-quartz': '#89c2d9',
-                        'amethyst': '#468faf',
-                        'secondary': '#61a5c2',
+                        // Accent Colors - Only from specified palette
+                        'gold-shimmer': '#74c69d',
+                        'copper': '#52b788',
+                        'amber': '#edc4b3',
+                        'silver-glow': '#fcfffd',
+                        'rose-quartz': '#e6b8a2',
+                        'sage': '#95d5b2',
+                        'slate-grey': '#40916c',
+                        
+                        // Green Gradient (Mint Family)
+                        'frosted-mint': '#d8f3dc',
+                        'celadon-light': '#b7e4c7',
+                        'celadon': '#95d5b2',
+                        'mint-light': '#74c69d',
+                        'mint': '#52b788',
+                        'sea-green': '#40916c',
+                        
+                        // Warm Neutrals
+                        'almond-silk': '#edc4b3',
+                        'peach-fuzz': '#e6b8a2',
+                        
+                        // Base Colors
+                        'carbon-black': '#1b1b1e',
+                        'white': '#fcfffd',
+                        
+                        // Aliases
+                        'floral-white': '#fcfffd',
+                        'bone': '#f5f1ed',
+                        'linen': '#f5f1ed',
+                        'almond-cream': '#edc4b3',
                     },
                     fontFamily: {
                         'cormorant': ['Fraunces', 'serif'],
@@ -119,8 +126,8 @@
                             '50%': { opacity: '1' },
                         },
                         glowPulse: {
-                            '0%, 100%': { transform: 'translateY(0)', filter: 'drop-shadow(0 0 8px rgba(97, 165, 194, 0.4))' },
-                            '50%': { transform: 'translateY(-3px)', filter: 'drop-shadow(0 0 18px rgba(97, 165, 194, 0.6))' },
+                            '0%, 100%': { transform: 'translateY(0)', filter: 'drop-shadow(0 0 8px rgba(82, 183, 136, 0.4))' },
+                            '50%': { transform: 'translateY(-3px)', filter: 'drop-shadow(0 0 18px rgba(82, 183, 136, 0.6))' },
                         },
                         floatSway: {
                             '0%, 100%': { transform: 'translateY(0)' },
@@ -158,8 +165,8 @@
                             'to': { opacity: '1', transform: 'translateY(0)' },
                         },
                         glow: {
-                            '0%, 100%': { filter: 'drop-shadow(0 0 10px rgba(97, 165, 194, 0.4))' },
-                            '50%': { filter: 'drop-shadow(0 0 25px rgba(97, 165, 194, 0.7))' },
+                            '0%, 100%': { filter: 'drop-shadow(0 0 10px rgba(82, 183, 136, 0.4))' },
+                            '50%': { filter: 'drop-shadow(0 0 25px rgba(82, 183, 136, 0.7))' },
                         },
                         pulseGlow: {
                             '0%, 100%': { opacity: '1', transform: 'scale(1)' },
@@ -265,27 +272,27 @@
         .card-glow {
             position: relative;
             transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
-            box-shadow: 0 25px 50px rgba(97, 165, 194, 0.12);
+            box-shadow: 0 25px 50px rgba(82, 183, 136, 0.12);
             animation: glowPulse 6s ease-in-out infinite;
             backdrop-filter: blur(18px) saturate(140%);
             background: rgba(237, 237, 233, 0.7);
-            border: 1px solid rgba(137, 194, 217, 0.35);
+            border: 1px solid rgba(116, 198, 157, 0.35);
         }
 
         .dark .card-glow {
             background: rgba(36, 39, 43, 0.6);
-            border-color: rgba(97, 165, 194, 0.2);
+            border-color: rgba(82, 183, 136, 0.2);
         }
 
         .glass-panel {
             backdrop-filter: blur(18px) saturate(140%);
             background: rgba(237, 237, 233, 0.7);
-            border: 1px solid rgba(137, 194, 217, 0.35);
+            border: 1px solid rgba(116, 198, 157, 0.35);
         }
 
         .dark .glass-panel {
             background: rgba(36, 39, 43, 0.6);
-            border-color: rgba(97, 165, 194, 0.2);
+            border-color: rgba(82, 183, 136, 0.2);
         }
 
         .card-glow::after {
@@ -293,7 +300,7 @@
             position: absolute;
             inset: -1px;
             border-radius: inherit;
-            background: radial-gradient(circle at top left, rgba(97, 165, 194, 0.35), transparent 55%),
+            background: radial-gradient(circle at top left, rgba(82, 183, 136, 0.35), transparent 55%),
                 radial-gradient(circle at bottom right, rgba(36, 39, 43, 0.3), transparent 60%);
             opacity: 0;
             transition: opacity 0.35s ease;
@@ -306,7 +313,7 @@
             position: absolute;
             inset: 0;
             border-radius: inherit;
-            background: linear-gradient(120deg, rgba(97, 165, 194, 0), rgba(97, 165, 194, 0.25), rgba(97, 165, 194, 0));
+            background: linear-gradient(120deg, rgba(82, 183, 136, 0), rgba(82, 183, 136, 0.25), rgba(82, 183, 136, 0));
             opacity: 0;
             transition: opacity 0.35s ease;
             z-index: 0;
@@ -321,8 +328,8 @@
         .card-glow:hover,
         .card-glow:focus-within {
             transform: translateY(-4px);
-            box-shadow: 0 35px 70px rgba(97, 165, 194, 0.18);
-            border-color: rgba(97, 165, 194, 0.35);
+            box-shadow: 0 35px 70px rgba(82, 183, 136, 0.18);
+            border-color: rgba(82, 183, 136, 0.35);
         }
 
         .card-glow:hover::after,
@@ -348,15 +355,15 @@
             width: 6px;
             height: 6px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(97, 165, 194, 0.9), rgba(97, 165, 194, 0.12));
-            box-shadow: 0 0 12px rgba(97, 165, 194, 0.75);
+            background: radial-gradient(circle, rgba(82, 183, 136, 0.9), rgba(82, 183, 136, 0.12));
+            box-shadow: 0 0 12px rgba(82, 183, 136, 0.75);
             animation: atomDrift var(--atom-duration, 18s) ease-in-out infinite;
         }
 
         .bond {
             position: absolute;
             height: 1px;
-            background: linear-gradient(90deg, rgba(97, 165, 194, 0), rgba(97, 165, 194, 0.55), rgba(97, 165, 194, 0));
+            background: linear-gradient(90deg, rgba(82, 183, 136, 0), rgba(82, 183, 136, 0.55), rgba(82, 183, 136, 0));
             opacity: 0.6;
             transform-origin: left center;
             animation: bondPulse 8s ease-in-out infinite;
@@ -375,8 +382,8 @@
             width: 6px;
             height: 6px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(237, 237, 233, 0.98), rgba(97, 165, 194, 0.4), transparent 70%);
-            box-shadow: 0 0 22px rgba(97, 165, 194, 0.85), 0 0 40px rgba(237, 237, 233, 0.35);
+            background: radial-gradient(circle, rgba(237, 237, 233, 0.98), rgba(82, 183, 136, 0.4), transparent 70%);
+            box-shadow: 0 0 22px rgba(82, 183, 136, 0.85), 0 0 40px rgba(237, 237, 233, 0.35);
             opacity: 0.55;
             animation: lightFloat var(--light-duration, 14s) ease-in-out infinite,
                 lightTwinkle var(--light-twinkle, 4s) ease-in-out infinite;
@@ -418,7 +425,7 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(120deg, rgba(237, 237, 233, 0), rgba(97, 165, 194, 0.35), rgba(237, 237, 233, 0));
+            background: linear-gradient(120deg, rgba(237, 237, 233, 0), rgba(82, 183, 136, 0.35), rgba(237, 237, 233, 0));
             opacity: 0;
             transform: translateX(-120%);
             transition: opacity 0.3s ease, transform 0.6s ease;
@@ -441,7 +448,7 @@
         .btn-secondary-hover:hover,
         .btn-secondary-hover:focus-visible {
             transform: translateY(-2px) scale(1.01);
-            box-shadow: 0 18px 35px rgba(97, 165, 194, 0.22);
+            box-shadow: 0 18px 35px rgba(82, 183, 136, 0.22);
             background-color: #61a5c2 !important;
             color: #edede9 !important;
         }
@@ -528,7 +535,7 @@
             bottom: -6px;
             width: 100%;
             height: 2px;
-            background: linear-gradient(90deg, rgba(97, 165, 194, 0), rgba(97, 165, 194, 0.85), rgba(97, 165, 194, 0));
+            background: linear-gradient(90deg, rgba(82, 183, 136, 0), rgba(82, 183, 136, 0.85), rgba(82, 183, 136, 0));
             transform: scaleX(0);
             transform-origin: center;
             transition: transform 0.35s ease;
@@ -550,7 +557,7 @@
             bottom: -4px;
             width: 100%;
             height: 1px;
-            background: linear-gradient(90deg, rgba(97, 165, 194, 0), rgba(97, 165, 194, 0.7), rgba(97, 165, 194, 0));
+            background: linear-gradient(90deg, rgba(82, 183, 136, 0), rgba(82, 183, 136, 0.7), rgba(82, 183, 136, 0));
             transform: scaleX(0);
             transform-origin: center;
             transition: transform 0.35s ease;
@@ -590,8 +597,8 @@
             width: 100%;
             height: 100%;
             background: 
-                radial-gradient(circle at 15% 20%, rgba(97, 165, 194, 0.1), transparent 52%),
-                radial-gradient(circle at 85% 70%, rgba(137, 194, 217, 0.1), transparent 55%),
+                radial-gradient(circle at 15% 20%, rgba(82, 183, 136, 0.1), transparent 52%),
+                radial-gradient(circle at 85% 70%, rgba(116, 198, 157, 0.1), transparent 55%),
                 radial-gradient(circle at 50% 50%, rgba(36, 39, 43, 0.05), transparent 60%);
             animation: float-slow 30s ease-in-out infinite;
         }
@@ -599,8 +606,8 @@
         .ethereal-pattern {
             position: absolute;
             inset: 0;
-            background-image: radial-gradient(rgba(97, 165, 194, 0.09) 1px, transparent 1px),
-                radial-gradient(rgba(137, 194, 217, 0.12) 1px, transparent 1px);
+            background-image: radial-gradient(rgba(82, 183, 136, 0.09) 1px, transparent 1px),
+                radial-gradient(rgba(116, 198, 157, 0.12) 1px, transparent 1px);
             background-size: 28px 28px, 90px 90px;
             opacity: 0.35;
             mix-blend-mode: screen;
@@ -620,7 +627,7 @@
             height: 800px;
             top: -15%;
             right: -15%;
-            background: radial-gradient(circle, #F3F3F4, transparent);
+            background: radial-gradient(circle, #d8f3dc, transparent);
             animation: float 25s infinite ease-in-out, aurora 20s infinite alternate;
         }
 
@@ -629,7 +636,7 @@
             height: 700px;
             bottom: -15%;
             left: -15%;
-            background: radial-gradient(circle, #61a5c2, transparent);
+            background: radial-gradient(circle, #52b788, transparent);
             animation: float 25s infinite ease-in-out 8s, aurora 20s infinite alternate 4s;
         }
 
@@ -638,22 +645,22 @@
             height: 600px;
             top: 40%;
             left: 40%;
-            background: radial-gradient(circle, #7E7F83, transparent);
+            background: radial-gradient(circle, #40916c, transparent);
             animation: float 25s infinite ease-in-out 15s, aurora 20s infinite alternate 8s;
         }
 
 
         /* Dark mode adjustments */
         .dark .aurora-1 {
-            background: radial-gradient(circle, #89c2d9, transparent);
+            background: radial-gradient(circle, #74c69d, transparent);
         }
 
         .dark .aurora-2 {
-            background: radial-gradient(circle, #61a5c2, transparent);
+            background: radial-gradient(circle, #52b788, transparent);
         }
 
         .dark .aurora-3 {
-            background: radial-gradient(circle, #14110F, transparent);
+            background: radial-gradient(circle, #2d6a4f, transparent);
         }
 
         @keyframes pageFade {
@@ -712,32 +719,45 @@
         </ul>
         <div class="nav-actions flex gap-5 lg:gap-7 items-center">
             <!-- Theme Toggle -->
-            <button class="btn theme-toggle w-12 h-6 bg-champagne dark:bg-midnight rounded-full relative transition-all duration-400 border border-obsidian/10 dark:border-pearl/10 hover:scale-105"
+            <button class="btn theme-toggle w-10 h-10 bg-gray-200 dark:bg-gray-700 rounded-full relative transition-all duration-300 border border-gray-300 dark:border-gray-600 hover:scale-110 hover:rotate-12 shadow-sm hover:shadow-md flex items-center justify-center group"
                 id="themeToggle" aria-label="Toggle theme">
-                <div
-                    class="w-4 h-4 bg-rose-gold dark:bg-gold-shimmer rounded-full absolute top-1 left-1 dark:left-7 transition-all duration-400">
-                </div>
+                <!-- Sun Icon (visible in light mode) -->
+                <svg class="w-5 h-5 text-yellow-500 dark:hidden transition-all duration-300 group-hover:rotate-90 group-hover:scale-110" viewBox="0 0 24 24" fill="currentColor">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
+                    <line x1="12" y1="21" x2="12" y2="23" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
+                    <line x1="1" y1="12" x2="3" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
+                    <line x1="21" y1="12" x2="23" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
+                </svg>
+                <!-- Moon Icon (visible in dark mode) -->
+                <svg class="w-5 h-5 text-blue-200 hidden dark:block transition-all duration-300 group-hover:-rotate-12 group-hover:scale-110" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
             </button>
 
             <!-- Login Icon -->
-            <button class="btn w-5 h-5 text-midnight dark:text-champagne hover:text-rose-gold transition-colors" aria-label="Login">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <button class="btn w-5 h-5 text-black dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors" aria-label="Login">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <circle cx="12" cy="8" r="4"></circle>
                     <path d="M4 20c0-4.2 3.6-7 8-7s8 2.8 8 7"></path>
                 </svg>
             </button>
 
             <!-- Search Icon -->
-            <button class="btn w-5 h-5 text-midnight dark:text-champagne hover:text-rose-gold transition-colors" aria-label="Search">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <button class="btn w-5 h-5 text-black dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors" aria-label="Search">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <circle cx="11" cy="11" r="8"></circle>
                     <path d="M21 21l-4.35-4.35"></path>
                 </svg>
             </button>
 
-            <!-- Heart Icon -->
-            <button class="btn w-5 h-5 text-midnight dark:text-champagne hover:text-rose-gold transition-colors" aria-label="Wishlist">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <!-- Wishlist Icon -->
+            <button class="btn w-5 h-5 text-black dark:text-white hover:text-red-600 dark:hover:text-red-400 transition-colors" aria-label="Wishlist">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path
                         d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
                     </path>
@@ -745,13 +765,13 @@
             </button>
 
             <!-- Cart Icon -->
-            <button class="btn relative w-5 h-5 text-midnight dark:text-champagne hover:text-rose-gold transition-colors" aria-label="Cart">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <button class="btn relative w-5 h-5 text-black dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors" aria-label="Cart">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
                     <line x1="3" y1="6" x2="21" y2="6"></line>
                     <path d="M16 10a4 4 0 0 1-8 0"></path>
                 </svg>
-                <span class="absolute -top-2 -right-2 bg-rose-gold text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-semibold">
+                <span class="absolute -top-2 -right-2 bg-blue-600 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-semibold shadow">
                     3
                 </span>
             </button>
@@ -973,4 +993,5 @@
 </body>
 
 </html>
+
 

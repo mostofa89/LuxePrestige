@@ -16,12 +16,12 @@
 						<h2 class="font-cormorant text-4xl lg:text-5xl text-obsidian dark:text-pearl font-light">Assign Product Category</h2>
 					</div>
 					<a href="{% url 'backends:product' %}"
-						class="btn px-6 py-3 text-xs tracking-[0.25em] uppercase border border-solid border-obsidian/20 dark:border-pearl/20 text-obsidian dark:text-pearl hover:text-rose-gold transition-colors">Back to Products</a>
+						class="btn px-6 py-3 text-xs tracking-[0.25em] uppercase border border-solid border-obsidian/20 dark:border-pearl/20 text-obsidian dark:text-pearl hover:text-mint hover:border-mint/50 hover:scale-105 transition-all duration-300">Back to Products</a>
 				</div>
 
 				<div class="rounded-3xl border border-solid border-obsidian/10 dark:border-pearl/10 bg-moon-white/85 dark:bg-black-pearl/70 p-8 shadow-[0_30px_60px_rgba(27,26,23,0.08)] card-glow">
 					{% if error %}
-						<div class="mb-6 rounded-2xl border border-solid border-rose-gold/40 bg-rose-gold/10 text-rose-gold px-4 py-3 text-sm">
+						<div class="mb-6 rounded-2xl border border-solid border-mint/40 bg-emerald-500/10 text-mint px-4 py-3 text-sm">
 							{{ error }}
 						</div>
 					{% endif %}
@@ -32,47 +32,47 @@
 							<div class="flex items-center justify-between mb-2">
 								<label class="block text-xs tracking-[0.25em] uppercase text-twilight dark:text-lavender-mist" for="product-select">Product</label>
 								<button type="button" onclick="refreshProducts()" title="Refresh product list"
-									class="text-xs text-rose-gold hover:text-obsidian dark:hover:text-pearl transition-colors">
+									class="text-xs text-mint hover:text-obsidian dark:hover:text-pearl transition-all duration-300">
 									<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
 									</svg>
 								</button>
 							</div>
 							<select id="product-select" name="product" required
-								class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 text-sm text-obsidian dark:text-pearl focus:border-rose-gold focus:outline-none">
+								class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 text-sm text-obsidian dark:text-pearl focus:border-mint focus:ring-2 focus:ring-mint/20 focus:outline-none transition-all duration-200">
 								<option value="" disabled selected>Select a product</option>
 								{% for product in products %}
 									<option value="{{ product.id }}">{{ product.name }}</option>
 								{% endfor %}
 							</select>
 							<a href="{% url 'backends:add_product' %}" target="_blank"
-								class="btn inline-block mt-2 text-xs text-twilight dark:text-lavender-mist hover:text-rose-gold transition-colors">+ Add New Product</a>
+								class="btn inline-block mt-2 text-xs text-twilight dark:text-lavender-mist hover:text-mint hover:border-mint/50 hover:scale-105 transition-all duration-300">+ Add New Product</a>
 						</div>
 						<div>
 							<div class="flex items-center justify-between mb-2">
 								<label class="block text-xs tracking-[0.25em] uppercase text-twilight dark:text-lavender-mist" for="category-select">Category</label>
 								<button type="button" onclick="refreshCategories()" title="Refresh category list"
-									class="text-xs text-rose-gold hover:text-obsidian dark:hover:text-pearl transition-colors">
+									class="text-xs text-mint hover:text-obsidian dark:hover:text-pearl transition-all duration-300">
 									<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
 									</svg>
 								</button>
 							</div>
 							<select id="category-select" name="category" required
-								class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 text-sm text-obsidian dark:text-pearl focus:border-rose-gold focus:outline-none">
+								class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 text-sm text-obsidian dark:text-pearl focus:border-mint focus:ring-2 focus:ring-mint/20 focus:outline-none transition-all duration-200">
 								<option value="" disabled selected>Select a category</option>
 								{% for category in categories %}
 									<option value="{{ category.id }}">{{ category.name }}</option>
 								{% endfor %}
 							</select>
 							<a href="{% url 'backends:add_category' %}" target="_blank"
-								class="btn inline-block mt-2 text-xs text-twilight dark:text-lavender-mist hover:text-rose-gold transition-colors">+ Add New Category</a>
+								class="btn inline-block mt-2 text-xs text-twilight dark:text-lavender-mist hover:text-mint hover:border-mint/50 hover:scale-105 transition-all duration-300">+ Add New Category</a>
 						</div>
 						<div class="flex flex-wrap gap-4">
 							<button type="submit"
-								class="btn px-6 py-3 text-xs tracking-[0.25em] uppercase bg-obsidian text-moon-white dark:bg-pearl dark:text-obsidian hover:bg-rose-gold transition-colors">Save Product Category</button>
+								class="btn px-6 py-3 text-xs tracking-[0.25em] uppercase bg-obsidian text-moon-white dark:bg-pearl dark:text-obsidian hover:bg-mint hover:shadow-[0_8px_30px_rgba(82,183,136,0.3)] hover:scale-105 transition-all duration-300">Save Product Category</button>
 							<a href="{% url 'backends:product' %}"
-								class="btn px-6 py-3 text-xs tracking-[0.25em] uppercase border border-solid border-obsidian/20 dark:border-pearl/20 text-obsidian dark:text-pearl hover:text-rose-gold transition-colors">Cancel</a>
+								class="btn px-6 py-3 text-xs tracking-[0.25em] uppercase border border-solid border-obsidian/20 dark:border-pearl/20 text-obsidian dark:text-pearl hover:text-mint hover:border-mint/50 hover:scale-105 transition-all duration-300">Cancel</a>
 						</div>
 					</form>
 				</div>
@@ -149,7 +149,7 @@
 		const feedback = document.createElement('div');
 		feedback.className = `fixed top-20 right-6 px-4 py-2 rounded-lg text-xs ${
 			isError 
-				? 'bg-rose-gold/90 text-moon-white' 
+				? 'bg-emerald-500/90 text-moon-white' 
 				: 'bg-obsidian/90 dark:bg-pearl/90 text-moon-white dark:text-obsidian'
 		} shadow-lg z-50 animate-fade-in`;
 		feedback.textContent = message;
@@ -188,3 +188,9 @@
 </style>
 
 {% endblock %}
+
+
+
+
+
+

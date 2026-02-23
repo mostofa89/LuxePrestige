@@ -25,14 +25,14 @@
 					<div>
 						<label class="block text-xs tracking-[0.25em] uppercase text-twilight dark:text-lavender-mist mb-2" for="login-identity">Email or Username</label>
 						<input id="login-identity" name="identity" type="text" autocomplete="username" required
-							class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 text-sm text-obsidian dark:text-pearl focus:border-rose-gold focus:outline-none" />
+							class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 text-sm text-obsidian dark:text-pearl focus:border-mint focus:ring-2 focus:ring-mint/20 focus:outline-none transition-all duration-200" />
 					</div>
 					<div>
 						<label class="block text-xs tracking-[0.25em] uppercase text-twilight dark:text-lavender-mist mb-2" for="login-password">Password</label>
 						<div class="relative">
 							<input id="login-password" name="password" type="password" autocomplete="current-password" required
-								class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 pr-14 text-sm text-obsidian dark:text-pearl focus:border-rose-gold focus:outline-none" />
-							<button type="button" class="absolute right-4 top-1/2 -translate-y-1/2 text-xs tracking-[0.2em] uppercase text-rose-gold hover:text-obsidian dark:hover:text-pearl transition-colors"
+								class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 pr-14 text-sm text-obsidian dark:text-pearl focus:border-mint focus:ring-2 focus:ring-mint/20 focus:outline-none transition-all duration-200" />
+							<button type="button" class="absolute right-4 top-1/2 -translate-y-1/2 text-xs tracking-[0.2em] uppercase text-mint hover:text-obsidian dark:hover:text-pearl transition-all duration-300"
 								data-toggle-password data-target="login-password" aria-pressed="false">
 								Show
 							</button>
@@ -43,16 +43,16 @@
 							<input type="checkbox" name="remember" class="accent-rose-gold" />
 							Remember me
 						</label>
-						<a href="#" class="text-rose-gold hover:text-obsidian dark:hover:text-pearl transition-colors">Forgot password</a>
+						<a href="#" class="text-mint hover:text-obsidian dark:hover:text-pearl transition-all duration-300">Forgot password</a>
 					</div>
 					<div class="flex flex-col items-center gap-4">
 						<button type="submit"
-							class="px-10 py-3 text-xs tracking-[0.25em] uppercase bg-obsidian text-moon-white dark:bg-pearl dark:text-obsidian hover:bg-rose-gold transition-colors">
+							class="px-10 py-3 text-xs tracking-[0.25em] uppercase bg-obsidian text-moon-white dark:bg-pearl dark:text-obsidian hover:bg-mint transition-all duration-300">
 							Sign In
 						</button>
 						<p class="text-xs tracking-[0.2em] uppercase text-twilight dark:text-lavender-mist">
 							No account yet?
-							<a href="#" class="ml-2 text-rose-gold hover:text-obsidian dark:hover:text-pearl transition-colors">Sign Up</a>
+							<a href="#" class="ml-2 text-mint hover:text-obsidian dark:hover:text-pearl transition-all duration-300">Sign Up</a>
 						</p>
 					</div>
 
@@ -62,9 +62,9 @@
 						<span class="h-px flex-1 bg-obsidian/10 dark:bg-pearl/10"></span>
 					</div>
 					<div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-						<a href="#" class="px-4 py-3 text-[10px] tracking-[0.3em] uppercase border border-solid border-obsidian/15 dark:border-pearl/15 text-obsidian dark:text-pearl hover:text-rose-gold transition-colors text-center">Google</a>
-						<a href="#" class="px-4 py-3 text-[10px] tracking-[0.3em] uppercase border border-solid border-obsidian/15 dark:border-pearl/15 text-obsidian dark:text-pearl hover:text-rose-gold transition-colors text-center">Facebook</a>
-						<a href="#" class="px-4 py-3 text-[10px] tracking-[0.3em] uppercase border border-solid border-obsidian/15 dark:border-pearl/15 text-obsidian dark:text-pearl hover:text-rose-gold transition-colors text-center">Apple</a>
+						<a href="#" class="px-4 py-3 text-[10px] tracking-[0.3em] uppercase border border-solid border-obsidian/15 dark:border-pearl/15 text-obsidian dark:text-pearl hover:text-mint hover:border-mint/50 hover:scale-105 transition-all duration-300 text-center transition-all duration-300">Google</a>
+						<a href="#" class="px-4 py-3 text-[10px] tracking-[0.3em] uppercase border border-solid border-obsidian/15 dark:border-pearl/15 text-obsidian dark:text-pearl hover:text-mint hover:border-mint/50 hover:scale-105 transition-all duration-300 text-center transition-all duration-300">Facebook</a>
+						<a href="#" class="px-4 py-3 text-[10px] tracking-[0.3em] uppercase border border-solid border-obsidian/15 dark:border-pearl/15 text-obsidian dark:text-pearl hover:text-mint hover:border-mint/50 hover:scale-105 transition-all duration-300 text-center transition-all duration-300">Apple</a>
 					</div>
 				</form>
 		</div>
@@ -75,3 +75,9 @@
 {% block extra_js %}
 <script src="{% static 'js/login.js' %}"></script>
 {% endblock %}
+
+
+
+
+
+

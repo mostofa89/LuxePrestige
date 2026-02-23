@@ -16,12 +16,12 @@
 						<h2 class="font-cormorant text-4xl lg:text-5xl text-obsidian dark:text-pearl font-light">{% if membership %}Edit Membership{% else %}Create a Membership{% endif %}</h2>
 					</div>
 					<a href="{% url 'backends:memberships' %}"
-						class="btn px-6 py-3 text-xs tracking-[0.25em] uppercase border border-solid border-obsidian/20 dark:border-pearl/20 text-obsidian dark:text-pearl hover:text-rose-gold transition-colors">Back to Memberships</a>
+						class="btn px-6 py-3 text-xs tracking-[0.25em] uppercase border border-solid border-obsidian/20 dark:border-pearl/20 text-obsidian dark:text-pearl hover:text-mint hover:border-mint/50 hover:scale-105 transition-all duration-300">Back to Memberships</a>
 				</div>
 
 				<div class="rounded-3xl border border-solid border-obsidian/10 dark:border-pearl/10 bg-moon-white/85 dark:bg-black-pearl/70 p-8 shadow-[0_30px_60px_rgba(27,26,23,0.08)] card-glow">
 					{% if error %}
-						<div class="mb-6 rounded-2xl border border-solid border-rose-gold/40 bg-rose-gold/10 text-rose-gold px-4 py-3 text-sm">
+						<div class="mb-6 rounded-2xl border border-solid border-mint/40 bg-emerald-500/10 text-mint px-4 py-3 text-sm">
 							{{ error }}
 						</div>
 					{% endif %}
@@ -37,14 +37,14 @@
 							<div>
 								<label class="block text-xs tracking-[0.25em] uppercase text-twilight dark:text-lavender-mist mb-2" for="membership-name">Membership Name</label>
 								<input id="membership-name" name="name" type="text" required {% if membership %}value="{{ membership.name }}"{% endif %}
-									class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 text-sm text-obsidian dark:text-pearl focus:border-rose-gold focus:outline-none" />
+									class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 text-sm text-obsidian dark:text-pearl focus:border-mint focus:ring-2 focus:ring-mint/20 focus:outline-none transition-all duration-200" />
 							</div>
 
 							<div class="grid gap-6 md:grid-cols-2 mt-6">
 								<div>
 									<label class="block text-xs tracking-[0.25em] uppercase text-twilight dark:text-lavender-mist mb-2" for="tier">Membership Tier</label>
 									<select id="tier" name="tier" required
-										class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 text-sm text-obsidian dark:text-pearl focus:border-rose-gold focus:outline-none">
+										class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 text-sm text-obsidian dark:text-pearl focus:border-mint focus:ring-2 focus:ring-mint/20 focus:outline-none transition-all duration-200">
 										<option value="" disabled selected>Select a tier</option>
 										<option value="bronze" {% if membership.tier == 'bronze' %}selected{% endif %}>Bronze</option>
 										<option value="silver" {% if membership.tier == 'silver' %}selected{% endif %}>Silver</option>
@@ -63,14 +63,14 @@
 							<div>
 								<label class="block text-xs tracking-[0.25em] uppercase text-twilight dark:text-lavender-mist mb-2" for="description">Description</label>
 								<textarea id="description" name="description" rows="4"
-									class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 text-sm text-obsidian dark:text-pearl focus:border-rose-gold focus:outline-none">{% if membership %}{{ membership.description }}{% endif %}</textarea>
+									class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 text-sm text-obsidian dark:text-pearl focus:border-mint focus:ring-2 focus:ring-mint/20 focus:outline-none transition-all duration-200">{% if membership %}{{ membership.description }}{% endif %}</textarea>
 								<p class="text-xs text-twilight dark:text-lavender-mist mt-2">Brief description of this membership tier</p>
 							</div>
 
 							<div class="mt-6">
 								<label class="block text-xs tracking-[0.25em] uppercase text-twilight dark:text-lavender-mist mb-2" for="benefits">Benefits (one per line)</label>
 								<textarea id="benefits" name="benefits" rows="6"
-									class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 text-sm text-obsidian dark:text-pearl focus:border-rose-gold focus:outline-none font-mono text-xs">{% if membership %}{% for benefit in membership.benefits %}{{ benefit }}
+									class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 text-sm text-obsidian dark:text-pearl focus:border-mint focus:ring-2 focus:ring-mint/20 focus:outline-none transition-all duration-200 font-mono text-xs">{% if membership %}{% for benefit in membership.benefits %}{{ benefit }}
 {% endfor %}{% endif %}</textarea>
 								<p class="text-xs text-twilight dark:text-lavender-mist mt-2">Enter each benefit on a new line</p>
 							</div>
@@ -83,13 +83,13 @@
 							<div class="space-y-4">
 								<label class="flex items-center gap-3 cursor-pointer">
 									<input type="checkbox" name="is_active" {% if membership.is_active or not membership %}checked{% endif %}
-										class="w-4 h-4 rounded border-obsidian/20 dark:border-pearl/20 text-rose-gold focus:ring-rose-gold" />
+										class="w-4 h-4 rounded border-obsidian/20 dark:border-pearl/20 text-mint focus:ring-rose-gold" />
 									<span class="text-sm text-obsidian dark:text-pearl">Active</span>
 								</label>
 
 								<label class="flex items-center gap-3 cursor-pointer">
 									<input type="checkbox" name="is_featured" {% if membership.is_featured %}checked{% endif %}
-										class="w-4 h-4 rounded border-obsidian/20 dark:border-pearl/20 text-rose-gold focus:ring-rose-gold" />
+										class="w-4 h-4 rounded border-obsidian/20 dark:border-pearl/20 text-mint focus:ring-rose-gold" />
 									<span class="text-sm text-obsidian dark:text-pearl">Featured (Display prominently)</span>
 								</label>
 							</div>
@@ -98,9 +98,9 @@
 						<!-- Submit -->
 						<div class="flex flex-wrap gap-4 pt-6 border-t border-obsidian/10 dark:border-pearl/10">
 							<button type="submit"
-								class="btn px-6 py-3 text-xs tracking-[0.25em] uppercase bg-obsidian text-moon-white dark:bg-pearl dark:text-obsidian hover:bg-rose-gold transition-colors">Save Membership</button>
+								class="btn px-6 py-3 text-xs tracking-[0.25em] uppercase bg-obsidian text-moon-white dark:bg-pearl dark:text-obsidian hover:bg-mint hover:shadow-[0_8px_30px_rgba(82,183,136,0.3)] hover:scale-105 transition-all duration-300">Save Membership</button>
 							<a href="{% url 'backends:memberships' %}"
-								class="btn px-6 py-3 text-xs tracking-[0.25em] uppercase border border-solid border-obsidian/20 dark:border-pearl/20 text-obsidian dark:text-pearl hover:text-rose-gold transition-colors">Cancel</a>
+								class="btn px-6 py-3 text-xs tracking-[0.25em] uppercase border border-solid border-obsidian/20 dark:border-pearl/20 text-obsidian dark:text-pearl hover:text-mint hover:border-mint/50 hover:scale-105 transition-all duration-300">Cancel</a>
 						</div>
 					</form>
 				</div>
@@ -109,3 +109,9 @@
 	</div>
 </section>
 {% endblock %}
+
+
+
+
+
+

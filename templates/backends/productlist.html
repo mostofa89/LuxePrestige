@@ -16,7 +16,7 @@
 						<h2 class="font-cormorant text-4xl lg:text-5xl text-obsidian dark:text-pearl font-light">Product Categories</h2>
 					</div>
 					<div class="flex flex-wrap gap-4">
-						<a href="{% url 'backends:add_product_category' %}" class="btn px-6 py-3 text-xs tracking-[0.25em] uppercase bg-obsidian text-moon-white dark:bg-pearl dark:text-obsidian hover:bg-rose-gold transition-colors">Add Product Category</a>
+						<a href="{% url 'backends:add_product_category' %}" class="btn px-6 py-3 text-xs tracking-[0.25em] uppercase bg-obsidian text-moon-white dark:bg-pearl dark:text-obsidian hover:bg-mint hover:shadow-[0_8px_30px_rgba(82,183,136,0.3)] hover:scale-105 transition-all duration-300">Add Product Category</a>
 					</div>
 				</div>
 
@@ -35,7 +35,7 @@
 								<div class="col-span-2 text-right">Actions</div>
 							</div>
 							{% for item in product_categories %}
-								<div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-start md:items-center border border-solid border-obsidian/10 dark:border-pearl/10 rounded-2xl p-5 bg-moon-white/70 dark:bg-black-pearl/40 card-glow">
+								<div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-start md:items-center border border-solid border-obsidian/10 dark:border-pearl/10 rounded-2xl p-5 bg-moon-white/70 dark:bg-black-pearl/40 card-glow group transition-all duration-300 hover:border-mint/50 hover:shadow-[0_12px_40px_rgba(82,183,136,0.2)] hover:-translate-y-1">
 									<div class="md:col-span-3">
 										<p class="text-xs tracking-[0.2em] uppercase text-twilight dark:text-lavender-mist md:hidden">Product</p>
 										<p class="text-lg text-obsidian dark:text-pearl mt-2 md:mt-0">{{ item.product.name }}</p>
@@ -49,13 +49,13 @@
 										<div class="space-y-2 mt-2 md:mt-0">
 											<div class="flex items-center gap-2">
 												<span class="text-[10px] tracking-[0.2em] uppercase text-twilight dark:text-lavender-mist">Product</span>
-												<span class="inline-flex text-[10px] tracking-[0.2em] uppercase px-3 py-1 rounded-full bg-pearl dark:bg-midnight text-obsidian dark:text-pearl">
+												<span class="inline-flex text-[10px] tracking-[0.2em] uppercase px-3 py-1 rounded-full bg-pearl dark:bg-midnight text-obsidian dark:text-pearl hover:scale-105 transition-transform duration-200">
 													{% if item.product.is_active %}Active{% else %}Inactive{% endif %}
 												</span>
 											</div>
 											<div class="flex items-center gap-2">
 												<span class="text-[10px] tracking-[0.2em] uppercase text-twilight dark:text-lavender-mist">Category</span>
-												<span class="inline-flex text-[10px] tracking-[0.2em] uppercase px-3 py-1 rounded-full bg-pearl dark:bg-midnight text-obsidian dark:text-pearl">
+												<span class="inline-flex text-[10px] tracking-[0.2em] uppercase px-3 py-1 rounded-full bg-pearl dark:bg-midnight text-obsidian dark:text-pearl hover:scale-105 transition-transform duration-200">
 													{% if item.category.is_active %}Active{% else %}Inactive{% endif %}
 												</span>
 											</div>
@@ -71,9 +71,9 @@
 									<div class="md:col-span-2 md:text-right">
 										<p class="text-xs tracking-[0.2em] uppercase text-twilight dark:text-lavender-mist md:hidden">Actions</p>
 										<div class="flex items-center gap-3 mt-2 md:mt-0 w-full md:justify-end">
-											<a href="#" class="btn text-xs tracking-[0.25em] uppercase text-twilight hover:text-midnight dark:text-lavender-mist dark:hover:text-champagne transition-colors">View</a>
-											<a href="#" class="btn text-xs tracking-[0.25em] uppercase text-rose-gold hover:text-midnight dark:hover:text-champagne transition-colors">Edit</a>
-											<button type="button" class="btn text-xs tracking-[0.25em] uppercase text-twilight hover:text-midnight dark:text-lavender-mist dark:hover:text-champagne transition-colors">Delete</button>
+											<a href="#" class="btn text-xs tracking-[0.25em] uppercase text-twilight hover:text-midnight dark:text-lavender-mist dark:hover:text-champagne transition-all duration-300">View</a>
+											<a href="#" class="btn text-xs tracking-[0.25em] uppercase text-mint hover:text-mint hover:scale-105 transition-all duration-300">Edit</a>
+											<button type="button" class="btn text-xs tracking-[0.25em] uppercase text-twilight hover:text-midnight dark:text-lavender-mist dark:hover:text-champagne transition-all duration-300">Delete</button>
 										</div>
 									</div>
 								</div>
@@ -87,17 +87,17 @@
 				{% if page_obj %}
 					<div class="mt-10 flex flex-wrap items-center gap-2">
 						{% if page_obj.has_previous %}
-						<a href="?page={{ page_obj.previous_page_number }}" class="btn px-4 py-2 text-xs tracking-[0.2em] uppercase border border-solid border-obsidian/15 dark:border-pearl/15 text-obsidian dark:text-pearl hover:text-rose-gold transition-colors">Prev</a>
+						<a href="?page={{ page_obj.previous_page_number }}" class="btn px-4 py-2 text-xs tracking-[0.2em] uppercase border border-solid border-obsidian/15 dark:border-pearl/15 text-obsidian dark:text-pearl hover:text-mint hover:border-mint/50 hover:scale-105 transition-all duration-300">Prev</a>
 						{% endif %}
 						{% for page in paginator_list %}
 							{% if page == page_obj.number %}
-								<span class="px-4 py-2 text-xs tracking-[0.2em] uppercase bg-obsidian text-moon-white dark:bg-pearl dark:text-obsidian">{{ page }}</span>
+								<span class="px-4 py-2 text-xs tracking-[0.2em] uppercase bg-mint text-white hover:scale-105 transition-transform duration-200">{{ page }}</span>
 							{% else %}
-							<a href="?page={{ page }}" class="btn px-4 py-2 text-xs tracking-[0.2em] uppercase border border-solid border-obsidian/15 dark:border-pearl/15 text-obsidian dark:text-pearl hover:text-rose-gold transition-colors">{{ page }}</a>
+							<a href="?page={{ page }}" class="btn px-4 py-2 text-xs tracking-[0.2em] uppercase border border-solid border-obsidian/15 dark:border-pearl/15 text-obsidian dark:text-pearl hover:text-mint hover:border-mint/50 hover:scale-105 transition-all duration-300">{{ page }}</a>
 							{% endif %}
 						{% endfor %}
 						{% if page_obj.has_next %}
-						<a href="?page={{ page_obj.next_page_number }}" class="btn px-4 py-2 text-xs tracking-[0.2em] uppercase border border-solid border-obsidian/15 dark:border-pearl/15 text-obsidian dark:text-pearl hover:text-rose-gold transition-colors">Next</a>
+						<a href="?page={{ page_obj.next_page_number }}" class="btn px-4 py-2 text-xs tracking-[0.2em] uppercase border border-solid border-obsidian/15 dark:border-pearl/15 text-obsidian dark:text-pearl hover:text-mint hover:border-mint/50 hover:scale-105 transition-all duration-300">Next</a>
 						{% endif %}
 					</div>
 				{% endif %}
@@ -106,3 +106,9 @@
 	</div>
 </section>
 {% endblock %}
+
+
+
+
+
+

@@ -16,13 +16,13 @@
 						<h2 class="font-cormorant text-4xl lg:text-5xl text-obsidian dark:text-pearl font-light">Create a Brand</h2>
 					</div>
 					<a href="{% url 'backends:brand' %}"
-						class="btn px-6 py-3 text-xs tracking-[0.25em] uppercase border border-solid border-obsidian/20 dark:border-pearl/20 text-obsidian dark:text-pearl hover:text-rose-gold transition-colors">Back
+						class="btn px-6 py-3 text-xs tracking-[0.25em] uppercase border border-solid border-obsidian/20 dark:border-pearl/20 text-obsidian dark:text-pearl hover:text-mint hover:border-mint/50 hover:scale-105 transition-all duration-300">Back
 						to Brands</a>
 				</div>
 
 				<div class="rounded-3xl border border-solid border-obsidian/10 dark:border-pearl/10 bg-moon-white/85 dark:bg-black-pearl/70 p-8 shadow-[0_30px_60px_rgba(27,26,23,0.08)] card-glow">
 					{% if error %}
-						<div class="mb-6 rounded-2xl border border-solid border-rose-gold/40 bg-rose-gold/10 text-rose-gold px-4 py-3 text-sm">
+						<div class="mb-6 rounded-2xl border border-solid border-mint/40 bg-emerald-500/10 text-mint px-4 py-3 text-sm">
 							{{ error }}
 						</div>
 					{% endif %}
@@ -32,14 +32,14 @@
 						<div>
 							<label class="block text-xs tracking-[0.25em] uppercase text-twilight dark:text-lavender-mist mb-2" for="brand-name">Brand Name</label>
 							<input id="brand-name" name="name" type="text" required
-								class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 text-sm text-obsidian dark:text-pearl focus:border-rose-gold focus:outline-none" />
+								class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 text-sm text-obsidian dark:text-pearl focus:border-mint focus:ring-2 focus:ring-mint/20 focus:outline-none transition-all duration-200" />
 						</div>
 						<div class="flex flex-wrap gap-4">
 							<button type="submit"
-							class="btn px-6 py-3 text-xs tracking-[0.25em] uppercase bg-obsidian text-moon-white dark:bg-pearl dark:text-obsidian hover:bg-rose-gold transition-colors">Save
+							class="btn px-6 py-3 text-xs tracking-[0.25em] uppercase bg-obsidian text-moon-white dark:bg-pearl dark:text-obsidian hover:bg-mint hover:shadow-[0_8px_30px_rgba(82,183,136,0.3)] hover:scale-105 transition-all duration-300">Save
 								Brand</button>
 							<a href="{% url 'backends:brand' %}"
-							class="btn px-6 py-3 text-xs tracking-[0.25em] uppercase border border-solid border-obsidian/20 dark:border-pearl/20 text-obsidian dark:text-pearl hover:text-rose-gold transition-colors">Cancel</a>
+							class="btn px-6 py-3 text-xs tracking-[0.25em] uppercase border border-solid border-obsidian/20 dark:border-pearl/20 text-obsidian dark:text-pearl hover:text-mint hover:border-mint/50 hover:scale-105 transition-all duration-300">Cancel</a>
 						</div>
 					</form>
 				</div>
@@ -48,3 +48,9 @@
 	</div>
 </section>
 {% endblock %}
+
+
+
+
+
+

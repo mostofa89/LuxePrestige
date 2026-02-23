@@ -16,13 +16,13 @@
 						<h2 class="font-cormorant text-4xl lg:text-5xl text-obsidian dark:text-pearl font-light">Add Product Image</h2>
 					</div>
 					<a href="{% url 'backends:product_images' %}"
-						class="btn px-6 py-3 text-xs tracking-[0.25em] uppercase border border-solid border-obsidian/20 dark:border-pearl/20 text-obsidian dark:text-pearl hover:text-rose-gold transition-colors">Back to Images</a>
+						class="btn px-6 py-3 text-xs tracking-[0.25em] uppercase border border-solid border-obsidian/20 dark:border-pearl/20 text-obsidian dark:text-pearl hover:text-mint hover:border-mint/50 hover:scale-105 transition-all duration-300">Back to Images</a>
 				</div>
 
 				<div class="rounded-3xl border border-solid border-obsidian/10 dark:border-pearl/10 bg-moon-white/85 dark:bg-black-pearl/70 p-8 shadow-[0_30px_60px_rgba(27,26,23,0.08)] card-glow">
 					{% if messages %}
 						{% for message in messages %}
-							<div class="mb-6 rounded-2xl border border-solid {% if message.tags == 'error' %}border-rose-gold/40 bg-rose-gold/10 text-rose-gold{% else %}border-obsidian/20 bg-obsidian/10 text-obsidian dark:text-pearl{% endif %} px-4 py-3 text-sm">
+							<div class="mb-6 rounded-2xl border border-solid {% if message.tags == 'error' %}border-mint/40 bg-emerald-500/10 text-mint{% else %}border-obsidian/20 bg-obsidian/10 text-obsidian dark:text-pearl{% endif %} px-4 py-3 text-sm">
 								{{ message }}
 							</div>
 						{% endfor %}
@@ -33,7 +33,7 @@
 						<div>
 							<label class="block text-xs tracking-[0.25em] uppercase text-twilight dark:text-lavender-mist mb-2" for="product-select">Product</label>
 							<select id="product-select" name="product" required
-								class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 text-sm text-obsidian dark:text-pearl focus:border-rose-gold focus:outline-none">
+								class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 text-sm text-obsidian dark:text-pearl focus:border-mint focus:ring-2 focus:ring-mint/20 focus:outline-none transition-all duration-200">
 								<option value="" disabled selected>Select a product</option>
 								{% for product in products %}
 									<option value="{{ product.id }}">{{ product.name }}</option>
@@ -43,26 +43,26 @@
 						<div>
 							<label class="block text-xs tracking-[0.25em] uppercase text-twilight dark:text-lavender-mist mb-2" for="image-upload">Image</label>
 							<input id="image-upload" name="image" type="file" accept="image/*" required
-								class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 text-sm text-obsidian dark:text-pearl focus:border-rose-gold focus:outline-none file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:tracking-[0.25em] file:uppercase file:bg-obsidian file:text-moon-white dark:file:bg-pearl dark:file:text-obsidian hover:file:bg-rose-gold file:transition-colors" />
+								class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 text-sm text-obsidian dark:text-pearl focus:border-mint focus:ring-2 focus:ring-mint/20 focus:outline-none transition-all duration-200 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:tracking-[0.25em] file:uppercase file:bg-obsidian file:text-moon-white dark:file:bg-pearl dark:file:text-obsidian hover:file:bg-emerald-500 file:transition-all duration-300" />
 						</div>
 						<div class="grid gap-6 md:grid-cols-2">
 							<div>
 								<label class="block text-xs tracking-[0.25em] uppercase text-twilight dark:text-lavender-mist mb-2" for="position-input">Position</label>
 								<input id="position-input" name="position" type="number" min="0" value="0"
-									class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 text-sm text-obsidian dark:text-pearl focus:border-rose-gold focus:outline-none" />
+									class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 text-sm text-obsidian dark:text-pearl focus:border-mint focus:ring-2 focus:ring-mint/20 focus:outline-none transition-all duration-200" />
 								<p class="text-xs text-twilight dark:text-lavender-mist mt-2">Display order (0 = first)</p>
 							</div>
 							<div>
 								<label class="block text-xs tracking-[0.25em] uppercase text-twilight dark:text-lavender-mist mb-2" for="alt-text">Alt Text (Optional)</label>
 								<input id="alt-text" name="alt_text" type="text"
-									class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 text-sm text-obsidian dark:text-pearl focus:border-rose-gold focus:outline-none" />
+									class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 text-sm text-obsidian dark:text-pearl focus:border-mint focus:ring-2 focus:ring-mint/20 focus:outline-none transition-all duration-200" />
 							</div>
 						</div>
 						<div class="flex flex-wrap gap-4">
 							<button type="submit"
-							class="btn px-6 py-3 text-xs tracking-[0.25em] uppercase bg-obsidian text-moon-white dark:bg-pearl dark:text-obsidian hover:bg-rose-gold transition-colors">Upload Image</button>
+							class="btn px-6 py-3 text-xs tracking-[0.25em] uppercase bg-obsidian text-moon-white dark:bg-pearl dark:text-obsidian hover:bg-mint hover:shadow-[0_8px_30px_rgba(82,183,136,0.3)] hover:scale-105 transition-all duration-300">Upload Image</button>
 							<a href="{% url 'backends:product_images' %}"
-							class="btn px-6 py-3 text-xs tracking-[0.25em] uppercase border border-solid border-obsidian/20 dark:border-pearl/20 text-obsidian dark:text-pearl hover:text-rose-gold transition-colors">Cancel</a>
+							class="btn px-6 py-3 text-xs tracking-[0.25em] uppercase border border-solid border-obsidian/20 dark:border-pearl/20 text-obsidian dark:text-pearl hover:text-mint hover:border-mint/50 hover:scale-105 transition-all duration-300">Cancel</a>
 						</div>
 					</form>
 				</div>
@@ -71,3 +71,9 @@
 	</div>
 </section>
 {% endblock %}
+
+
+
+
+
+
