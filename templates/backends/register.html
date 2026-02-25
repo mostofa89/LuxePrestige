@@ -1,0 +1,145 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Ethereal - Register{% endblock %}
+
+{% block content %}
+<section class="pt-28 pb-24">
+	<div class="max-w-6xl mx-auto px-6 lg:px-10">
+		<div class="rounded-[2.5rem] border border-solid border-[#0a0908]/10 dark:border-[#f2f4f3]/10 bg-[#f2f4f3]/85 dark:bg-[#0a0908]/70 shadow-[0_30px_70px_rgba(10,9,8,0.12)] overflow-hidden card-glow">
+			<div class="grid grid-cols-1 lg:grid-cols-2">
+				<div class="relative p-10 lg:p-14 bg-gradient-to-br from-[#f4dbd8]/60 via-[#f2f4f3]/70 to-[#a9927d]/20 dark:from-[#a9927d]/10 dark:via-[#0a0908]/70 dark:to-[#c09891]/5">
+					<div class="absolute inset-0 pointer-events-none">
+						<div class="absolute -top-16 -right-16 w-64 h-64 rounded-full bg-[#f4dbd8]/30 blur-3xl"></div>
+						<div class="absolute -bottom-20 -left-10 w-72 h-72 rounded-full bg-[#c09891]/20 blur-3xl"></div>
+					</div>
+
+					<div class="relative z-10">
+						<p class="text-xs tracking-[0.35em] uppercase text-[#c09891]">Welcome</p>
+						<h1 class="font-cormorant text-4xl lg:text-5xl text-[#0a0908] dark:text-[#f2f4f3] font-light mt-4">Create your account</h1>
+						<p class="text-sm leading-7 text-[#bea8a7] dark:text-[#bea8a7] mt-6">
+							Join the Ethereal studio to manage products, track inventory, and keep every detail in sync.
+						</p>
+
+						<div class="mt-10 space-y-4">
+							<div class="flex items-center gap-4">
+								<div class="w-12 h-12 rounded-2xl bg-[#c09891]/15 text-[#c09891] flex items-center justify-center">01</div>
+								<div>
+									<p class="text-xs tracking-[0.25em] uppercase text-[#bea8a7]">Step One</p>
+									<p class="text-sm text-[#0a0908] dark:text-[#f2f4f3]">Create your profile</p>
+								</div>
+							</div>
+							<div class="flex items-center gap-4">
+								<div class="w-12 h-12 rounded-2xl bg-[#c09891]/15 text-[#c09891] flex items-center justify-center">02</div>
+								<div>
+									<p class="text-xs tracking-[0.25em] uppercase text-[#bea8a7]">Step Two</p>
+									<p class="text-sm text-[#0a0908] dark:text-[#f2f4f3]">Access backend tools</p>
+								</div>
+							</div>
+							<div class="flex items-center gap-4">
+								<div class="w-12 h-12 rounded-2xl bg-[#c09891]/15 text-[#c09891] flex items-center justify-center">03</div>
+								<div>
+									<p class="text-xs tracking-[0.25em] uppercase text-[#bea8a7]">Step Three</p>
+									<p class="text-sm text-[#0a0908] dark:text-[#f2f4f3]">Launch with confidence</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="p-10 lg:p-14">
+					<div class="mb-10">
+						<p class="text-xs tracking-[0.35em] uppercase text-[#bea8a7]">Registration</p>
+						<h2 class="font-cormorant text-3xl text-[#0a0908] dark:text-[#f2f4f3] font-light mt-3">Start here</h2>
+					</div>
+
+					<form method="post" class="space-y-6">
+						{% csrf_token %}
+						<div>
+							<label class="block text-xs tracking-[0.25em] uppercase text-[#bea8a7] mb-2" for="user-name">User Name</label>
+							<input id="user-name" name="username" type="text" required placeholder="Enter your username"
+								class="w-full rounded-2xl border border-solid border-[#0a0908]/15 dark:border-[#f2f4f3]/15 bg-[#f2f4f3]/70 dark:bg-[#0a0908]/40 px-4 py-3 text-sm text-[#0a0908] dark:text-[#f2f4f3] focus:border-[#c09891] focus:ring-2 focus:ring-[#c09891]/20 focus:outline-none transition-all duration-200" />
+						</div>
+
+						<div>
+							<label class="block text-xs tracking-[0.25em] uppercase text-[#bea8a7] mb-2" for="email">Email</label>
+							<input id="email" name="email" type="email" required placeholder="Enter your email"
+								class="w-full rounded-2xl border border-solid border-[#0a0908]/15 dark:border-[#f2f4f3]/15 bg-[#f2f4f3]/70 dark:bg-[#0a0908]/40 px-4 py-3 text-sm text-[#0a0908] dark:text-[#f2f4f3] focus:border-[#c09891] focus:ring-2 focus:ring-[#c09891]/20 focus:outline-none transition-all duration-200" />
+						</div>
+
+						<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+							<div>
+								<label class="block text-xs tracking-[0.25em] uppercase text-[#bea8a7] mb-2" for="password">Password</label>
+								<input id="password" name="password1" type="password" required placeholder="Create a password"
+									class="w-full rounded-2xl border border-solid border-[#0a0908]/15 dark:border-[#f2f4f3]/15 bg-[#f2f4f3]/70 dark:bg-[#0a0908]/40 px-4 py-3 text-sm text-[#0a0908] dark:text-[#f2f4f3] focus:border-[#c09891] focus:ring-2 focus:ring-[#c09891]/20 focus:outline-none transition-all duration-200" />
+							</div>
+							<div>
+								<label class="block text-xs tracking-[0.25em] uppercase text-[#bea8a7] mb-2" for="password2">Confirm Password</label>
+								<input id="password2" name="confirm_password" type="password" required placeholder="Re-enter password"
+									class="w-full rounded-2xl border border-solid border-[#0a0908]/15 dark:border-[#f2f4f3]/15 bg-[#f2f4f3]/70 dark:bg-[#0a0908]/40 px-4 py-3 text-sm text-[#0a0908] dark:text-[#f2f4f3] focus:border-[#c09891] focus:ring-2 focus:ring-[#c09891]/20 focus:outline-none transition-all duration-200" />
+							</div>
+						</div>
+
+						<div class="flex items-center gap-3">
+							<input id="toggle-password" type="checkbox" class="accent-[#c09891]" />
+							<label for="toggle-password" class="text-xs tracking-[0.2em] uppercase text-[#bea8a7]">Show password</label>
+						</div>
+
+						<div>
+							<label class="block text-xs tracking-[0.25em] uppercase text-[#bea8a7] mb-2" for="phone">Phone</label>
+							<input id="phone" name="phone" type="tel" placeholder="phone number"
+								class="w-full rounded-2xl border border-solid border-[#0a0908]/15 dark:border-[#f2f4f3]/15 bg-[#f2f4f3]/70 dark:bg-[#0a0908]/40 px-4 py-3 text-sm text-[#0a0908] dark:text-[#f2f4f3] focus:border-[#c09891] focus:ring-2 focus:ring-[#c09891]/20 focus:outline-none transition-all duration-200" />
+						</div>
+
+						<div class="flex items-center justify-between flex-wrap gap-4">
+							<label class="flex items-center gap-2 text-xs tracking-[0.2em] uppercase text-[#bea8a7]">
+								<input type="checkbox" name="terms" required class="accent-[#c09891]" />
+								I accept the terms
+							</label>
+							<a class="text-xs tracking-[0.25em] uppercase text-[#c09891] hover:underline" href="{% url 'backends:login' %}">Already have an account?</a>
+						</div>
+
+						<button class="w-full px-6 py-4 text-xs tracking-[0.35em] uppercase bg-[#0a0908] text-[#f2f4f3] dark:bg-[#f2f4f3] dark:text-[#0a0908] hover:bg-[#c09891] hover:shadow-[0_10px_30px_rgba(192,152,145,0.35)] hover:scale-[1.01] transition-all duration-300 rounded-2xl" type="submit">
+							Create Account
+						</button>
+
+						<div class="flex items-center gap-4">
+							<span class="h-px flex-1 bg-[#0a0908]/10 dark:bg-[#f2f4f3]/10"></span>
+							<span class="text-xs tracking-[0.3em] uppercase text-[#bea8a7]">or register with</span>
+							<span class="h-px flex-1 bg-[#0a0908]/10 dark:bg-[#f2f4f3]/10"></span>
+						</div>
+
+						<div class="grid grid-cols-3 gap-3">
+							<a class="flex items-center justify-center gap-2 px-3 py-3 rounded-2xl border border-solid border-[#0a0908]/10 dark:border-[#f2f4f3]/10 bg-[#f2f4f3]/80 dark:bg-[#0a0908]/50 text-xs sm:text-sm text-[#0a0908] dark:text-[#f2f4f3] hover:border-[#c09891]/40 hover:shadow-[0_10px_25px_rgba(192,152,145,0.2)] transition-all duration-300" href="#">
+								<span class="w-5 h-5 rounded-full bg-[#c09891]/20 text-[#c09891] flex items-center justify-center text-[10px] font-semibold">G</span>
+								Google
+							</a>
+							<a class="flex items-center justify-center gap-2 px-3 py-3 rounded-2xl border border-solid border-[#0a0908]/10 dark:border-[#f2f4f3]/10 bg-[#f2f4f3]/80 dark:bg-[#0a0908]/50 text-xs sm:text-sm text-[#0a0908] dark:text-[#f2f4f3] hover:border-[#c09891]/40 hover:shadow-[0_10px_25px_rgba(192,152,145,0.2)] transition-all duration-300" href="#">
+								<span class="w-5 h-5 rounded-full bg-[#c09891]/20 text-[#c09891] flex items-center justify-center text-[10px] font-semibold">F</span>
+								Facebook
+							</a>
+							<a class="flex items-center justify-center gap-2 px-3 py-3 rounded-2xl border border-solid border-[#0a0908]/10 dark:border-[#f2f4f3]/10 bg-[#f2f4f3]/80 dark:bg-[#0a0908]/50 text-xs sm:text-sm text-[#0a0908] dark:text-[#f2f4f3] hover:border-[#c09891]/40 hover:shadow-[0_10px_25px_rgba(192,152,145,0.2)] transition-all duration-300" href="#">
+								<span class="w-5 h-5 rounded-full bg-[#c09891]/20 text-[#c09891] flex items-center justify-center text-[10px] font-semibold">A</span>
+								Apple
+							</a>
+						</div>
+					</form>
+					<script>
+						const togglePassword = document.getElementById('toggle-password');
+						const passwordInput = document.getElementById('password');
+						const confirmPasswordInput = document.getElementById('password2');
+
+						if (togglePassword && passwordInput && confirmPasswordInput) {
+							togglePassword.addEventListener('change', (event) => {
+								const nextType = event.target.checked ? 'text' : 'password';
+								passwordInput.type = nextType;
+								confirmPasswordInput.type = nextType;
+							});
+						}
+					</script>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock %}

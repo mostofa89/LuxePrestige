@@ -5,6 +5,8 @@ from django.shortcuts import redirect, render
 from django.http import JsonResponse
 from .permissions import checkUserPermissions
 from .models import Brand, Product, ProductCategory, ProductImage, UserPermission, Category, Inventory, Review, Membership
+from django.contrib.auth.models import User
+from .utls import generate_otp
 # Create your views here.
 
 def dashboard(request):
@@ -204,6 +206,19 @@ def product(request):
         })
 
         return render(request, 'backends/product.html', context)
+
+
+def product_details(request, product_id):
+    product = Product.objects.select_related('brand', 'category').filter(id=product_id).first()
+    product_images = ProductImage.objects.filter(product_id=product_id).order_by('position')
+    if not product:
+        return render(request, 'backends/404.html', status=404)
+    
+    context = {
+        'product': product,
+        'product_images': product_images,
+    }
+    return render(request, 'backends/product_details.html', context)
 
 
 def add_product_category(request):
@@ -440,5 +455,22 @@ def Login(request):
     
 
 
+def Register(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
+        dob = request.POST.get('dob')
+
+        if User.objects.filter(username=username).exists():
+            messages.error(request, 'Username already exists.')
+            return render(request, 'backends/register.html')
+        
+        generate_otp(email)
+        user = User.objects.create_user(username=username, email=email, password=password)
+
+    return render(request, 'backends/register.html')
 
 

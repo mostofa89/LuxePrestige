@@ -1,0 +1,146 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Ethereal - Product Details{% endblock %}
+
+{% block content %}
+<section class="pt-28 pb-24">
+	<div class="flex flex-col lg:flex-row min-h-[calc(100vh-7rem)]">
+		{% include 'backends/partials/sidebar.html' with sidebar_title='Product Details' %}
+
+		<div class="flex-1 px-6 lg:px-12 xl:px-16 py-10">
+			<div class="max-w-6xl">
+				<div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8 mb-12">
+					<div>
+						<p class="text-xs tracking-[0.4em] uppercase text-twilight dark:text-lavender-mist mb-3">Inventory</p>
+						<h2 class="font-cormorant text-4xl lg:text-5xl text-obsidian dark:text-pearl font-light">Product Details</h2>
+					</div>
+					<a href="{% url 'backends:product' %}"
+						class="btn px-6 py-3 text-xs tracking-[0.25em] uppercase border border-solid border-obsidian/20 dark:border-pearl/20 text-obsidian dark:text-pearl hover:text-rosy-taupe hover:border-rosy-taupe/50 hover:scale-105 transition-all duration-300">Back to Products</a>
+				</div>
+
+				<div class="rounded-3xl border border-solid border-obsidian/10 dark:border-pearl/10 bg-moon-white/85 dark:bg-black-pearl/70 p-6 lg:p-8 shadow-[0_30px_60px_rgba(27,26,23,0.08)] card-glow">
+					<div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-8">
+						<div>
+							<p class="text-xs tracking-[0.25em] uppercase text-twilight dark:text-lavender-mist">Product</p>
+							<h3 class="font-cormorant text-3xl lg:text-4xl text-obsidian dark:text-pearl font-light mt-2">{{ product.name|default:"Untitled Product" }}</h3>
+							<p class="text-xs tracking-[0.25em] uppercase text-twilight dark:text-lavender-mist mt-3">SKU {{ product.id|default:"N/A" }}</p>
+						</div>
+						<div class="flex items-center gap-3">
+							<span class="inline-flex text-[10px] tracking-[0.2em] uppercase px-3 py-1 rounded-full bg-pearl dark:bg-midnight text-obsidian dark:text-pearl">{{ product.brand.name|default:"No Brand" }}</span>
+							<span class="inline-flex text-[10px] tracking-[0.2em] uppercase px-3 py-1 rounded-full bg-pearl dark:bg-midnight text-obsidian dark:text-pearl">{{ product.category.name|default:"No Category" }}</span>
+							<span class="inline-flex text-[10px] tracking-[0.2em] uppercase px-3 py-1 rounded-full bg-soft-blush/10 text-rosy-taupe">{% if product.is_active %}Active{% else %}Inactive{% endif %}</span>
+						</div>
+					</div>
+
+					<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+						<div class="lg:col-span-7 space-y-6">
+							<div class="rounded-2xl border border-solid border-obsidian/10 dark:border-pearl/10 bg-moon-white/70 dark:bg-black-pearl/40 p-4">
+								{% if product.product_image %}
+									<img id="main-product-image" src="{{ product.product_image.url }}" alt="{{ product.name }}"
+										class="w-full aspect-[4/3] object-cover rounded-2xl" />
+								{% else %}
+									<div class="w-full aspect-[4/3] rounded-2xl bg-pearl/70 dark:bg-midnight/60 flex items-center justify-center text-twilight dark:text-lavender-mist text-xs tracking-[0.3em] uppercase">
+										No Image
+									</div>
+								{% endif %}
+							</div>
+
+							<div class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-3">
+								{% if product.product_image %}
+									<button type="button" class="thumbnail-image rounded-xl border border-solid border-rosy-taupe/40 bg-moon-white/70 dark:bg-black-pearl/40 p-2"
+										data-full-src="{{ product.product_image.url }}" data-full-alt="{{ product.name }}">
+										<img src="{{ product.product_image.url }}" alt="{{ product.name }}"
+											class="w-full aspect-square object-cover rounded-lg" />
+									</button>
+								{% endif %}
+								{% for image in product_images %}
+									<button type="button" class="thumbnail-image rounded-xl border border-solid border-obsidian/10 dark:border-pearl/10 bg-moon-white/70 dark:bg-black-pearl/40 p-2 hover:border-rosy-taupe/50 hover:shadow-[0_8px_24px_rgba(192,152,145,0.25)] transition-all duration-300 relative"
+										data-full-src="{{ image.image.url }}" data-full-alt="{{ image.alt_text|default:product.name }}">
+										<img src="{{ image.image.url }}" alt="{{ image.alt_text|default:product.name }}"
+											class="w-full aspect-square object-cover rounded-lg" />
+									</button>
+								{% empty %}
+									<div class="col-span-full text-xs tracking-[0.25em] uppercase text-twilight dark:text-lavender-mist">No additional images</div>
+								{% endfor %}
+							</div>
+						</div>
+
+						<div class="lg:col-span-5 space-y-6">
+							<div>
+								<p class="text-xs tracking-[0.25em] uppercase text-twilight dark:text-lavender-mist">Overview</p>
+								<p class="text-sm leading-7 text-twilight dark:text-lavender-mist mt-2">
+									{{ product.description|default:"No description provided." }}
+								</p>
+							</div>
+
+							<div class="flex items-center gap-4">
+								<span class="text-3xl text-obsidian dark:text-pearl font-light">${{ product.price|default:"0.00" }}</span>
+								<span class="text-xs tracking-[0.25em] uppercase text-rosy-taupe bg-soft-blush/10 px-3 py-1 rounded-full">{{ product.average_rating|default:"0.0" }} rating</span>
+							</div>
+
+							<div class="grid grid-cols-2 gap-4">
+								<div class="rounded-2xl border border-solid border-obsidian/10 dark:border-pearl/10 bg-moon-white/70 dark:bg-black-pearl/40 p-4">
+									<p class="text-[10px] tracking-[0.25em] uppercase text-twilight dark:text-lavender-mist">Availability</p>
+									<p class="text-lg text-obsidian dark:text-pearl mt-2">{{ product.avl_quantity|default:"0" }} in stock</p>
+								</div>
+								<div class="rounded-2xl border border-solid border-obsidian/10 dark:border-pearl/10 bg-moon-white/70 dark:bg-black-pearl/40 p-4">
+									<p class="text-[10px] tracking-[0.25em] uppercase text-twilight dark:text-lavender-mist">Delivery</p>
+									<p class="text-lg text-obsidian dark:text-pearl mt-2">
+										{% if product.delivery_day_min and product.delivery_day_max %}
+											{{ product.delivery_day_min }} - {{ product.delivery_day_max }} days
+										{% else %}
+											N/A
+										{% endif %}
+									</p>
+								</div>
+							</div>
+
+							<div class="rounded-2xl border border-solid border-obsidian/10 dark:border-pearl/10 bg-moon-white/70 dark:bg-black-pearl/40 p-4 space-y-3">
+								<div class="flex items-center justify-between text-sm text-twilight dark:text-lavender-mist">
+									<span class="uppercase tracking-[0.2em] text-[10px]">Weight</span>
+									<span class="text-obsidian dark:text-pearl">{{ product.weight|default:"0" }} g</span>
+								</div>
+								<div class="flex items-center justify-between text-sm text-twilight dark:text-lavender-mist">
+									<span class="uppercase tracking-[0.2em] text-[10px]">Reviews</span>
+									<span class="text-obsidian dark:text-pearl">{{ product.total_review|default:"0" }}</span>
+								</div>
+							</div>
+
+							<div class="flex items-center gap-3">
+								<div class="flex items-center gap-2 rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-2">
+									<label class="text-[10px] tracking-[0.25em] uppercase text-twilight dark:text-lavender-mist" for="quantity">Qty</label>
+									<input id="quantity" type="number" min="1" value="1"
+										class="w-16 bg-transparent text-obsidian dark:text-pearl text-sm focus:outline-none" />
+								</div>
+								<button class="btn flex-1 px-6 py-3 text-xs tracking-[0.25em] uppercase bg-obsidian text-moon-white dark:bg-pearl dark:text-obsidian hover:bg-rosy-taupe hover:shadow-[0_8px_30px_rgba(192,152,145,0.3)] hover:scale-105 transition-all duration-300">Add to Cart</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script>
+	(function () {
+		const mainImage = document.getElementById('main-product-image');
+		if (!mainImage) {
+			return;
+		}
+
+		const thumbnails = document.querySelectorAll('.thumbnail-image');
+		thumbnails.forEach((thumb) => {
+			thumb.addEventListener('click', () => {
+				const fullSrc = thumb.getAttribute('data-full-src');
+				const fullAlt = thumb.getAttribute('data-full-alt') || mainImage.alt;
+				if (fullSrc) {
+					mainImage.src = fullSrc;
+					mainImage.alt = fullAlt;
+				}
+			});
+		});
+	})();
+</script>
+{% endblock %}

@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from decimal import Decimal, ROUND_DOWN
 from django.db import models
 from django.contrib.auth.models import User
@@ -73,7 +73,7 @@ class Product(models.Model):
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='product_images/')
-    position = models.IntegerField(default=0)
+    position = models.IntegerField(default=1)
     is_active = models.BooleanField(default=True)
     alt_text = models.CharField(max_length=255, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -190,6 +190,8 @@ class Customer(models.Model):
     customer = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
+    password = models.CharField(max_length=128)
+    dob = models.DateField(null=True, blank=True)
     phone = models.CharField(max_length=15)
     membership = models.ForeignKey(Membership, on_delete=models.SET_NULL, null=True, blank=True)
     points = models.IntegerField(default=0)
@@ -265,6 +267,24 @@ class MenuList(models.Model):
         db_table = 'menulist'
         verbose_name = 'Menu Item'
         verbose_name_plural = 'Menu Items'
+
+class EmailOTP(models.Model):
+    email = models.EmailField()
+    code = models.CharField(max_length=6)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"OTP for {self.email} - {self.code}"
+    
+
+    def is_expired(self):
+        expiration_time = self.created_at + timedelta(minutes=10)
+        return timezone.now() > expiration_time
+    
+    class Meta:
+        db_table = 'email_otps'
+        verbose_name = 'Email OTP'
+        verbose_name_plural = 'Email OTPs'
 
 
 class UserPermission(models.Model):

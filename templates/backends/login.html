@@ -6,53 +6,53 @@
 {% block content %}
 <section class="pt-28 pb-24">
 	<div class="max-w-2xl mx-auto px-6 lg:px-10">
-		<div class="rounded-3xl border border-solid border-obsidian/10 dark:border-pearl/10 bg-moon-white/85 dark:bg-black-pearl/70 p-8 lg:p-12 shadow-[0_30px_60px_rgba(27,26,23,0.08)] card-glow">
+		<div class="rounded-3xl border border-solid border-[#0a0908]/10 dark:border-[#f2f4f3]/10 bg-[#f2f4f3]/85 dark:bg-[#0a0908]/70 p-8 lg:p-12 shadow-[0_30px_60px_rgba(10,9,8,0.08)] card-glow">
 			<div class="mb-8 text-center">
-				<p class="text-xs tracking-[0.35em] uppercase text-twilight dark:text-lavender-mist">Backends</p>
-				<h1 class="font-cormorant text-4xl lg:text-5xl text-obsidian dark:text-pearl font-light mt-3">Welcome Back</h1>
-				<p class="text-sm text-twilight dark:text-lavender-mist mt-4 leading-relaxed">
+				<p class="text-xs tracking-[0.35em] uppercase text-[#bea8a7]">Backends</p>
+				<h1 class="font-cormorant text-4xl lg:text-5xl text-[#0a0908] dark:text-[#f2f4f3] font-light mt-3">Welcome Back</h1>
+				<p class="text-sm text-[#bea8a7] mt-4 leading-relaxed">
 					Sign in to continue managing your brand, products, and storefront experience.
 				</p>
 			</div>
 
 			<div class="mb-8 text-center">
-				<p class="text-xs tracking-[0.35em] uppercase text-twilight dark:text-lavender-mist">Account</p>
-				<h2 class="font-cormorant text-4xl text-obsidian dark:text-pearl font-light mt-3">Login</h2>
+				<p class="text-xs tracking-[0.35em] uppercase text-[#bea8a7]">Account</p>
+				<h2 class="font-cormorant text-4xl text-[#0a0908] dark:text-[#f2f4f3] font-light mt-3">Login</h2>
 			</div>
 
 				<form method="post" class="space-y-6">
 					{% csrf_token %}
 					<div>
-						<label class="block text-xs tracking-[0.25em] uppercase text-twilight dark:text-lavender-mist mb-2" for="login-identity">Email or Username</label>
-						<input id="login-identity" name="identity" type="text" autocomplete="username" required
-							class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 text-sm text-obsidian dark:text-pearl focus:border-mint focus:ring-2 focus:ring-mint/20 focus:outline-none transition-all duration-200" />
+					<label class="block text-xs tracking-[0.25em] uppercase text-[#bea8a7] mb-2" for="login-identity">Email or Username</label>
+					<input id="login-identity" name="identity" type="text" autocomplete="username" required
+						class="w-full rounded-2xl border border-solid border-[#0a0908]/15 dark:border-[#f2f4f3]/15 bg-[#f2f4f3]/70 dark:bg-[#0a0908]/40 px-4 py-3 text-sm text-[#0a0908] dark:text-[#f2f4f3] focus:border-[#c09891] focus:ring-2 focus:ring-[#c09891]/20 focus:outline-none transition-all duration-200" />
 					</div>
 					<div>
-						<label class="block text-xs tracking-[0.25em] uppercase text-twilight dark:text-lavender-mist mb-2" for="login-password">Password</label>
-						<div class="relative">
-							<input id="login-password" name="password" type="password" autocomplete="current-password" required
-								class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 pr-14 text-sm text-obsidian dark:text-pearl focus:border-mint focus:ring-2 focus:ring-mint/20 focus:outline-none transition-all duration-200" />
-							<button type="button" class="absolute right-4 top-1/2 -translate-y-1/2 text-xs tracking-[0.2em] uppercase text-mint hover:text-obsidian dark:hover:text-pearl transition-all duration-300"
+					<label class="block text-xs tracking-[0.25em] uppercase text-[#bea8a7] mb-2" for="login-password">Password</label>
+					<div class="relative">
+						<input id="login-password" name="password" type="password" autocomplete="current-password" required
+							class="w-full rounded-2xl border border-solid border-[#0a0908]/15 dark:border-[#f2f4f3]/15 bg-[#f2f4f3]/70 dark:bg-[#0a0908]/40 px-4 py-3 pr-14 text-sm text-[#0a0908] dark:text-[#f2f4f3] focus:border-[#c09891] focus:ring-2 focus:ring-[#c09891]/20 focus:outline-none transition-all duration-200" />
+						<button type="button" class="absolute right-4 top-1/2 -translate-y-1/2 text-xs tracking-[0.2em] uppercase text-[#c09891] hover:text-[#0a0908] dark:hover:text-[#f2f4f3] transition-all duration-300"
 								data-toggle-password data-target="login-password" aria-pressed="false">
 								Show
 							</button>
 						</div>
 					</div>
 					<div class="flex flex-wrap items-center justify-between gap-4 text-xs tracking-[0.2em] uppercase">
-						<label class="flex items-center gap-2 text-twilight dark:text-lavender-mist">
-							<input type="checkbox" name="remember" class="accent-rose-gold" />
-							Remember me
-						</label>
-						<a href="#" class="text-mint hover:text-obsidian dark:hover:text-pearl transition-all duration-300">Forgot password</a>
+					<label class="flex items-center gap-2 text-[#bea8a7]">
+						<input type="checkbox" name="remember" class="accent-[#c09891]" />
+						Remember me
+					</label>
+					<a href="#" class="text-[#c09891] hover:text-[#0a0908] dark:hover:text-[#f2f4f3] transition-all duration-300">Forgot password</a>
 					</div>
 					<div class="flex flex-col items-center gap-4">
 						<button type="submit"
-							class="px-10 py-3 text-xs tracking-[0.25em] uppercase bg-obsidian text-moon-white dark:bg-pearl dark:text-obsidian hover:bg-mint transition-all duration-300">
-							Sign In
-						</button>
-						<p class="text-xs tracking-[0.2em] uppercase text-twilight dark:text-lavender-mist">
-							No account yet?
-							<a href="#" class="ml-2 text-mint hover:text-obsidian dark:hover:text-pearl transition-all duration-300">Sign Up</a>
+						class="px-10 py-3 text-xs tracking-[0.25em] uppercase bg-[#0a0908] text-[#f2f4f3] dark:bg-[#f2f4f3] dark:text-[#0a0908] hover:bg-[#c09891] transition-all duration-300">
+						Sign In
+					</button>
+					<p class="text-xs tracking-[0.2em] uppercase text-[#bea8a7]">
+						No account yet?
+						<a href="#" class="ml-2 text-[#c09891] hover:text-[#0a0908] dark:hover:text-[#f2f4f3] transition-all duration-300">Sign Up</a>
 						</p>
 					</div>
 

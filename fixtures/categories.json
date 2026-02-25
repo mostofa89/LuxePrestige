@@ -6,7 +6,6 @@
             "name": "Necklaces",
             "slug": "necklaces",
             "is_active": true,
-            "description": "Timeless chains and pendants for daily wear.",
             "created_at": "2025-05-07T15:01:14.353Z",
             "updated_at": "2025-05-07T15:01:14.353Z"
         }
@@ -18,7 +17,6 @@
             "name": "Rings",
             "slug": "rings",
             "is_active": true,
-            "description": "Signature bands and statement rings.",
             "created_at": "2025-05-07T15:01:14.353Z",
             "updated_at": "2025-05-07T15:01:14.353Z"
         }
@@ -30,7 +28,6 @@
             "name": "Earrings",
             "slug": "earrings",
             "is_active": true,
-            "description": "Studs, hoops, and drops with a refined edge.",
             "created_at": "2025-05-07T15:01:14.353Z",
             "updated_at": "2025-05-07T15:01:14.353Z"
         }
@@ -42,7 +39,6 @@
             "name": "Bracelets",
             "slug": "bracelets",
             "is_active": true,
-            "description": "Layered bangles and sculpted cuffs.",
             "created_at": "2025-05-07T15:01:14.353Z",
             "updated_at": "2025-05-07T15:01:14.353Z"
         }
@@ -54,7 +50,6 @@
             "name": "Accessories",
             "slug": "accessories",
             "is_active": true,
-            "description": "Elevated accents to finish every look.",
             "created_at": "2025-05-07T15:01:14.353Z",
             "updated_at": "2025-05-07T15:01:14.353Z"
         }
