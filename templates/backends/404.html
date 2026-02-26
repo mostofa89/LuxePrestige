@@ -1,4 +1,4 @@
-{% extends 'base/base.html' %}
+﻿{% extends 'base/base.html' %}
 {% load static %}
 
 {% block title %}Ethereal - Page Not Found{% endblock %}
@@ -7,19 +7,19 @@
 <section class="pt-28 pb-24">
     <div class="max-w-3xl mx-auto px-6 lg:px-10">
         <div class="rounded-3xl border border-solid border-obsidian/10 dark:border-pearl/10 bg-moon-white/85 dark:bg-black-pearl/70 p-10 lg:p-14 shadow-[0_30px_60px_rgba(27,26,23,0.08)] card-glow text-center">
-            <p class="text-xs tracking-[0.35em] uppercase text-mint">Backends</p>
-            <h1 class="font-cormorant text-5xl lg:text-6xl text-mint font-light mt-4">404</h1>
+            <p class="text-xs tracking-[0.35em] uppercase text-rosy-taupe">Backends</p>
+            <h1 class="font-cormorant text-5xl lg:text-6xl text-rosy-taupe font-light mt-4">404</h1>
             <h2 class="font-cormorant text-3xl text-obsidian dark:text-pearl font-light mt-3">Product Not Found</h2>
             <p class="text-sm text-twilight dark:text-lavender-mist mt-5 leading-relaxed">
                 The product you are looking for does not exist or is no longer active. Please return to the product list.
             </p>
             <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
                 <a href="{% url 'backends:product' %}"
-                    class="px-7 py-3 text-xs tracking-[0.25em] uppercase bg-emerald-500 text-moon-white hover:bg-amethyst transition-all duration-300">
+                    class="px-7 py-3 text-xs tracking-[0.25em] uppercase bg-rosy-taupe text-moon-white hover:bg-amethyst transition-all duration-300">
                     Back to Products
                 </a>
                 <a href="{% url 'backends:dashboard' %}"
-                    class="px-7 py-3 text-xs tracking-[0.25em] uppercase border border-solid border-mint/40 text-obsidian dark:text-pearl hover:bg-mint/10 hover:text-mint hover:border-mint/50 hover:scale-105 transition-all duration-300">
+                    class="px-7 py-3 text-xs tracking-[0.25em] uppercase border border-solid border-rosy-taupe/40 text-obsidian dark:text-pearl hover:bg-rosy-taupe/10 hover:text-rosy-taupe hover:border-rosy-taupe/50 hover:scale-105 transition-all duration-300">
                     Dashboard
                 </a>
             </div>
@@ -27,3 +27,4 @@
     </div>
 </section>
 {% endblock %}
+

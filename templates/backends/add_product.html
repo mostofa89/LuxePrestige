@@ -1,4 +1,4 @@
-{% extends 'base/base.html' %}
+﻿{% extends 'base/base.html' %}
 {% load static %}
 
 {% block title %}Ethereal - Add Product{% endblock %}
@@ -16,12 +16,12 @@
 						<h2 class="font-cormorant text-4xl lg:text-5xl text-obsidian dark:text-pearl font-light">Create a Product</h2>
 					</div>
 					<a href="{% url 'backends:product' %}"
-						class="btn px-6 py-3 text-xs tracking-[0.25em] uppercase border border-solid border-obsidian/20 dark:border-pearl/20 text-obsidian dark:text-pearl hover:text-mint hover:border-mint/50 hover:scale-105 transition-all duration-300">Back to Products</a>
+						class="btn px-6 py-3 text-xs tracking-[0.25em] uppercase border border-solid border-obsidian/20 dark:border-pearl/20 text-obsidian dark:text-pearl hover:text-rosy-taupe hover:border-rosy-taupe/50 hover:scale-105 transition-all duration-300">Back to Products</a>
 				</div>
 
 				<div class="rounded-3xl border border-solid border-obsidian/10 dark:border-pearl/10 bg-moon-white/85 dark:bg-black-pearl/70 p-8 shadow-[0_30px_60px_rgba(27,26,23,0.08)] card-glow">
 					{% if error %}
-						<div class="mb-6 rounded-2xl border border-solid border-mint/40 bg-rosy-taupe/10 text-mint px-4 py-3 text-sm">
+						<div class="mb-6 rounded-2xl border border-solid border-rosy-taupe/40 bg-rosy-taupe/10 text-rosy-taupe px-4 py-3 text-sm">
 							{{ error }}
 						</div>
 					{% endif %}
@@ -31,7 +31,7 @@
 						<div>
 							<label class="block text-xs tracking-[0.25em] uppercase text-twilight dark:text-lavender-mist mb-2" for="product-name">Product Name</label>
 							<input id="product-name" name="name" type="text" required
-								class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 text-sm text-obsidian dark:text-pearl focus:border-rosy-taupe focus:ring-2 focus:ring-mint/20 focus:outline-none transition-all duration-200" />
+								class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 text-sm text-obsidian dark:text-pearl focus:border-rosy-taupe focus:ring-2 focus:ring-rosy-taupe/20 focus:outline-none transition-all duration-200" />
 						</div>
 						<div>
 							<label class="block text-xs tracking-[0.25em] uppercase text-twilight dark:text-lavender-mist mb-2" for="product-slug">Slug</label>
@@ -41,25 +41,25 @@
 						<div>
 							<label class="block text-xs tracking-[0.25em] uppercase text-twilight dark:text-lavender-mist mb-2" for="product-description">Description</label>
 							<textarea id="product-description" name="description" rows="4" required
-									class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 text-sm text-obsidian dark:text-pearl focus:border-rosy-taupe focus:ring-2 focus:ring-mint/20 focus:outline-none transition-all duration-200"></textarea>
+									class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 text-sm text-obsidian dark:text-pearl focus:border-rosy-taupe focus:ring-2 focus:ring-rosy-taupe/20 focus:outline-none transition-all duration-200"></textarea>
 						</div>
 						<div class="grid gap-6 md:grid-cols-2">
 							<div>
 								<label class="block text-xs tracking-[0.25em] uppercase text-twilight dark:text-lavender-mist mb-2" for="product-price">Price</label>
 								<input id="product-price" name="price" type="number" step="0.01" required
-									class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 text-sm text-obsidian dark:text-pearl focus:border-mint focus:ring-2 focus:ring-rosy-taupe/20 focus:outline-none transition-all duration-200" />
+									class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 text-sm text-obsidian dark:text-pearl focus:border-rosy-taupe focus:ring-2 focus:ring-rosy-taupe/20 focus:outline-none transition-all duration-200" />
 							</div>
 							<div>
 								<label class="block text-xs tracking-[0.25em] uppercase text-twilight dark:text-lavender-mist mb-2" for="product-weight">Weight (grams)</label>
 								<input id="product-weight" name="weight" type="number" step="0.01" required
-									class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 text-sm text-obsidian dark:text-pearl focus:border-mint focus:ring-2 focus:ring-mint/20 focus:outline-none transition-all duration-200" />
+									class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 text-sm text-obsidian dark:text-pearl focus:border-rosy-taupe focus:ring-2 focus:ring-rosy-taupe/20 focus:outline-none transition-all duration-200" />
 							</div>
 						</div>
 						<div class="grid gap-6 md:grid-cols-2">
 							<div>
 								<label class="block text-xs tracking-[0.25em] uppercase text-twilight dark:text-lavender-mist mb-2" for="product-brand">Brand</label>
 								<select id="product-brand" name="brand" required
-									class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 text-sm text-obsidian dark:text-pearl focus:border-mint focus:ring-2 focus:ring-mint/20 focus:outline-none transition-all duration-200">
+									class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 text-sm text-obsidian dark:text-pearl focus:border-rosy-taupe focus:ring-2 focus:ring-rosy-taupe/20 focus:outline-none transition-all duration-200">
 									<option value="" disabled selected>Select a brand</option>
 									{% for brand in brands %}
 										<option value="{{ brand.id }}">{{ brand.name }}</option>
@@ -69,7 +69,7 @@
 							<div>
 								<label class="block text-xs tracking-[0.25em] uppercase text-twilight dark:text-lavender-mist mb-2" for="product-category">Category</label>
 								<select id="product-category" name="category" required
-									class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 text-sm text-obsidian dark:text-pearl focus:border-mint focus:ring-2 focus:ring-mint/20 focus:outline-none transition-all duration-200">
+									class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 text-sm text-obsidian dark:text-pearl focus:border-rosy-taupe focus:ring-2 focus:ring-rosy-taupe/20 focus:outline-none transition-all duration-200">
 									<option value="" disabled selected>Select a category</option>
 									{% for category in categories %}
 										<option value="{{ category.id }}">{{ category.name }}</option>
@@ -81,41 +81,41 @@
 							<div>
 								<label class="block text-xs tracking-[0.25em] uppercase text-twilight dark:text-lavender-mist mb-2" for="delivery-min">Delivery Day Min</label>
 								<input id="delivery-min" name="delivery_day_min" type="number" min="1" required
-									class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 text-sm text-obsidian dark:text-pearl focus:border-mint focus:ring-2 focus:ring-mint/20 focus:outline-none transition-all duration-200" />
+									class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 text-sm text-obsidian dark:text-pearl focus:border-rosy-taupe focus:ring-2 focus:ring-rosy-taupe/20 focus:outline-none transition-all duration-200" />
 							</div>
 							<div>
 								<label class="block text-xs tracking-[0.25em] uppercase text-twilight dark:text-lavender-mist mb-2" for="delivery-max">Delivery Day Max</label>
 								<input id="delivery-max" name="delivery_day_max" type="number" min="1" required
-									class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 text-sm text-obsidian dark:text-pearl focus:border-mint focus:ring-2 focus:ring-mint/20 focus:outline-none transition-all duration-200" />
+									class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 text-sm text-obsidian dark:text-pearl focus:border-rosy-taupe focus:ring-2 focus:ring-rosy-taupe/20 focus:outline-none transition-all duration-200" />
 							</div>
 						</div>
 						<div>
 							<label class="block text-xs tracking-[0.25em] uppercase text-twilight dark:text-lavender-mist mb-2" for="product-quantity">Available Quantity</label>
 							<input id="product-quantity" name="avl_quantity" type="number" min="0" value="0"
-								class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 text-sm text-obsidian dark:text-pearl focus:border-mint focus:ring-2 focus:ring-mint/20 focus:outline-none transition-all duration-200" />
+								class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 text-sm text-obsidian dark:text-pearl focus:border-rosy-taupe focus:ring-2 focus:ring-rosy-taupe/20 focus:outline-none transition-all duration-200" />
 						</div>
 						<div>
 							<label class="block text-xs tracking-[0.25em] uppercase text-twilight dark:text-lavender-mist mb-2" for="product-image">Product Image</label>
 							<input id="product-image" name="product_image" type="file" accept="image/*"
-								class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 text-sm text-obsidian dark:text-pearl focus:border-mint focus:ring-2 focus:ring-mint/20 focus:outline-none transition-all duration-200 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-mint/10 file:text-mint hover:file:bg-mint/20 hover:scale-105 transition-transform duration-200" />
+								class="w-full rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40 px-4 py-3 text-sm text-obsidian dark:text-pearl focus:border-rosy-taupe focus:ring-2 focus:ring-rosy-taupe/20 focus:outline-none transition-all duration-200 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-rosy-taupe/10 file:text-rosy-taupe hover:file:bg-rosy-taupe/20 hover:scale-105 transition-transform duration-200" />
 						</div>
 						<div class="grid gap-6 md:grid-cols-2">
 							<div class="flex items-center gap-3 p-5 rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40">
 								<input id="is-active" name="is_active" type="checkbox" checked
-									class="w-5 h-5 rounded border-obsidian/15 dark:border-pearl/15 text-mint focus:ring-mint focus:ring-2" />
+									class="w-5 h-5 rounded border-obsidian/15 dark:border-pearl/15 text-rosy-taupe focus:ring-rosy-taupe focus:ring-2" />
 								<label class="text-xs tracking-[0.25em] uppercase text-twilight dark:text-lavender-mist cursor-pointer" for="is-active">Active Product</label>
 							</div>
 							<div class="flex items-center gap-3 p-5 rounded-2xl border border-solid border-obsidian/15 dark:border-pearl/15 bg-moon-white/70 dark:bg-black-pearl/40">
 								<input id="is-featured" name="is_featured" type="checkbox"
-									class="w-5 h-5 rounded border-obsidian/15 dark:border-pearl/15 text-mint focus:ring-mint focus:ring-2" />
+									class="w-5 h-5 rounded border-obsidian/15 dark:border-pearl/15 text-rosy-taupe focus:ring-rosy-taupe focus:ring-2" />
 								<label class="text-xs tracking-[0.25em] uppercase text-twilight dark:text-lavender-mist cursor-pointer" for="is-featured">Featured Product</label>
 							</div>
 						</div>
 						<div class="flex flex-wrap gap-4">
 							<button type="submit"
-							class="btn px-6 py-3 text-xs tracking-[0.25em] uppercase bg-obsidian text-moon-white dark:bg-pearl dark:text-obsidian hover:bg-rosy-taupe hover:shadow-[0_8px_30px_rgba(82,183,136,0.3)] hover:scale-105 transition-all duration-300">Save Product</button>
+							class="btn px-6 py-3 text-xs tracking-[0.25em] uppercase bg-obsidian text-moon-white dark:bg-pearl dark:text-obsidian hover:bg-rosy-taupe hover:shadow-[0_8px_30px_rgba(192, 152, 145,0.3)] hover:scale-105 transition-all duration-300">Save Product</button>
 							<a href="{% url 'backends:product' %}"
-							class="btn px-6 py-3 text-xs tracking-[0.25em] uppercase border border-solid border-obsidian/20 dark:border-pearl/20 text-obsidian dark:text-pearl hover:text-mint hover:border-mint/50 hover:scale-105 transition-all duration-300">Cancel</a>
+							class="btn px-6 py-3 text-xs tracking-[0.25em] uppercase border border-solid border-obsidian/20 dark:border-pearl/20 text-obsidian dark:text-pearl hover:text-rosy-taupe hover:border-rosy-taupe/50 hover:scale-105 transition-all duration-300">Cancel</a>
 						</div>
 					</form>
 				</div>
@@ -124,6 +124,7 @@
 	</div>
 </section>
 {% endblock %}
+
 
 
 

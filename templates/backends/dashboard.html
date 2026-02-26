@@ -1,4 +1,4 @@
-{% extends 'base/base.html' %}
+﻿{% extends 'base/base.html' %}
 {% load static %}
 
 {% block title %}Ethereal - Account Dashboard{% endblock %}
@@ -27,7 +27,7 @@
 							<p class="text-sm text-twilight dark:text-lavender-mist mt-2">Member since {{ user.date_joined|date:"F Y" }}</p>
 						</div>
 						<div class="flex items-center gap-4">
-							<div class="rounded-full w-16 h-16 bg-pearl dark:bg-midnight flex items-center justify-center text-xl text-mint font-semibold hover:scale-105 transition-transform duration-200">
+							<div class="rounded-full w-16 h-16 bg-pearl dark:bg-midnight flex items-center justify-center text-xl text-rosy-taupe font-semibold hover:scale-105 transition-transform duration-200">
 								{{ user.username|slice:":1"|upper }}
 							</div>
 							<div>
@@ -41,7 +41,7 @@
 				<div class="rounded-3xl border border-solid border-obsidian/10 dark:border-pearl/10 bg-moon-white/85 dark:bg-black-pearl/70 p-8 shadow-[0_30px_60px_rgba(27,26,23,0.08)] card-glow">
 					<div class="flex items-center justify-between mb-6">
 						<h3 class="font-cormorant text-2xl text-obsidian dark:text-pearl font-light">Recent Orders</h3>
-						<a href="#" class="text-xs tracking-[0.25em] uppercase text-mint hover:text-mint hover:scale-105 transition-all duration-300">View
+						<a href="#" class="text-xs tracking-[0.25em] uppercase text-rosy-taupe hover:text-rosy-taupe hover:scale-105 transition-all duration-300">View
 							All</a>
 					</div>
 					<div class="space-y-4">
@@ -62,7 +62,7 @@
 							</div>
 							<div class="flex items-center gap-6">
 								<p class="text-sm text-twilight dark:text-lavender-mist">Jan 10, 2026</p>
-								<span class="text-xs tracking-[0.2em] uppercase bg-emerald-500/15 text-mint px-4 py-2 rounded-full">Processing</span>
+								<span class="text-xs tracking-[0.2em] uppercase bg-rosy-taupe/15 text-rosy-taupe px-4 py-2 rounded-full">Processing</span>
 							</div>
 						</div>
 					</div>
@@ -82,10 +82,10 @@
 				<div class="rounded-3xl border border-solid border-obsidian/10 dark:border-pearl/10 bg-moon-white/85 dark:bg-black-pearl/70 p-8 shadow-[0_30px_60px_rgba(27,26,23,0.08)] card-glow">
 					<h3 class="font-cormorant text-2xl text-obsidian dark:text-pearl font-light mb-6">Quick Links</h3>
 					<ul class="space-y-3 text-sm">
-						<li><a class="text-twilight dark:text-lavender-mist hover:text-mint hover:border-mint/50 hover:scale-105 transition-all duration-300" href="#">Saved Items</a></li>
-						<li><a class="text-twilight dark:text-lavender-mist hover:text-mint hover:border-mint/50 hover:scale-105 transition-all duration-300" href="#">Payment Methods</a></li>
-						<li><a class="text-twilight dark:text-lavender-mist hover:text-mint hover:border-mint/50 hover:scale-105 transition-all duration-300" href="#">Address Book</a></li>
-						<li><a class="text-twilight dark:text-lavender-mist hover:text-mint hover:border-mint/50 hover:scale-105 transition-all duration-300" href="#">Support</a></li>
+						<li><a class="text-twilight dark:text-lavender-mist hover:text-rosy-taupe hover:border-rosy-taupe/50 hover:scale-105 transition-all duration-300" href="#">Saved Items</a></li>
+						<li><a class="text-twilight dark:text-lavender-mist hover:text-rosy-taupe hover:border-rosy-taupe/50 hover:scale-105 transition-all duration-300" href="#">Payment Methods</a></li>
+						<li><a class="text-twilight dark:text-lavender-mist hover:text-rosy-taupe hover:border-rosy-taupe/50 hover:scale-105 transition-all duration-300" href="#">Address Book</a></li>
+						<li><a class="text-twilight dark:text-lavender-mist hover:text-rosy-taupe hover:border-rosy-taupe/50 hover:scale-105 transition-all duration-300" href="#">Support</a></li>
 					</ul>
 				</div>
 					</div>
@@ -95,6 +95,7 @@
 	</div>
 </section>
 {% endblock %}
+
 
 
 
