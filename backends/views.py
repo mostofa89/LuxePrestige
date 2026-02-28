@@ -468,8 +468,12 @@ def Register(request):
             messages.error(request, 'Username already exists.')
             return render(request, 'backends/register.html')
         
+        if password1 != password2:
+            messages.error(request, 'Passwords do not match.')
+            return render(request, 'backends/register.html')
+        
         generate_otp(email)
-        user = User.objects.create_user(username=username, email=email, password=password)
+        user = User.objects.create_user(username=username, email=email, password=password1)
 
     return render(request, 'backends/register.html')
 

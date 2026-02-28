@@ -31,7 +31,7 @@
         "fields": {
             "product": 1,
             "image": "product_images/solstice-chain-lifestyle.jpg",
-            "position": 2,
+            "position": 1,
             "is_active": true,
             "alt_text": "Solstice Chain lifestyle shot",
             "created_at": "2025-05-07T15:05:14.353Z",
@@ -96,7 +96,7 @@
         "fields": {
             "product": 3,
             "image": "product_images/halo-studs-wear.jpg",
-            "position": 2,
+            "position": 1,
             "is_active": true,
             "alt_text": "Halo Studs on model",
             "created_at": "2025-05-07T15:07:14.353Z",
@@ -252,7 +252,7 @@
         "fields": {
             "product": 5,
             "image": "product_images/aurora-charm-detail.jpg",
-            "position": 2,
+            "position": 1,
             "is_active": true,
             "alt_text": "Aurora Charm detail close-up",
             "created_at": "2025-05-07T15:15:14.353Z",

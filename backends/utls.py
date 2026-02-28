@@ -1,15 +1,20 @@
-import random
+import secrets
 from django.core.mail import EmailMultiAlternatives
 from django.conf import settings
 from .models import EmailOTP
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
+from django.utils import timezone
+from datetime import timedelta
 
 def generate_otp(email):
-    otp = str(random.randint(100000, 999999))
+    # Delete any existing OTPs for this email
+    EmailOTP.objects.filter(email=email).delete()
+
+    otp = str(secrets.randbelow(900000) + 100000)  # Cryptographically secure
     EmailOTP.objects.create(email=email, otp=otp)
 
-    subject = 'Your OTP code'
+    subject = 'Your OTP Code'
     message = (
         f'Your OTP code is {otp}.\n\n'
         'This code expires in 10 minutes.'
@@ -23,9 +28,34 @@ def generate_otp(email):
         cc=getattr(settings, 'EMAIL_CC', []),
         bcc=getattr(settings, 'EMAIL_BCC', []),
     )
-    email_message.send(fail_silently=False)
+
+    try:
+        email_message.send(fail_silently=False)
+    except Exception as e:
+        print(f"Error sending OTP email: {e}")
+        return None  # Signal that sending failed
 
     return otp
+
+
+def verify_otp(email, otp_entered):
+    try:
+        otp_record = EmailOTP.objects.filter(email=email).latest('created_at')
+    except EmailOTP.DoesNotExist:
+        return False, "No OTP found for this email."
+
+    # Check expiry (10 minutes)
+    expiry_time = otp_record.created_at + timedelta(minutes=10)
+    if timezone.now() > expiry_time:
+        otp_record.delete()
+        return False, "OTP has expired. Please request a new one."
+
+    if otp_record.otp != otp_entered:
+        return False, "Invalid OTP."
+
+    # OTP is valid — delete it so it can't be reused
+    otp_record.delete()
+    return True, "OTP verified successfully."
 
 
 def send_templated_mail(mail_to, mail_cc, mail_bcc, subject, template, context):
@@ -60,4 +90,3 @@ def send_templated_mail(mail_to, mail_cc, mail_bcc, subject, template, context):
         return True
 
     return False
-            
