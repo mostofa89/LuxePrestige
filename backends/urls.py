@@ -24,4 +24,6 @@ urlpatterns = [
     path('get-categories-json/', views.get_categories_json, name='get-categories-json'),
     path('login/', views.Login, name='login'),
     path('register/', views.Register, name='register'),
+    path('verify-otp/<int:user_id>/', views.VerifyOTP, name='verify_otp'),
+    path('resend-otp/<int:user_id>/', views.ResendOTP, name='resend_otp'),
 ]

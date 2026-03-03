@@ -1,0 +1,135 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Ethereal - Verify Email{% endblock %}
+
+{% block content %}
+<section class="pt-28 pb-24">
+	<div class="max-w-6xl mx-auto px-6 lg:px-10">
+		<div class="rounded-[2.5rem] border border-solid border-[#0a0908]/10 dark:border-[#f2f4f3]/10 bg-[#f2f4f3]/85 dark:bg-[#0a0908]/70 shadow-[0_30px_70px_rgba(10,9,8,0.12)] overflow-hidden card-glow">
+			<div class="grid grid-cols-1 lg:grid-cols-2">
+				<div class="relative p-10 lg:p-14 bg-gradient-to-br from-[#f4dbd8]/60 via-[#f2f4f3]/70 to-[#a9927d]/20 dark:from-[#a9927d]/10 dark:via-[#0a0908]/70 dark:to-[#c09891]/5">
+					<div class="absolute inset-0 pointer-events-none">
+						<div class="absolute -top-16 -right-16 w-64 h-64 rounded-full bg-[#f4dbd8]/30 blur-3xl"></div>
+						<div class="absolute -bottom-20 -left-10 w-72 h-72 rounded-full bg-[#c09891]/20 blur-3xl"></div>
+					</div>
+
+					<div class="relative z-10">
+						<p class="text-xs tracking-[0.35em] uppercase text-[#c09891]">Security</p>
+						<h1 class="font-cormorant text-4xl lg:text-5xl text-[#0a0908] dark:text-[#f2f4f3] font-light mt-4">Verify your email</h1>
+						<p class="text-sm leading-7 text-[#bea8a7] dark:text-[#bea8a7] mt-6">
+							We've sent a verification code to your email address. Enter the 6-digit code below to complete your registration and access the Ethereal studio.
+						</p>
+
+						<div class="mt-10 space-y-4">
+							<div class="flex items-center gap-4">
+								<div class="w-12 h-12 rounded-2xl bg-[#c09891]/15 text-[#c09891] flex items-center justify-center">📧</div>
+								<div>
+									<p class="text-xs tracking-[0.25em] uppercase text-[#bea8a7]">Check Your Email</p>
+									<p class="text-sm text-[#0a0908] dark:text-[#f2f4f3]">Look for the verification code</p>
+								</div>
+							</div>
+							<div class="flex items-center gap-4">
+								<div class="w-12 h-12 rounded-2xl bg-[#c09891]/15 text-[#c09891] flex items-center justify-center">🔐</div>
+								<div>
+									<p class="text-xs tracking-[0.25em] uppercase text-[#bea8a7]">Enter The Code</p>
+									<p class="text-sm text-[#0a0908] dark:text-[#f2f4f3]">6-digit verification code</p>
+								</div>
+							</div>
+							<div class="flex items-center gap-4">
+								<div class="w-12 h-12 rounded-2xl bg-[#c09891]/15 text-[#c09891] flex items-center justify-center">✓</div>
+								<div>
+									<p class="text-xs tracking-[0.25em] uppercase text-[#bea8a7]">All Done</p>
+									<p class="text-sm text-[#0a0908] dark:text-[#f2f4f3]">Access your account</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="p-10 lg:p-14">
+					<div class="mb-10">
+						<p class="text-xs tracking-[0.35em] uppercase text-[#bea8a7]">Verification</p>
+						<h2 class="font-cormorant text-3xl text-[#0a0908] dark:text-[#f2f4f3] font-light mt-3">Verify here</h2>
+					</div>
+
+					{% if messages %}
+						{% for message in messages %}
+							<div class="mb-4 p-4 rounded-2xl {% if message.tags %}bg-{{ message.tags }}-100 border border-{{ message.tags }}-300 text-{{ message.tags }}-800{% else %}bg-blue-100 border border-blue-300 text-blue-800{% endif %}" role="alert">
+								{{ message }}
+							</div>
+						{% endfor %}
+					{% endif %}
+
+					<p class="text-sm text-[#0a0908] dark:text-[#f2f4f3] mb-6">
+						Verification code sent to: <strong class="text-[#c09891]">{{ email }}</strong>
+					</p>
+
+					<form method="POST" action="" class="space-y-6">
+						{% csrf_token %}
+						
+						<div>
+							<label class="block text-xs tracking-[0.25em] uppercase text-[#bea8a7] mb-3" for="otp">Enter 6-Digit Code</label>
+							<input 
+								id="otp" 
+								name="otp" 
+								type="text" 
+								required 
+								placeholder="Enter code" 
+								maxlength="6" 
+								pattern="[0-9]{6}"
+								inputmode="numeric"
+								autocomplete="one-time-code"
+								class="w-full rounded-2xl border border-solid border-[#0a0908]/15 dark:border-[#f2f4f3]/15 bg-[#f2f4f3]/70 dark:bg-[#0a0908]/40 px-4 py-3 text-sm text-[#0a0908] dark:text-[#f2f4f3] focus:border-[#c09891] focus:ring-2 focus:ring-[#c09891]/20 focus:outline-none transition-all duration-200 tracking-widest text-center text-lg"
+							>
+							<small class="text-[#bea8a7] mt-2 block">You should receive this code within a few seconds</small>
+						</div>
+
+						<button class="w-full px-6 py-4 text-xs tracking-[0.35em] uppercase bg-[#0a0908] text-[#f2f4f3] dark:bg-[#f2f4f3] dark:text-[#0a0908] hover:bg-[#c09891] hover:shadow-[0_10px_30px_rgba(192,152,145,0.35)] hover:scale-[1.01] transition-all duration-300 rounded-2xl" type="submit">
+							Verify Email
+						</button>
+					</form>
+
+					<div class="text-center mt-8">
+						<p class="text-sm text-[#bea8a7] mb-3">Didn't receive the code?</p>
+						<a href="{% url 'backends:resend_otp' user.id %}" class="inline-block text-xs tracking-[0.25em] uppercase text-[#c09891] hover:underline mb-3">
+							Resend Code
+						</a>
+						<br>
+						<a href="{% url 'backends:register' %}" class="text-xs tracking-[0.25em] uppercase text-[#c09891] hover:underline">
+							← Back to Registration
+						</a>
+					</div>
+
+					<div class="mt-8 p-4 rounded-2xl bg-[#f4dbd8]/40 dark:bg-[#c09891]/10 border border-[#c09891]/20">
+						<p class="text-xs text-[#0a0908] dark:text-[#f2f4f3] leading-6">
+							<strong>⏱️ Code Expiration:</strong> Your verification code expires in 10 minutes. If it has expired, you'll need to register again to receive a new code.
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script>
+	// Only allow numbers in OTP input
+	const otpInput = document.getElementById('otp');
+	if (otpInput) {
+		otpInput.addEventListener('input', function(e) {
+			this.value = this.value.replace(/[^0-9]/g, '').slice(0, 6);
+		});
+
+		// Auto-submit when 6 digits are entered
+		otpInput.addEventListener('input', function() {
+			if (this.value.length === 6) {
+				// Optional: automatically submit
+				// this.form.submit();
+			}
+		});
+
+		// Focus on the input
+		otpInput.focus();
+	}
+</script>
+{% endblock %}

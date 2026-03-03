@@ -3,10 +3,13 @@ from django.db.models import Case, IntegerField, When
 from django.contrib import messages
 from django.shortcuts import redirect, render
 from django.http import JsonResponse
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
+from django.contrib.auth import authenticate, login
 from .permissions import checkUserPermissions
-from .models import Brand, Product, ProductCategory, ProductImage, UserPermission, Category, Inventory, Review, Membership
+from .models import Brand, Product, ProductCategory, ProductImage, UserPermission, Category, Inventory, Review, Membership, Customer
 from django.contrib.auth.models import User
-from .utls import generate_otp
+from .utls import generate_otp, verify_otp, send_verification_confirmation_email
 # Create your views here.
 
 def dashboard(request):
@@ -457,24 +460,153 @@ def Login(request):
 
 def Register(request):
     if request.method == 'POST':
-        username = request.POST.get('username')
-        email = request.POST.get('email')
-        phone = request.POST.get('phone')
-        password1 = request.POST.get('password1')
-        password2 = request.POST.get('password2')
-        dob = request.POST.get('dob')
+        username = request.POST.get('username', '').strip()
+        email = request.POST.get('email', '').strip()
+        phone = request.POST.get('phone', '').strip()
+        password1 = request.POST.get('password1', '').strip()
+        password2 = request.POST.get('confirm_password', '').strip()
+        dob = request.POST.get('dob', '').strip()
 
+        # Validate required fields
+        if not username:
+            messages.error(request, 'Username is required.')
+            return render(request, 'backends/register.html')
+        
+        if not email:
+            messages.error(request, 'Email is required.')
+            return render(request, 'backends/register.html')
+        
+        if not phone:
+            messages.error(request, 'Phone number is required.')
+            return render(request, 'backends/register.html')
+        
+        if not password1 or not password2:
+            messages.error(request, 'Both password fields are required.')
+            return render(request, 'backends/register.html')
+
+        # Validate email format
+        user = None
+        try:
+            validate_email(email)
+        except ValidationError:
+            messages.error(request, 'Invalid email format.')
+            return render(request, 'backends/register.html')
+
+        # Check if username already exists
         if User.objects.filter(username=username).exists():
             messages.error(request, 'Username already exists.')
             return render(request, 'backends/register.html')
         
+        # Check if email already exists
+        if User.objects.filter(email=email).exists() or Customer.objects.filter(email=email).exists():
+            messages.error(request, 'Email already registered.')
+            return render(request, 'backends/register.html')
+
+        # Validate passwords match
         if password1 != password2:
             messages.error(request, 'Passwords do not match.')
             return render(request, 'backends/register.html')
         
-        generate_otp(email)
-        user = User.objects.create_user(username=username, email=email, password=password1)
+        # Validate password length
+        if len(password1) < 8:
+            messages.error(request, 'Password must be at least 8 characters long.')
+            return render(request, 'backends/register.html')
+
+        try:
+            # Create Django User
+            user = User.objects.create_user(
+                username=username, 
+                email=email, 
+                password=password1
+            )
+            
+            # Create Customer profile with phone and dob
+            Customer.objects.create(
+                customer=user,
+                name=username,
+                email=email,
+                password=password1,  # Note: storing plain password is not recommended
+                phone=phone,
+                dob=dob,
+                is_active=True
+            )
+            
+            # Generate and send OTP for verification
+            generate_otp(email, username=username)
+            
+            messages.success(request, 'Registration successful! Please verify your email with the OTP sent.')
+            return redirect('backends:verify_otp', user_id=user.id)
+        
+        except Exception as e:
+            # Rollback if Customer creation fails
+            if user:
+                user.delete()
+            messages.error(request, f'Registration failed: {str(e)}')
+            return render(request, 'backends/register.html')
 
     return render(request, 'backends/register.html')
+
+
+def VerifyOTP(request, user_id):
+    """Verify OTP sent to user's email during registration"""
+    try:
+        user = User.objects.get(id=user_id)
+    except User.DoesNotExist:
+        messages.error(request, 'User not found.')
+        return redirect('backends:register')
+    
+    if request.method == 'POST':
+        otp = request.POST.get('otp', '').strip()
+        
+        if not otp:
+            messages.error(request, 'Please enter the OTP.')
+            return render(request, 'backends/verify_otp.html', {'user': user})
+        
+        # Verify OTP using the utility function
+        is_valid, message = verify_otp(user.email, otp)
+        
+        if is_valid:
+            # Activate the user account
+            user.is_active = True
+            user.save()
+            
+            # Also mark the Customer record as active
+            try:
+                customer = Customer.objects.get(customer=user)
+                customer.is_active = True
+                customer.save()
+            except Customer.DoesNotExist:
+                pass
+
+            send_verification_confirmation_email(user.email, username=user.username)
+            
+            messages.success(request, 'Email verified successfully! You can now login.')
+            return redirect('backends:login')
+        else:
+            messages.error(request, message)
+            return render(request, 'backends/verify_otp.html', {'user': user})
+    
+    # GET request - show OTP form
+    context = {
+        'user': user,
+        'email': user.email,
+    }
+    return render(request, 'backends/verify_otp.html', context)
+
+
+def ResendOTP(request, user_id):
+    try:
+        user = User.objects.get(id=user_id)
+    except User.DoesNotExist:
+        messages.error(request, 'User not found.')
+        return redirect('backends:register')
+
+    otp = generate_otp(user.email, username=user.username)
+    if otp:
+        messages.success(request, 'A new verification code has been sent to your email.')
+    else:
+        messages.error(request, 'Failed to send a new verification code. Please try again.')
+
+    return redirect('backends:verify_otp', user_id=user.id)
 
 

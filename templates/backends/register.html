@@ -69,8 +69,8 @@
 
 						<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 							<div>
-								<label class="block text-xs tracking-[0.25em] uppercase text-[#bea8a7] mb-2" for="password">Password</label>
-								<input id="password" name="password1" type="password" required placeholder="Create a password"
+								<label class="block text-xs tracking-[0.25em] uppercase text-[#bea8a7] mb-2" for="password1">Password</label>
+								<input id="password1" name="password1" type="password" required placeholder="Create a password"
 									class="w-full rounded-2xl border border-solid border-[#0a0908]/15 dark:border-[#f2f4f3]/15 bg-[#f2f4f3]/70 dark:bg-[#0a0908]/40 px-4 py-3 text-sm text-[#0a0908] dark:text-[#f2f4f3] focus:border-[#c09891] focus:ring-2 focus:ring-[#c09891]/20 focus:outline-none transition-all duration-200" />
 							</div>
 							<div>
@@ -87,7 +87,13 @@
 
 						<div>
 							<label class="block text-xs tracking-[0.25em] uppercase text-[#bea8a7] mb-2" for="phone">Phone</label>
-							<input id="phone" name="phone" type="tel" placeholder="phone number"
+							<input id="phone" name="phone" type="tel" placeholder="phone number" required
+								class="w-full rounded-2xl border border-solid border-[#0a0908]/15 dark:border-[#f2f4f3]/15 bg-[#f2f4f3]/70 dark:bg-[#0a0908]/40 px-4 py-3 text-sm text-[#0a0908] dark:text-[#f2f4f3] focus:border-[#c09891] focus:ring-2 focus:ring-[#c09891]/20 focus:outline-none transition-all duration-200" />
+						</div>
+
+						<div>
+							<label class="block text-xs tracking-[0.25em] uppercase text-[#bea8a7] mb-2" for="dob">Date of Birth</label>
+							<input id="dob" name="dob" type="date" required placeholder="Select your date of birth"
 								class="w-full rounded-2xl border border-solid border-[#0a0908]/15 dark:border-[#f2f4f3]/15 bg-[#f2f4f3]/70 dark:bg-[#0a0908]/40 px-4 py-3 text-sm text-[#0a0908] dark:text-[#f2f4f3] focus:border-[#c09891] focus:ring-2 focus:ring-[#c09891]/20 focus:outline-none transition-all duration-200" />
 						</div>
 
@@ -126,7 +132,7 @@
 					</form>
 					<script>
 						const togglePassword = document.getElementById('toggle-password');
-						const passwordInput = document.getElementById('password');
+						const passwordInput = document.getElementById('password1');
 						const confirmPasswordInput = document.getElementById('password2');
 
 						if (togglePassword && passwordInput && confirmPasswordInput) {
