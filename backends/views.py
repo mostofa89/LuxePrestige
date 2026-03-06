@@ -5,9 +5,12 @@ from django.shortcuts import redirect, render
 from django.http import JsonResponse
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.views.decorators.http import require_POST
+from django.db import transaction
+import json
 from .permissions import checkUserPermissions
-from .models import Brand, Product, ProductCategory, ProductImage, UserPermission, Category, Inventory, Review, Membership, Customer
+from .models import Brand, Product, ProductCategory, ProductImage, UserPermission, Category, Inventory, Review, Membership, Customer, Cart, CartItem
 from django.contrib.auth.models import User
 from .utls import generate_otp, verify_otp, send_verification_confirmation_email
 # Create your views here.
@@ -454,8 +457,38 @@ def add_membership(request):
 
 
 def Login(request):
+
+    if request.method == 'POST':
+        username_input = request.POST.get('username', '').strip()
+        password = request.POST.get('password', '').strip()
+
+        # Find user by email or username
+        user_obj = None
+        if '@' in username_input:
+            user_obj = User.objects.filter(email__iexact=username_input).first()
+        else:
+            user_obj = User.objects.filter(username__iexact=username_input).first()
+
+        # Check if user exists
+        if not user_obj:
+            messages.error(request, 'Invalid email, username, or password.')
+            return render(request, 'backends/login.html')
+
+        # Check if user account is active
+        if not user_obj.is_active:
+            messages.error(request, 'Your account is not activated. Please verify your email first.')
+            return render(request, 'backends/login.html')
+
+        # Authenticate user
+        user = authenticate(request, username=user_obj.username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('backends:dashboard')
+
+        messages.error(request, 'Invalid email, username, or password.')
+        return render(request, 'backends/login.html')
+
     return render(request, 'backends/login.html')
-    
 
 
 def Register(request):
@@ -519,6 +552,8 @@ def Register(request):
                 email=email, 
                 password=password1
             )
+            user.is_active = True
+            user.save()
             
             # Create Customer profile with phone and dob
             Customer.objects.create(
@@ -610,3 +645,267 @@ def ResendOTP(request, user_id):
     return redirect('backends:verify_otp', user_id=user.id)
 
 
+def Logout(request):
+    logout(request)
+    messages.success(request, 'You have been logged out successfully.')
+    return redirect('backends:login')
+
+
+def cart_ammount_summary(request):
+    sub_total = 0
+    total_val = 0
+    total_discount = 0
+    grand_total = 0
+
+    if request.user.is_authenticated:
+        try:
+            customer = Customer.objects.get(customer=request.user)
+            cart = Cart.objects.filter(customer=customer).first()
+            if cart:
+                cart_items = CartItem.objects.filter(cart=cart).select_related('product')
+                for item in cart_items:
+                    sub_total += float(item.product.price) * item.quantity
+        except Customer.DoesNotExist:
+            pass
+
+    grand_total = (sub_total + total_val) - total_discount
+    return {
+        'sub_total': float(sub_total),
+        'tax_amount': float(total_val),
+        'total_discount': float(total_discount),
+        'grand_total': float(grand_total)
+    }
+
+
+def add_to_cart(request):
+    if not request.user.is_authenticated:
+        return JsonResponse({
+            'status': 'error',
+            'message': 'User is not authenticated. Please log in to add products to cart.'
+        }, status=401)
+
+    if request.method == 'POST':
+        try:
+            # Get customer
+            customer = Customer.objects.filter(customer=request.user).first()
+            if not customer:
+                return JsonResponse({
+                    'status': 'error',
+                    'message': 'Customer profile not found.'
+                }, status=404)
+
+            product_id = request.POST.get('product_id')
+            quantity = int(request.POST.get('quantity', 1))
+
+            # Validate inputs
+            if not product_id:
+                return JsonResponse({
+                    'status': 'error',
+                    'message': 'Product ID is required.'
+                }, status=400)
+
+            if quantity < 1:
+                return JsonResponse({
+                    'status': 'error',
+                    'message': 'Quantity must be at least 1.'
+                }, status=400)
+
+            # Get product
+            try:
+                product = Product.objects.get(id=product_id)
+            except Product.DoesNotExist:
+                return JsonResponse({
+                    'status': 'error',
+                    'message': 'Product not found.'
+                }, status=404)
+
+            # Check product availability
+            if not product.is_active:
+                return JsonResponse({
+                    'status': 'error',
+                    'message': 'This product is currently unavailable.'
+                }, status=400)
+
+            # Get or create cart
+            cart, cart_created = Cart.objects.get_or_create(customer=customer)
+
+            # Get or create cart item
+            cart_item, item_created = CartItem.objects.get_or_create(
+                cart=cart,
+                product=product,
+                defaults={'quantity': quantity}
+            )
+
+            if not item_created:
+                # Update quantity
+                cart_item.quantity += quantity
+                
+                # Check stock availability
+                if cart_item.quantity > product.avl_quantity:
+                    return JsonResponse({
+                        'status': 'error',
+                        'message': f'Cannot add {quantity} more. Only {product.avl_quantity} items available in stock.'
+                    }, status=400)
+                
+                cart_item.save()
+
+            # Get cart summary
+            ammount_summary = cart_ammount_summary(request)
+            cart_item_count = CartItem.objects.filter(cart=cart).count()
+            total_items = sum(item.quantity for item in CartItem.objects.filter(cart=cart))
+
+            response = {
+                'status': 'success',
+                'message': f'{product.name} has been added to your cart.',
+                'cart_item_count': cart_item_count,
+                'total_items': total_items,
+                'ammount_summary': ammount_summary,
+                'item_price': float(product.price),
+                'product_name': product.name,
+                'quantity': cart_item.quantity
+            }
+
+            return JsonResponse(response)
+        
+        except ValueError as e:
+            return JsonResponse({
+                'status': 'error',
+                'message': f'Invalid quantity value: {str(e)}'
+            }, status=400)
+        
+        except Exception as e:
+            return JsonResponse({
+                'status': 'error',
+                'message': f'Failed to add product to cart: {str(e)}'
+            }, status=500)
+    
+    return JsonResponse({
+        'status': 'error',
+        'message': 'Invalid request method.'
+    }, status=405)
+
+
+def cartItem(request):
+    """
+    View to handle cart item operations:
+    - GET: Display all cart items
+    - POST: Update or delete cart items
+    """
+    if not request.user.is_authenticated:
+        messages.error(request, 'Please log in to view your cart.')
+        return redirect('backends:login')
+
+    try:
+        customer = Customer.objects.get(customer=request.user)
+    except Customer.DoesNotExist:
+        messages.error(request, 'Customer profile not found.')
+        return redirect('backends:login')
+
+    # Get or create cart
+    cart, created = Cart.objects.get_or_create(customer=customer)
+
+    # Handle POST request - Update or Delete cart items
+    if request.method == 'POST':
+        action = request.POST.get('action')
+        cart_item_id = request.POST.get('cart_item_id')
+
+        if not action or not cart_item_id:
+            messages.error(request, 'Invalid request.')
+            return redirect('backends:cart_items')
+
+        # Get cart item
+        try:
+            cart_item = CartItem.objects.select_related('product').get(
+                id=cart_item_id,
+                cart=cart
+            )
+        except CartItem.DoesNotExist:
+            messages.error(request, 'Cart item not found.')
+            return redirect('backends:cart_items')
+
+        # Handle UPDATE action
+        if action == 'update':
+            quantity = request.POST.get('quantity')
+            
+            if not quantity:
+                messages.error(request, 'Quantity is required.')
+                return redirect('backends:cart_items')
+
+            try:
+                quantity = int(quantity)
+            except ValueError:
+                messages.error(request, 'Invalid quantity value.')
+                return redirect('backends:cart_items')
+
+            if quantity < 1:
+                messages.error(request, 'Quantity must be at least 1.')
+                return redirect('backends:cart_items')
+
+            # Check stock availability
+            if quantity > cart_item.product.avl_quantity:
+                messages.error(request, f'Only {cart_item.product.avl_quantity} items available in stock.')
+                return redirect('backends:cart_items')
+
+            # Update quantity
+            cart_item.quantity = quantity
+            cart_item.save()
+            messages.success(request, 'Cart item updated successfully.')
+            return redirect('backends:cart_items')
+
+        # Handle DELETE action
+        elif action == 'delete':
+            product_name = cart_item.product.name
+            cart_item.delete()
+            messages.success(request, f'{product_name} has been removed from your cart.')
+            return redirect('backends:cart_items')
+
+        else:
+            messages.error(request, 'Invalid action.')
+            return redirect('backends:cart_items')
+
+    # Handle GET request - Display cart items
+    cart_items = CartItem.objects.filter(cart=cart).select_related(
+        'product', 
+        'product__brand', 
+        'product__category'
+    )
+    
+    # Add subtotal to each item
+    items_with_subtotal = []
+    for item in cart_items:
+        item.subtotal = float(item.product.price) * item.quantity
+        items_with_subtotal.append(item)
+    
+    # Calculate totals
+    sub_total = sum(item.subtotal for item in items_with_subtotal)
+    
+    # Get customer discount from membership
+    discount_percentage = 0
+    if customer.membership:
+        discount_percentage = float(customer.membership.discount_percentage)
+    elif customer.points_discount_percentage:
+        discount_percentage = float(customer.points_discount_percentage)
+    
+    discount_amount = (sub_total * discount_percentage) / 100
+    tax_amount = (sub_total - discount_amount) * 0.1  # 10% tax
+    grand_total = sub_total - discount_amount + tax_amount
+    
+    cart_item_count = len(items_with_subtotal)
+    total_items = sum(item.quantity for item in items_with_subtotal)
+
+    context = {
+        'cart_items': items_with_subtotal,
+        'cart_item_count': cart_item_count,
+        'total_items': total_items,
+        'sub_total': sub_total,
+        'discount_percentage': discount_percentage,
+        'discount_amount': discount_amount,
+        'tax_amount': tax_amount,
+        'grand_total': grand_total,
+        'customer': customer,
+    }
+
+    return render(request, 'backends/cart_items.html', context)
+                  
+
+                    

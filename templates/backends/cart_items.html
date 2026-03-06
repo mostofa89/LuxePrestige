@@ -1,0 +1,187 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Ethereal - Shopping Cart{% endblock %}
+
+{% block content %}
+<section class="pt-28 pb-24">
+	<div class="flex flex-col lg:flex-row min-h-[calc(100vh-7rem)]">
+		{% include 'backends/partials/sidebar.html' with sidebar_title='Shopping Cart' %}
+
+		<div class="flex-1 px-6 lg:px-12 xl:px-16 py-10">
+			<div class="max-w-7xl">
+				<!-- Header Section -->
+				<div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8 mb-12">
+					<div>
+						<p class="text-xs tracking-[0.4em] uppercase text-twilight dark:text-lavender-mist mb-3">Shopping</p>
+						<h2 class="font-cormorant text-4xl lg:text-5xl text-obsidian dark:text-pearl font-light">Your Cart</h2>
+					</div>
+					<div class="flex flex-wrap gap-4">
+						<a href="{% url 'backends:product' %}" class="btn px-6 py-3 text-xs tracking-[0.25em] uppercase border border-solid border-obsidian/15 dark:border-pearl/15 text-obsidian dark:text-pearl hover:text-rosy-taupe hover:border-rosy-taupe/50 hover:scale-105 transition-all duration-300">Continue Shopping</a>
+					</div>
+				</div>
+
+				<!-- Messages -->
+				{% if messages %}
+					<div class="mb-8 space-y-3">
+						{% for message in messages %}
+							<div class="rounded-2xl border border-solid {% if message.tags == 'success' %}border-emerald-500/30 bg-emerald-50/50 dark:bg-emerald-950/30{% elif message.tags == 'error' %}border-red-500/30 bg-red-50/50 dark:bg-red-950/30{% else %}border-blue-500/30 bg-blue-50/50 dark:bg-blue-950/30{% endif %} p-5 shadow-sm">
+								<p class="text-sm {% if message.tags == 'success' %}text-emerald-700 dark:text-emerald-300{% elif message.tags == 'error' %}text-red-700 dark:text-red-300{% else %}text-blue-700 dark:text-blue-300{% endif %}">{{ message }}</p>
+							</div>
+						{% endfor %}
+					</div>
+				{% endif %}
+
+				<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+					<!-- Cart Items Section -->
+					<div class="lg:col-span-2">
+						<div class="rounded-3xl border border-solid border-obsidian/10 dark:border-pearl/10 bg-moon-white/85 dark:bg-black-pearl/70 p-8 shadow-[0_30px_60px_rgba(27,26,23,0.08)] card-glow">
+							<div class="flex items-center justify-between mb-6">
+								<h3 class="font-cormorant text-2xl text-obsidian dark:text-pearl font-light">Cart Items</h3>
+								<div class="text-xs tracking-[0.25em] uppercase text-twilight dark:text-lavender-mist">{{ cart_item_count }} item{{ cart_item_count|pluralize }}</div>
+							</div>
+
+							{% if cart_items %}
+								<div class="space-y-4">
+									{% for item in cart_items %}
+										<div class="border border-solid border-obsidian/10 dark:border-pearl/10 rounded-2xl p-6 bg-moon-white/70 dark:bg-black-pearl/40 card-glow group transition-all duration-300 hover:border-rosy-taupe/50 hover:shadow-[0_12px_40px_rgba(192,152,145,0.2)]">
+											<div class="flex flex-col md:flex-row gap-6">
+												<!-- Product Image -->
+												<div class="shrink-0">
+													{% if item.product.product_image %}
+														<img src="{{ item.product.product_image.url }}" alt="{{ item.product.name }}" class="w-32 h-32 object-cover rounded-xl shadow-md">
+													{% else %}
+														<div class="w-32 h-32 bg-gradient-to-br from-rosy-taupe/20 to-blush/20 rounded-xl flex items-center justify-center">
+															<span class="text-twilight dark:text-lavender-mist text-sm">No Image</span>
+														</div>
+													{% endif %}
+												</div>
+
+												<!-- Product Details -->
+												<div class="flex-1 min-w-0">
+													<h4 class="text-xl font-semibold text-obsidian dark:text-pearl mb-2 truncate">{{ item.product.name }}</h4>
+													<div class="space-y-1 mb-4">
+														<p class="text-sm text-twilight dark:text-lavender-mist">
+															<span class="font-medium">Brand:</span> {{ item.product.brand.name }}
+														</p>
+														<p class="text-sm text-twilight dark:text-lavender-mist">
+															<span class="font-medium">Category:</span> {{ item.product.category.name }}
+														</p>
+														<p class="text-sm text-twilight dark:text-lavender-mist">
+															<span class="font-medium">Price:</span> ${{ item.product.price }}
+														</p>
+														<p class="text-sm text-twilight dark:text-lavender-mist">
+															<span class="font-medium">Available:</span> {{ item.product.avl_quantity }} in stock
+														</p>
+													</div>
+
+													<!-- Quantity Update Form -->
+													<form method="POST" action="{% url 'backends:cart_items' %}" class="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+														{% csrf_token %}
+														<input type="hidden" name="action" value="update">
+														<input type="hidden" name="cart_item_id" value="{{ item.id }}">
+														<div class="flex items-center gap-2">
+															<label for="quantity_{{ item.id }}" class="text-sm text-twilight dark:text-lavender-mist">Qty:</label>
+															<input type="number" 
+																id="quantity_{{ item.id }}" 
+																name="quantity" 
+																value="{{ item.quantity }}" 
+																min="1" 
+																max="{{ item.product.avl_quantity }}"
+																class="w-20 px-3 py-2 border border-solid border-obsidian/20 dark:border-pearl/20 rounded-lg bg-moon-white dark:bg-midnight text-obsidian dark:text-pearl focus:outline-none focus:ring-2 focus:ring-rosy-taupe/50">
+															<button type="submit" class="btn px-4 py-2 text-xs tracking-[0.2em] uppercase bg-rosy-taupe/80 text-white hover:bg-rosy-taupe hover:scale-105 transition-all duration-300 shadow-sm">Update</button>
+														</div>
+														<div class="text-sm font-medium text-obsidian dark:text-pearl">
+															Subtotal: ${{ item.subtotal|floatformat:2 }}
+														</div>
+													</form>
+												</div>
+
+												<!-- Delete Button -->
+												<div class="shrink-0">
+													<form method="POST" action="{% url 'backends:cart_items' %}" onsubmit="return confirm('Are you sure you want to remove this item from your cart?');">
+														{% csrf_token %}
+														<input type="hidden" name="action" value="delete">
+														<input type="hidden" name="cart_item_id" value="{{ item.id }}">
+														<button type="submit" class="btn px-4 py-2 text-xs tracking-[0.25em] uppercase text-red-600 dark:text-red-400 border border-solid border-red-600/30 dark:border-red-400/30 hover:bg-red-600/10 hover:scale-105 transition-all duration-300">Remove</button>
+													</form>
+												</div>
+											</div>
+										</div>
+									{% endfor %}
+								</div>
+							{% else %}
+								<div class="text-center py-16">
+									<svg class="w-24 h-24 mx-auto mb-6 text-twilight/30 dark:text-lavender-mist/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+									</svg>
+									<h3 class="font-cormorant text-3xl text-twilight dark:text-lavender-mist mb-3">Your cart is empty</h3>
+									<p class="text-sm text-twilight dark:text-lavender-mist mb-8">Add some items to get started!</p>
+									<a href="{% url 'backends:product' %}" class="btn px-8 py-3 text-xs tracking-[0.25em] uppercase bg-obsidian text-moon-white dark:bg-pearl dark:text-obsidian hover:bg-rosy-taupe hover:shadow-[0_8px_30px_rgba(192,152,145,0.3)] hover:scale-105 transition-all duration-300">Browse Products</a>
+								</div>
+							{% endif %}
+						</div>
+					</div>
+
+					<!-- Cart Summary Section -->
+					<div class="lg:col-span-1">
+						<div class="rounded-3xl border border-solid border-obsidian/10 dark:border-pearl/10 bg-moon-white/85 dark:bg-black-pearl/70 p-8 shadow-[0_30px_60px_rgba(27,26,23,0.08)] card-glow sticky top-28">
+							<h3 class="font-cormorant text-2xl text-obsidian dark:text-pearl font-light mb-6">Order Summary</h3>
+							
+							<div class="space-y-4 mb-6 pb-6 border-b border-solid border-obsidian/10 dark:border-pearl/10">
+								<div class="flex justify-between items-center">
+									<span class="text-sm text-twilight dark:text-lavender-mist">Subtotal</span>
+									<span class="text-sm font-medium text-obsidian dark:text-pearl">${{ sub_total|floatformat:2 }}</span>
+								</div>
+								
+								{% if discount_percentage > 0 %}
+									<div class="flex justify-between items-center text-green-600 dark:text-green-400">
+										<span class="text-sm">Discount ({{ discount_percentage }}%)</span>
+										<span class="text-sm font-medium">-${{ discount_amount|floatformat:2 }}</span>
+									</div>
+								{% endif %}
+								
+								<div class="flex justify-between items-center">
+									<span class="text-sm text-twilight dark:text-lavender-mist">Tax (10%)</span>
+									<span class="text-sm font-medium text-obsidian dark:text-pearl">${{ tax_amount|floatformat:2 }}</span>
+								</div>
+							</div>
+							
+							<div class="flex justify-between items-center mb-8">
+								<span class="text-lg font-semibold text-obsidian dark:text-pearl">Grand Total</span>
+								<span class="text-2xl font-bold text-rosy-taupe">${{ grand_total|floatformat:2 }}</span>
+							</div>
+
+							{% if customer.membership %}
+								<div class="mb-6 p-4 rounded-xl bg-gradient-to-r from-rosy-taupe/10 to-blush/10 border border-solid border-rosy-taupe/20">
+									<p class="text-xs tracking-[0.2em] uppercase text-rosy-taupe mb-1">Membership</p>
+									<p class="text-sm font-medium text-obsidian dark:text-pearl">{{ customer.membership.name }}</p>
+									<p class="text-xs text-twilight dark:text-lavender-mist mt-1">{{ discount_percentage }}% discount applied</p>
+								</div>
+							{% endif %}
+
+							<div class="space-y-3">
+								{% if cart_items %}
+									<button class="w-full btn px-6 py-4 text-xs tracking-[0.25em] uppercase bg-obsidian text-moon-white dark:bg-pearl dark:text-obsidian hover:bg-rosy-taupe hover:shadow-[0_8px_30px_rgba(192,152,145,0.3)] hover:scale-105 transition-all duration-300">
+										Proceed to Checkout
+									</button>
+								{% endif %}
+								<a href="{% url 'backends:product' %}" class="w-full block text-center btn px-6 py-3 text-xs tracking-[0.25em] uppercase border border-solid border-obsidian/15 dark:border-pearl/15 text-obsidian dark:text-pearl hover:text-rosy-taupe hover:border-rosy-taupe/50 hover:scale-105 transition-all duration-300">
+									Continue Shopping
+								</a>
+							</div>
+
+							<!-- Items Summary -->
+							<div class="mt-6 pt-6 border-t border-solid border-obsidian/10 dark:border-pearl/10 text-center">
+								<p class="text-xs tracking-[0.2em] uppercase text-twilight dark:text-lavender-mist">
+									{{ total_items }} item{{ total_items|pluralize }} in cart
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock %}

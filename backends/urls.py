@@ -26,4 +26,7 @@ urlpatterns = [
     path('register/', views.Register, name='register'),
     path('verify-otp/<int:user_id>/', views.VerifyOTP, name='verify_otp'),
     path('resend-otp/<int:user_id>/', views.ResendOTP, name='resend_otp'),
+    path('logout/', views.Logout, name='logout'),
+    path('add-to-cart/', views.add_to_cart, name='add_to_cart'),
+    path('cart-items/', views.cartItem, name='cart_items'),
 ]
