@@ -1,0 +1,381 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Ethereal - Payment{% endblock %}
+
+{% block content %}
+<section class="pt-28 pb-24">
+	<div class="flex flex-col lg:flex-row min-h-[calc(100vh-7rem)]">
+		{% include 'backends/partials/sidebar.html' with sidebar_title='Payment' %}
+
+		<div class="flex-1 px-6 lg:px-12 xl:px-16 py-10">
+			<div class="max-w-2xl mx-auto">
+				<!-- Header -->
+				<div class="mb-12">
+					<p class="text-xs tracking-[0.4em] uppercase text-twilight dark:text-lavender-mist mb-3">Payment</p>
+					<h2 class="font-cormorant text-4xl lg:text-5xl text-obsidian dark:text-pearl font-light">Secure Payment</h2>
+				</div>
+
+				<!-- Payment Card -->
+				<div class="rounded-3xl border border-solid border-obsidian/10 dark:border-pearl/10 bg-moon-white/85 dark:bg-black-pearl/70 p-8 shadow-[0_30px_60px_rgba(27,26,23,0.08)] card-glow">
+					<!-- Order Details -->
+					<div class="mb-8 pb-8 border-b border-solid border-obsidian/10 dark:border-pearl/10">
+						<div class="grid grid-cols-2 gap-4">
+							<div>
+								<p class="text-xs tracking-[0.2em] uppercase text-twilight dark:text-lavender-mist mb-1">Order Number</p>
+								<p class="text-lg font-medium text-obsidian dark:text-pearl font-mono">{{ order.order_number }}</p>
+							</div>
+							<div>
+								<p class="text-xs tracking-[0.2em] uppercase text-twilight dark:text-lavender-mist mb-1">Amount to Pay</p>
+								<p class="text-lg font-bold text-rosy-taupe">${{ total_amount|floatformat:2 }}</p>
+							</div>
+						</div>
+					</div>
+
+					<!-- Accepted Payment Methods -->
+					<div class="mb-8 pb-8 border-b border-solid border-obsidian/10 dark:border-pearl/10">
+						<p class="text-xs tracking-[0.2em] uppercase text-twilight dark:text-lavender-mist mb-4">Payment Methods</p>
+						<div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+							<!-- Visa -->
+							<div class="flex flex-col items-center p-4 rounded-lg border border-solid border-obsidian/10 dark:border-pearl/10 hover:border-rosy-taupe/50 transition-all">
+								<svg class="w-8 h-8 mb-2" viewBox="0 0 48 32" fill="none">
+									<rect width="48" height="32" rx="4" fill="#1A1F71"/>
+									<text x="24" y="20" font-size="14" font-weight="bold" fill="white" text-anchor="middle">VISA</text>
+								</svg>
+								<span class="text-xs text-twilight dark:text-lavender-mist">Visa</span>
+							</div>
+							<!-- Mastercard -->
+							<div class="flex flex-col items-center p-4 rounded-lg border border-solid border-obsidian/10 dark:border-pearl/10 hover:border-rosy-taupe/50 transition-all">
+								<svg class="w-8 h-8 mb-2" viewBox="0 0 48 32" fill="none">
+									<rect width="48" height="32" rx="4" fill="#FF5F00"/>
+									<circle cx="18" cy="16" r="6" fill="#EB001B"/>
+									<circle cx="30" cy="16" r="6" fill="#F79E1B"/>
+								</svg>
+								<span class="text-xs text-twilight dark:text-lavender-mist">Mastercard</span>
+							</div>
+							<!-- Apple Pay -->
+							<div class="flex flex-col items-center p-4 rounded-lg border border-solid border-obsidian/10 dark:border-pearl/10 hover:border-rosy-taupe/50 transition-all">
+								<svg class="w-8 h-8 mb-2" viewBox="0 0 48 32" fill="none">
+									<rect width="48" height="32" rx="4" fill="black"/>
+									<path d="M14 12c0-1.1.9-2 2-2s2 .9 2 2c0 1.1-.9 2-2 2s-2-.9-2-2zm12 0c0-1.1.9-2 2-2s2 .9 2 2c0 1.1-.9 2-2 2s-2-.9-2-2z" fill="white"/>
+									<path d="M16 18c0 1.1-.9 2-2 2s-2-.9-2-2c0-1.1.9-2 2-2s2 .9 2 2zm12 0c0 1.1-.9 2-2 2s-2-.9-2-2c0-1.1.9-2 2-2s2 .9 2 2z" fill="white"/>
+								</svg>
+								<span class="text-xs text-twilight dark:text-lavender-mist">Apple Pay</span>
+							</div>
+							<!-- Google Pay -->
+							<div class="flex flex-col items-center p-4 rounded-lg border border-solid border-obsidian/10 dark:border-pearl/10 hover:border-rosy-taupe/50 transition-all">
+								<svg class="w-8 h-8 mb-2" viewBox="0 0 48 32" fill="none">
+									<rect width="48" height="32" rx="4" fill="white" stroke="#E5E7EB"/>
+									<path d="M14 14c0-1.1.9-2 2-2s2 .9 2 2c0 1.1-.9 2-2 2s-2-.9-2-2z" fill="#4285F4"/>
+									<path d="M26 14c0-1.1.9-2 2-2s2 .9 2 2c0 1.1-.9 2-2 2s-2-.9-2-2z" fill="#34A853"/>
+									<path d="M20 20c0 1.1-.9 2-2 2s-2-.9-2-2c0-1.1.9-2 2-2s2 .9 2 2z" fill="#FBBC05"/>
+									<path d="M32 20c0 1.1-.9 2-2 2s-2-.9-2-2c0-1.1.9-2 2-2s2 .9 2 2z" fill="#EA4335"/>
+								</svg>
+								<span class="text-xs text-twilight dark:text-lavender-mist">Google Pay</span>
+							</div>
+						</div>
+					</div>
+
+					<!-- Mobile Wallet Payment Buttons -->
+					<div id="payment-request-button" class="mb-8"></div>
+
+					<!-- Divider -->
+					<div class="mb-8 flex items-center gap-4">
+						<div class="flex-1 h-px bg-obsidian/10 dark:bg-pearl/10"></div>
+						<span class="text-xs tracking-[0.2em] uppercase text-twilight dark:text-lavender-mist">OR</span>
+						<div class="flex-1 h-px bg-obsidian/10 dark:bg-pearl/10"></div>
+					</div>
+
+					<!-- Payment Form -->
+					<form id="payment-form" class="space-y-6">
+						{% csrf_token %}
+
+						<!-- Card Element -->
+						<div>
+							<label class="block text-sm font-medium text-obsidian dark:text-pearl mb-3">Card Details</label>
+							<div id="card-element" class="px-4 py-3 border border-solid border-obsidian/20 dark:border-pearl/20 rounded-lg bg-moon-white dark:bg-midnight focus-within:ring-2 focus-within:ring-rosy-taupe/50">
+								<!-- Stripe Card Element will be inserted here -->
+							</div>
+							<div id="card-errors" class="mt-3 text-red-600 dark:text-red-400 text-sm"></div>
+						</div>
+
+						<!-- Cardholder Name -->
+						<div>
+							<label for="cardholder-name" class="block text-sm font-medium text-obsidian dark:text-pearl mb-3">Cardholder Name</label>
+							<input 
+								type="text" 
+								id="cardholder-name" 
+								placeholder="Full Name"
+								required
+								class="w-full px-4 py-3 border border-solid border-obsidian/20 dark:border-pearl/20 rounded-lg bg-moon-white dark:bg-midnight text-obsidian dark:text-pearl placeholder:text-twilight/50 dark:placeholder:text-lavender-mist/50 focus:outline-none focus:ring-2 focus:ring-rosy-taupe/50 focus:border-transparent transition-all">
+						</div>
+
+						<!-- Email -->
+						<div>
+							<label for="email" class="block text-sm font-medium text-obsidian dark:text-pearl mb-3">Email</label>
+							<input 
+								type="email" 
+								id="email" 
+								value="{{ order.customer.email }}"
+								readonly
+								class="w-full px-4 py-3 border border-solid border-obsidian/20 dark:border-pearl/20 rounded-lg bg-moon-white dark:bg-midnight text-obsidian dark:text-pearl focus:outline-none">
+						</div>
+
+						<!-- Payment Buttons -->
+						<div class="flex gap-4 pt-6">
+							<a href="{% url 'backends:checkout' %}" class="btn px-6 py-3 text-xs tracking-[0.25em] uppercase border border-solid border-obsidian/15 dark:border-pearl/15 text-obsidian dark:text-pearl hover:text-rosy-taupe hover:border-rosy-taupe/50 hover:scale-105 transition-all duration-300">
+								Back
+							</a>
+							<button type="submit" id="submit-button" class="flex-1 btn px-6 py-3 text-xs tracking-[0.25em] uppercase bg-obsidian text-moon-white dark:bg-pearl dark:text-obsidian hover:bg-rosy-taupe hover:shadow-[0_8px_30px_rgba(192,152,145,0.3)] hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+								<span id="button-text">Pay ${{ total_amount|floatformat:2 }}</span>
+								<span id="spinner" class="hidden">Processing...</span>
+							</button>
+						</div>
+
+						<!-- Security Notice -->
+						<div class="mt-8 p-4 rounded-xl bg-emerald-50/50 dark:bg-emerald-950/20 border border-solid border-emerald-200/50 dark:border-emerald-400/20">
+							<p class="text-xs text-emerald-700 dark:text-emerald-400 flex items-center gap-2">
+								<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+									<path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path>
+								</svg>
+								Your payment is secure and encrypted with SSL technology
+							</p>
+						</div>
+					</form>
+				</div>
+
+				<!-- Order Summary (Sidebar on mobile) -->
+				<div class="mt-8 lg:hidden rounded-3xl border border-solid border-obsidian/10 dark:border-pearl/10 bg-moon-white/85 dark:bg-black-pearl/70 p-6 shadow-[0_30px_60px_rgba(27,26,23,0.08)]">
+					<h3 class="font-cormorant text-xl text-obsidian dark:text-pearl font-light mb-4">Order Summary</h3>
+					<div class="space-y-3 text-sm">
+						<div class="flex justify-between">
+							<span class="text-twilight dark:text-lavender-mist">Amount</span>
+							<span class="font-medium text-obsidian dark:text-pearl">${{ total_amount|floatformat:2 }}</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- Stripe JS -->
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+	// Initialize Stripe
+	const stripe = Stripe('{{ stripe_public_key }}');
+	const elements = stripe.elements();
+	
+	// Configure card element styling
+	const cardStyle = {
+		base: {
+			fontSize: '16px',
+			color: '#1b1b1e',
+			fontFamily: '"Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+			'::placeholder': {
+				color: '#999'
+			}
+		},
+		invalid: {
+			color: '#fa755a',
+			iconColor: '#fa755a'
+		}
+	};
+
+	// Create Stripe elements
+	const cardElement = elements.create('card', { style: cardStyle });
+	cardElement.mount('#card-element');
+
+	// Handle card errors
+	cardElement.on('change', function(event) {
+		const displayError = document.getElementById('card-errors');
+		if (event.error) {
+			displayError.textContent = event.error.message;
+		} else {
+			displayError.textContent = '';
+		}
+	});
+
+	// Create Payment Request (for Apple Pay, Google Pay, etc.)
+	const paymentRequest = stripe.paymentRequest({
+		country: 'US',
+		currency: 'usd',
+		total: {
+			label: 'Order Total',
+			amount: {{ total_amount|floatformat:0|add:"0"|stringformat:"d" }}00  // Convert to cents
+		},
+		displayItems: [
+			{
+				label: 'Order {{ order.order_number }}',
+				amount: {{ total_amount|floatformat:0|add:"0"|stringformat:"d" }}00
+			}
+		],
+		requestPayerName: true,
+		requestPayerEmail: true
+	});
+
+	// Create and mount Payment Request Button
+	const prButton = elements.create('paymentRequestButton', { paymentRequest: paymentRequest });
+
+	// Check if payment request is available (Apple Pay, Google Pay)
+	paymentRequest.canMakePayment().then(function(result) {
+		if (result) {
+			prButton.mount('#payment-request-button');
+		} else {
+			// Hide payment request button if not available
+			document.getElementById('payment-request-button').style.display = 'none';
+		}
+	});
+
+	// Handle payment method from Payment Request
+	paymentRequest.on('paymentmethod', async (e) => {
+		// Create payment intent on server
+		try {
+			const response = await fetch('{% url "backends:payment_process" %}', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'X-CSRFToken': '{{ csrf_token }}'
+				},
+				body: JSON.stringify({
+					payment_method_id: e.paymentMethod.id
+				})
+			});
+
+			const data = await response.json();
+
+			if (data.client_secret) {
+				// Confirm payment
+				const { paymentIntent, error } = await stripe.confirmCardPayment(
+					data.client_secret,
+					{ payment_method: e.paymentMethod.id }
+				);
+
+				if (error) {
+					e.complete('fail');
+					alert('Payment failed: ' + error.message);
+				} else if (paymentIntent.status === 'succeeded') {
+					e.complete('success');
+					// Confirm on server
+					const confirmResponse = await fetch('{% url "backends:payment_confirm" %}', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+							'X-CSRFToken': '{{ csrf_token }}'
+						},
+						body: JSON.stringify({
+							payment_intent_id: paymentIntent.id,
+							order_id: {{ order.id }}
+						})
+					});
+
+					const confirmData = await confirmResponse.json();
+
+					if (confirmData.success) {
+						window.location.href = confirmData.redirect_url;
+					}
+				}
+			}
+		} catch (err) {
+			e.complete('fail');
+			alert('Network error. Please try again.');
+		}
+	});
+
+	// Handle form submission
+	const form = document.getElementById('payment-form');
+	const submitButton = document.getElementById('submit-button');
+	const spinner = document.getElementById('spinner');
+	const buttonText = document.getElementById('button-text');
+
+	form.addEventListener('submit', async function(e) {
+		e.preventDefault();
+		submitButton.disabled = true;
+		spinner.classList.remove('hidden');
+		buttonText.classList.add('hidden');
+
+		// Create payment method
+		const { error, paymentMethod } = await stripe.createPaymentMethod({
+			type: 'card',
+			card: cardElement,
+			billing_details: {
+				name: document.getElementById('cardholder-name').value,
+				email: document.getElementById('email').value
+			}
+		});
+
+		if (error) {
+			document.getElementById('card-errors').textContent = error.message;
+			spinner.classList.add('hidden');
+			buttonText.classList.remove('hidden');
+			submitButton.disabled = false;
+			return;
+		}
+
+		// Create payment intent on server
+		try {
+			const response = await fetch('{% url "backends:payment_process" %}', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'X-CSRFToken': '{{ csrf_token }}'
+				},
+				body: JSON.stringify({
+					payment_method_id: paymentMethod.id
+				})
+			});
+
+			const data = await response.json();
+
+			if (data.client_secret) {
+				// Confirm payment with Stripe
+				const { paymentIntent, error } = await stripe.confirmCardPayment(data.client_secret, {
+					payment_method: paymentMethod.id
+				});
+
+				if (error) {
+					document.getElementById('card-errors').textContent = error.message;
+					spinner.classList.add('hidden');
+					buttonText.classList.remove('hidden');
+					submitButton.disabled = false;
+				} else if (paymentIntent.status === 'succeeded') {
+					// Payment successful, confirm on server
+					const confirmResponse = await fetch('{% url "backends:payment_confirm" %}', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+							'X-CSRFToken': '{{ csrf_token }}'
+						},
+						body: JSON.stringify({
+							payment_intent_id: paymentIntent.id,
+							order_id: {{ order.id }}
+						})
+					});
+
+					const confirmData = await confirmResponse.json();
+
+					if (confirmData.success) {
+						// Redirect to confirmation page
+						window.location.href = confirmData.redirect_url;
+					} else {
+						document.getElementById('card-errors').textContent = confirmData.error || 'Payment processing error';
+						spinner.classList.add('hidden');
+						buttonText.classList.remove('hidden');
+						submitButton.disabled = false;
+					}
+				}
+			} else {
+				document.getElementById('card-errors').textContent = data.error || 'Payment processing error';
+				spinner.classList.add('hidden');
+				buttonText.classList.remove('hidden');
+				submitButton.disabled = false;
+			}
+		} catch (err) {
+			document.getElementById('card-errors').textContent = 'Network error. Please try again.';
+			spinner.classList.add('hidden');
+			buttonText.classList.remove('hidden');
+			submitButton.disabled = false;
+		}
+	});
+</script>
+{% endblock %}

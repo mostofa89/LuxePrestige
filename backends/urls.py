@@ -29,4 +29,9 @@ urlpatterns = [
     path('logout/', views.Logout, name='logout'),
     path('add-to-cart/', views.add_to_cart, name='add_to_cart'),
     path('cart-items/', views.cartItem, name='cart_items'),
+    path('checkout/', views.checkout, name='checkout'),
+    path('payment-process/', views.payment_process, name='payment_process'),
+    path('payment-confirm/', views.payment_confirm, name='payment_confirm'),
+    path('order-confirmation/<int:order_id>/', views.order_confirmation, name='order_confirmation'),
+    path('order-status/<int:order_id>/', views.order_status, name='order_status'),
 ]

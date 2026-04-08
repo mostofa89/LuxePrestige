@@ -162,9 +162,9 @@
 
 							<div class="space-y-3">
 								{% if cart_items %}
-									<button class="w-full btn px-6 py-4 text-xs tracking-[0.25em] uppercase bg-obsidian text-moon-white dark:bg-pearl dark:text-obsidian hover:bg-rosy-taupe hover:shadow-[0_8px_30px_rgba(192,152,145,0.3)] hover:scale-105 transition-all duration-300">
+									<a href="{% url 'backends:checkout' %}" class="w-full block text-center btn px-6 py-4 text-xs tracking-[0.25em] uppercase bg-obsidian text-moon-white dark:bg-pearl dark:text-obsidian hover:bg-rosy-taupe hover:shadow-[0_8px_30px_rgba(192,152,145,0.3)] hover:scale-105 transition-all duration-300">
 										Proceed to Checkout
-									</button>
+									</a>
 								{% endif %}
 								<a href="{% url 'backends:product' %}" class="w-full block text-center btn px-6 py-3 text-xs tracking-[0.25em] uppercase border border-solid border-obsidian/15 dark:border-pearl/15 text-obsidian dark:text-pearl hover:text-rosy-taupe hover:border-rosy-taupe/50 hover:scale-105 transition-all duration-300">
 									Continue Shopping

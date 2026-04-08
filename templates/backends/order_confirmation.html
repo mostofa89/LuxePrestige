@@ -1,0 +1,149 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Ethereal - Order Confirmation{% endblock %}
+
+{% block content %}
+<section class="pt-28 pb-24">
+	<div class="flex flex-col lg:flex-row min-h-[calc(100vh-7rem)]">
+		{% include 'backends/partials/sidebar.html' with sidebar_title='Order Confirmation' %}
+
+		<div class="flex-1 px-6 lg:px-12 xl:px-16 py-10">
+			<div class="max-w-4xl mx-auto">
+				<!-- Success Message -->
+				<div class="mb-12 text-center">
+					<div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-emerald-100 dark:bg-emerald-950/30 mb-6 mx-auto">
+						<svg class="w-10 h-10 text-emerald-600 dark:text-emerald-400" fill="currentColor" viewBox="0 0 20 20">
+							<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+						</svg>
+					</div>
+					<p class="text-xs tracking-[0.4em] uppercase text-emerald-600 dark:text-emerald-400 mb-3">Payment Successful</p>
+					<h2 class="font-cormorant text-4xl lg:text-5xl text-obsidian dark:text-pearl font-light">Thank You!</h2>
+					<p class="text-twilight dark:text-lavender-mist mt-4">Your order has been placed successfully</p>
+				</div>
+
+				<!-- Order Details -->
+				<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+					<!-- Order Information -->
+					<div class="rounded-3xl border border-solid border-obsidian/10 dark:border-pearl/10 bg-moon-white/85 dark:bg-black-pearl/70 p-8 shadow-[0_30px_60px_rgba(27,26,23,0.08)] card-glow">
+						<h3 class="font-cormorant text-2xl text-obsidian dark:text-pearl font-light mb-6">Order Information</h3>
+						
+						<div class="space-y-4">
+							<div class="flex justify-between pb-4 border-b border-solid border-obsidian/10 dark:border-pearl/10">
+								<span class="text-sm text-twilight dark:text-lavender-mist">Order Number</span>
+								<span class="text-sm font-medium text-obsidian dark:text-pearl">{{ order.order_number }}</span>
+							</div>
+							
+							<div class="flex justify-between pb-4 border-b border-solid border-obsidian/10 dark:border-pearl/10">
+								<span class="text-sm text-twilight dark:text-lavender-mist">Order Date</span>
+								<span class="text-sm font-medium text-obsidian dark:text-pearl">{{ order.created_at|date:"M d, Y H:i" }}</span>
+							</div>
+
+							<div class="flex justify-between pb-4 border-b border-solid border-obsidian/10 dark:border-pearl/10">
+								<span class="text-sm text-twilight dark:text-lavender-mist">Status</span>
+								<span class="inline-flex text-xs tracking-[0.2em] uppercase px-3 py-1 rounded-full {% if order.status == 'processing' %}bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300{% elif order.status == 'shipped' %}bg-purple-100 dark:bg-purple-950 text-purple-700 dark:text-purple-300{% elif order.status == 'delivered' %}bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300{% else %}bg-yellow-100 dark:bg-yellow-950 text-yellow-700 dark:text-yellow-300{% endif %}">
+									{{ order.get_status_display }}
+								</span>
+							</div>
+
+							<div class="flex justify-between pb-4 border-b border-solid border-obsidian/10 dark:border-pearl/10">
+								<span class="text-sm text-twilight dark:text-lavender-mist">Total Amount</span>
+								<span class="text-sm font-bold text-rosy-taupe">${{ order.total_amount|floatformat:2 }}</span>
+							</div>
+
+							{% if payment %}
+								<div class="flex justify-between pb-4 border-b border-solid border-obsidian/10 dark:border-pearl/10">
+									<span class="text-sm text-twilight dark:text-lavender-mist">Payment Status</span>
+									<span class="inline-flex text-xs tracking-[0.2em] uppercase px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300">
+										{{ payment.get_payment_status_display }}
+									</span>
+								</div>
+
+								<div class="flex justify-between">
+									<span class="text-sm text-twilight dark:text-lavender-mist">Transaction ID</span>
+									<span class="text-sm font-mono text-obsidian dark:text-pearl break-all">{{ payment.transaction_id }}</span>
+								</div>
+							{% endif %}
+						</div>
+					</div>
+
+					<!-- Shipping Address -->
+					<div class="rounded-3xl border border-solid border-obsidian/10 dark:border-pearl/10 bg-moon-white/85 dark:bg-black-pearl/70 p-8 shadow-[0_30px_60px_rgba(27,26,23,0.08)] card-glow">
+						<h3 class="font-cormorant text-2xl text-obsidian dark:text-pearl font-light mb-6">Delivery Information</h3>
+						
+						<div class="space-y-6">
+							<div>
+								<p class="text-xs tracking-[0.2em] uppercase text-twilight dark:text-lavender-mist mb-3">Shipping Address</p>
+								<p class="text-sm text-obsidian dark:text-pearl whitespace-pre-line">{{ order.shipping_address }}</p>
+							</div>
+
+							<div class="pt-6 border-t border-solid border-obsidian/10 dark:border-pearl/10">
+								<p class="text-xs tracking-[0.2em] uppercase text-twilight dark:text-lavender-mist mb-3">Billing Address</p>
+								<p class="text-sm text-obsidian dark:text-pearl whitespace-pre-line">{{ order.billing_address }}</p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Next Steps -->
+				<div class="mt-8 rounded-3xl border border-solid border-rosy-taupe/20 bg-gradient-to-r from-rosy-taupe/10 to-blush/10 p-8">
+					<h3 class="font-cormorant text-2xl text-obsidian dark:text-pearl font-light mb-4">What's Next?</h3>
+					<ul class="space-y-3 text-sm text-twilight dark:text-lavender-mist">
+						<li class="flex items-start gap-3">
+							<svg class="w-5 h-5 text-rosy-taupe flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+								<path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+							</svg>
+							<span>We'll send you a confirmation email shortly with tracking information</span>
+						</li>
+						<li class="flex items-start gap-3">
+							<svg class="w-5 h-5 text-rosy-taupe flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+								<path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+							</svg>
+							<span>Your order will be processed and prepared for shipment within 24 hours</span>
+						</li>
+						<li class="flex items-start gap-3">
+							<svg class="w-5 h-5 text-rosy-taupe flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+								<path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+							</svg>
+							<span>You'll receive updates on your shipment status via email</span>
+						</li>
+					</ul>
+				</div>
+
+				<!-- Action Buttons -->
+				<div class="mt-12 flex flex-col sm:flex-row gap-4 justify-center">
+					<a href="{% url 'backends:dashboard' %}" class="btn px-8 py-3 text-xs tracking-[0.25em] uppercase border border-solid border-obsidian/15 dark:border-pearl/15 text-obsidian dark:text-pearl hover:text-rosy-taupe hover:border-rosy-taupe/50 hover:scale-105 transition-all duration-300 text-center">
+						Back to Dashboard
+					</a>
+					<a href="{% url 'backends:product' %}" class="btn px-8 py-3 text-xs tracking-[0.25em] uppercase bg-obsidian text-moon-white dark:bg-pearl dark:text-obsidian hover:bg-rosy-taupe hover:shadow-[0_8px_30px_rgba(192,152,145,0.3)] hover:scale-105 transition-all duration-300 text-center">
+						Continue Shopping
+					</a>
+				</div>
+
+				<!-- FAQ -->
+				<div class="mt-16">
+					<h3 class="font-cormorant text-2xl text-obsidian dark:text-pearl font-light mb-8 text-center">Frequently Asked Questions</h3>
+					<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+						<div class="rounded-2xl border border-solid border-obsidian/10 dark:border-pearl/10 bg-moon-white/85 dark:bg-black-pearl/70 p-6">
+							<p class="font-medium text-obsidian dark:text-pearl mb-2">How can I track my order?</p>
+							<p class="text-sm text-twilight dark:text-lavender-mist">You'll receive a tracking number via email once your order ships. You can use this to monitor your delivery.</p>
+						</div>
+						<div class="rounded-2xl border border-solid border-obsidian/10 dark:border-pearl/10 bg-moon-white/85 dark:bg-black-pearl/70 p-6">
+							<p class="font-medium text-obsidian dark:text-pearl mb-2">Can I return my order?</p>
+							<p class="text-sm text-twilight dark:text-lavender-mist">We offer a 30-day return policy on all products. Contact our support team for assistance.</p>
+						</div>
+						<div class="rounded-2xl border border-solid border-obsidian/10 dark:border-pearl/10 bg-moon-white/85 dark:bg-black-pearl/70 p-6">
+							<p class="font-medium text-obsidian dark:text-pearl mb-2">How long will delivery take?</p>
+							<p class="text-sm text-twilight dark:text-lavender-mist">Standard shipping takes 5-7 business days. Express options are available at checkout.</p>
+						</div>
+						<div class="rounded-2xl border border-solid border-obsidian/10 dark:border-pearl/10 bg-moon-white/85 dark:bg-black-pearl/70 p-6">
+							<p class="font-medium text-obsidian dark:text-pearl mb-2">Is my payment secure?</p>
+							<p class="text-sm text-twilight dark:text-lavender-mist">Yes, all transactions are encrypted with industry-standard SSL security. Your card data is never stored.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock %}

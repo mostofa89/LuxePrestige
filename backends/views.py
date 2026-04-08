@@ -8,11 +8,19 @@ from django.core.validators import validate_email
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.http import require_POST
 from django.db import transaction
+from django.views.decorators.csrf import csrf_exempt
 import json
+import stripe
+from decimal import Decimal
 from .permissions import checkUserPermissions
-from .models import Brand, Product, ProductCategory, ProductImage, UserPermission, Category, Inventory, Review, Membership, Customer, Cart, CartItem
+from .models import (
+    Brand, Product, ProductCategory, ProductImage, UserPermission, 
+    Category, Inventory, Review, Membership, Customer, Cart, CartItem, 
+    Order, OnlinePaymentRequest
+)
 from django.contrib.auth.models import User
 from .utls import generate_otp, verify_otp, send_verification_confirmation_email
+import os
 # Create your views here.
 
 def dashboard(request):
@@ -20,7 +28,7 @@ def dashboard(request):
 
 
 def paginate_list(page_number, data_list):
-    items_per_page, max_pages = 10, 10
+    items_per_page, max_page = 10, 10
     paginator = Paginator(data_list, items_per_page)
     page_obj = paginator.get_page(page_number)
     try:
@@ -33,17 +41,14 @@ def paginate_list(page_number, data_list):
         data_list = paginator.page(paginator.num_pages)
 
     current_page = data_list.number
-    start_page = max(current_page - max_pages // 2, 1)
-    end_page = start_page + max_pages
+    start_page = max(current_page - max_page // 2, 1)
+    end_page = start_page + max_page
     if end_page > paginator.num_pages:
         end_page = paginator.num_pages
-        start_page = max(end_page - max_pages, 1)
+        start_page = max(end_page - max_page, 1)
 
     paginator_list = range(start_page, end_page + 1)
     return page_obj, paginator_list
-
-
-
 
 
 def brand(request):
@@ -906,6 +911,307 @@ def cartItem(request):
     }
 
     return render(request, 'backends/cart_items.html', context)
+
+
+# Configure Stripe API Key
+stripe.api_key = os.environ.get('STRIPE_SECRET_KEY', 'sk_test_your_key_here')
+
+
+def checkout(request):
+    """
+    Checkout view to display order summary and shipping details
+    """
+    if not request.user.is_authenticated:
+        messages.error(request, 'Please log in to checkout.')
+        return redirect('backends:login')
+
+    try:
+        customer = Customer.objects.get(customer=request.user)
+    except Customer.DoesNotExist:
+        messages.error(request, 'Customer profile not found.')
+        return redirect('backends:login')
+
+    # Get cart
+    try:
+        cart = Cart.objects.get(customer=customer)
+    except Cart.DoesNotExist:
+        messages.error(request, 'Your cart is empty.')
+        return redirect('backends:cart_items')
+
+    # Get cart items
+    cart_items = CartItem.objects.filter(cart=cart).select_related(
+        'product', 
+        'product__brand', 
+        'product__category'
+    )
+
+    if not cart_items.exists():
+        messages.error(request, 'Your cart is empty.')
+        return redirect('backends:cart_items')
+
+    # Calculate totals
+    items_with_subtotal = []
+    for item in cart_items:
+        item.subtotal = float(item.product.price) * item.quantity
+        items_with_subtotal.append(item)
+
+    sub_total = sum(item.subtotal for item in items_with_subtotal)
+
+    # Get customer discount
+    discount_percentage = 0
+    if customer.membership:
+        discount_percentage = float(customer.membership.discount_percentage)
+    elif customer.points_discount_percentage:
+        discount_percentage = float(customer.points_discount_percentage)
+
+    discount_amount = (sub_total * discount_percentage) / 100
+    tax_amount = (sub_total - discount_amount) * 0.1
+    grand_total = sub_total - discount_amount + tax_amount
+
+    if request.method == 'POST':
+        shipping_address = request.POST.get('shipping_address', '').strip()
+        billing_address = request.POST.get('billing_address', '').strip()
+        use_same_address = request.POST.get('use_same_address') == 'on'
+
+        if use_same_address:
+            billing_address = shipping_address
+
+        if not shipping_address or not billing_address:
+            messages.error(request, 'Shipping and billing addresses are required.')
+            return redirect('backends:checkout')
+
+        try:
+            with transaction.atomic():
+                # Create order
+                order = Order.objects.create(
+                    customer=customer,
+                    shipping_address=shipping_address,
+                    billing_address=billing_address,
+                    status='pending',
+                    vat=Decimal('0.00'),
+                    tax=Decimal(str(tax_amount)),
+                    shipping_cost=Decimal('0.00'),
+                    paid_amount=Decimal('0.00'),
+                    due_amount=Decimal(str(grand_total)),
+                    coupon=Decimal('0.00'),
+                    total_amount=Decimal(str(grand_total)),
+                )
+
+                # Store order ID in session for payment processing
+                request.session['order_id'] = order.id
+                request.session['order_total'] = float(grand_total)
+
+                messages.success(request, 'Order created successfully. Proceeding to payment.')
+                return redirect('backends:payment_process')
+
+        except Exception as e:
+            messages.error(request, f'Failed to create order: {str(e)}')
+            return redirect('backends:checkout')
+
+    context = {
+        'cart_items': items_with_subtotal,
+        'sub_total': sub_total,
+        'discount_percentage': discount_percentage,
+        'discount_amount': discount_amount,
+        'tax_amount': tax_amount,
+        'grand_total': grand_total,
+        'customer': customer,
+    }
+
+    return render(request, 'backends/checkout.html', context)
+
+
+def payment_process(request):
+    """
+    Payment processing view - handles Stripe payment
+    """
+    if not request.user.is_authenticated:
+        return JsonResponse({'error': 'User not authenticated'}, status=401)
+
+    order_id = request.session.get('order_id')
+    if not order_id:
+        messages.error(request, 'Invalid order. Please try again.')
+        return redirect('backends:cart_items')
+
+    try:
+        order = Order.objects.get(id=order_id, customer__customer=request.user)
+    except Order.DoesNotExist:
+        messages.error(request, 'Order not found.')
+        return redirect('backends:cart_items')
+
+    if request.method == 'POST':
+        try:
+            # Create Stripe payment intent
+            amount_in_cents = int(float(order.total_amount) * 100)
+            
+            intent = stripe.PaymentIntent.create(
+                amount=amount_in_cents,
+                currency='usd',
+                description=f'Order {order.order_number} - {order.customer.name}',
+                receipt_email=order.customer.email,
+                metadata={
+                    'order_id': order.id,
+                    'order_number': order.order_number,
+                    'customer_id': order.customer.id,
+                }
+            )
+
+            return JsonResponse({
+                'client_secret': intent.client_secret,
+                'publishable_key': os.environ.get('STRIPE_PUBLISHABLE_KEY', 'pk_test_your_key_here'),
+            })
+
+        except stripe.error.StripeError as e:
+            return JsonResponse({'error': str(e)}, status=400)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+
+    # GET request - display payment form
+    stripe_public_key = os.environ.get('STRIPE_PUBLISHABLE_KEY', 'pk_test_your_key_here')
+    
+    context = {
+        'order': order,
+        'stripe_public_key': stripe_public_key,
+        'total_amount': float(order.total_amount),
+    }
+
+    return render(request, 'backends/payment.html', context)
+
+
+@csrf_exempt
+def payment_confirm(request):
+    """
+    Confirm payment and update order status
+    """
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            payment_intent_id = data.get('payment_intent_id')
+            order_id = data.get('order_id')
+
+            if not payment_intent_id or not order_id:
+                return JsonResponse({'error': 'Missing payment details'}, status=400)
+
+            try:
+                order = Order.objects.get(id=order_id)
+            except Order.DoesNotExist:
+                return JsonResponse({'error': 'Order not found'}, status=404)
+
+            # Verify payment intent with Stripe
+            try:
+                payment_intent = stripe.PaymentIntent.retrieve(payment_intent_id)
+            except stripe.error.StripeError as e:
+                return JsonResponse({'error': f'Stripe error: {str(e)}'}, status=400)
+
+            if payment_intent.status == 'succeeded':
+                with transaction.atomic():
+                    # Update order
+                    order.status = 'processing'
+                    order.paid_amount = Decimal(str(payment_intent.amount / 100))
+                    order.due_amount = Decimal('0.00')
+                    order.save()
+
+                    # Create payment record
+                    try:
+                        customer = order.customer
+                    except:
+                        customer = None
+
+                    OnlinePaymentRequest.objects.create(
+                        order=order,
+                        transaction_id=payment_intent_id,
+                        amount=Decimal(str(payment_intent.amount / 100)),
+                        payment_status='completed',
+                        created_by=order.customer.customer,
+                    )
+
+                    # Clear cart
+                    try:
+                        cart = Cart.objects.get(customer=order.customer)
+                        CartItem.objects.filter(cart=cart).delete()
+                    except:
+                        pass
+
+                    # Send confirmation email (if you have email service)
+                    # send_order_confirmation_email(order)
+
+                    return JsonResponse({
+                        'success': True,
+                        'message': 'Payment successful!',
+                        'order_number': order.order_number,
+                        'redirect_url': f'/backends/order-confirmation/{order.id}/',
+                    })
+
+            elif payment_intent.status == 'requires_payment_method':
+                return JsonResponse({
+                    'error': 'Payment method required',
+                    'status': payment_intent.status
+                }, status=400)
+
+            else:
+                return JsonResponse({
+                    'error': f'Payment failed: {payment_intent.status}',
+                }, status=400)
+
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON'}, status=400)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+
+    return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+
+def order_confirmation(request, order_id):
+    """
+    Order confirmation page
+    """
+    if not request.user.is_authenticated:
+        messages.error(request, 'Please log in to view order details.')
+        return redirect('backends:login')
+
+    try:
+        order = Order.objects.get(id=order_id, customer__customer=request.user)
+    except Order.DoesNotExist:
+        messages.error(request, 'Order not found.')
+        return redirect('backends:dashboard')
+
+    # Get order items from cart (before it was cleared)
+    # You might want to create an OrderItem model for this
+    payment = OnlinePaymentRequest.objects.filter(order=order).first()
+
+    context = {
+        'order': order,
+        'payment': payment,
+    }
+
+    return render(request, 'backends/order_confirmation.html', context)
+
+
+def order_status(request, order_id):
+    """
+    JSON endpoint to get order status
+    """
+    if not request.user.is_authenticated:
+        return JsonResponse({'error': 'Not authenticated'}, status=401)
+
+    try:
+        order = Order.objects.get(id=order_id, customer__customer=request.user)
+    except Order.DoesNotExist:
+        return JsonResponse({'error': 'Order not found'}, status=404)
+
+    payment = OnlinePaymentRequest.objects.filter(order=order).first()
+
+    return JsonResponse({
+        'order_id': order.id,
+        'order_number': order.order_number,
+        'status': order.status,
+        'total_amount': float(order.total_amount),
+        'paid_amount': float(order.paid_amount),
+        'due_amount': float(order.due_amount),
+        'payment_status': payment.payment_status if payment else 'pending',
+        'created_at': order.created_at.isoformat(),
+        'updated_at': order.updated_at.isoformat(),
+    })
                   
 
                     
